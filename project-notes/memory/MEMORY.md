@@ -62,7 +62,13 @@
 - **数据目录**：默认便携（改 `main.ts` 兜底值），不覆盖官方可切换机制、尊重用户显式设的 `DSH_HOME`。
 - **beta 通道已整体摘除**（2026-09-15，用户"不要了"）；`upstream.json` 的 `activeChannel` = `stable`。
 - **版本号 = 自有序列**，从 `3.0.0` 起，**必须大于上一个已发出的号**（客户端更新检查靠版本号比较）。唯一版本源 = `dsh-plugin-desktop/package.json`。每次对齐 → 在仓库根 `UPSTREAM-ALIGNMENT.md` **新增一行**。
-- **代码托管**：公开仓 `taikongcang/deepseek-DIY`。**双 remote**：`origin` = 社区（对比用，**不推**）、`diy` = 我们的（**只推这里**）。推送走**无历史快照分支 `diy-main`**（本地 master 带社区 1.3 万提交，不直推）。文档在 `project-notes/`（同步前先从 `.workbuddy` 拷过去）。
+- **代码托管**：公开仓 `taikongcang/deepseek-DIY`。**双 remote**：`origin` = 社区（对比用，**永不推**）、`diy` = 我们的（**只推这里**）。
+  - ⭐ **分支约定（2026-09-15 20:37 更新：`diy-main` 已改名为 `main`）**：本地**当前工作分支 = `main`**（跟踪 `diy/main`，**已同步**）→ **`git push` 直接可用**（实测 `--dry-run` = `Everything up-to-date`）。远端 `diy` 只有 **一个分支 `main`**（= 默认分支）。本地另有 `master`（带社区 **13261** 提交，跟踪 `origin/master`，**只作社区对比**）。
+  - ⚠️ **`push.default=simple` 的坑**：它要求**本地与远端分支同名**，否则 `git push` 直接 `fatal`（exit 128）。所以"设好跟踪引用"**不等于**"能直接 push" —— 必须**名字也对上**（这正是把 `diy-main` 改名 `main` 的原因）。
+  - ⚠️ **`git fetch`/`git update-ref` 建不出 `refs/remotes/diy/main`**（命令报成功、引用却不落盘；而 `.git/refs/` 目录实测可 mkdir/可写）→ **正解：直接写松散引用文件** `.git/refs/remotes/diy/main`（内容 = 40 位 sha + 换行），**跨调用持久**。
+  - 🔴 **安全隐患（未处理）**：`master` 与远端 `origin/master` **同名** → 在 `master` 上执行 `git push` **会把我们的内容推到社区仓库**。防范 = 给 `origin` 设一个无效 `pushurl`（待用户点头）。
+- 文档在 `project-notes/`（**源头是 `.workbuddy`**）→ **改完清单/记忆后要拷过去 + 提交推送**，否则 GItHub 上又落后。
+- ✅ **`bilingual-docs.mjs` 只认已被 git 跟踪的 `*.i18n.yaml`** → `project-notes/` 无 i18n 文件，**往里面加 `.md`/`.html` 不需要补 i18n 哈希**。
 - **`AGENTS.md` 已重写**为我们的真实约束（ASCII 路径 / 不拉 submodule / 只发 stable / `dist:win` 不用 `package:dir` / `DSH_AA_SOURCE_REF=pinned` / 补丁边界 / 版本号规则），并**禁止 AI 读 `.agents/`**（社区设计笔记，保留供人参考）。
 - **打包一律走 `工具\build-win.cmd`**（设 `DSH_AA_SOURCE_REF=pinned` + 三个镜像兜底 → `yarn dist:win`）。**永远用 `dist:win`，不用 `package:dir`**（Windows 上游缺陷）。
 
@@ -84,7 +90,9 @@
 15. 判断二进制包是否真改过，不能看 sha256 → 解包逐文件比对
 16. 打包前必设 `$env:DSH_AA_SOURCE_REF=pinned`
 17. `yarn check:layout` 跑不通（预期，我们不拉 submodule）
-18. `bilingual-docs.mjs` 用 `git ls-files` → 删目录后必须 `git add -A`
+18. `bilingual-docs.mjs` 用 `git ls-files` → 删目录后必须 `git add -A`（**且它只认已被 git 跟踪的 `*.i18n.yaml`** → 往无 i18n 的目录加 `.md` 不用补哈希）
+19. `push.default=simple` 要求**本地与远端分支同名**，否则 `git push` 直接 `fatal`(exit 128) → "设好跟踪"**不等于**"能直接 push"
+20. `git fetch`/`git update-ref` **建不出 `refs/remotes/diy/main`**（报成功但不落盘；`.git/refs/` 明明可写）→ **直接写松散引用文件**才成
 
 ## 七、用户偏好
 - 工具/产物/缓存装 **E 盘**；**代码全 AI 写、用户验收**；产物放 `I:\deepseekharness制作`。
@@ -96,7 +104,13 @@
 - 【挂账 · 详见 `redolist2.html`】**用户 2026-09-15 已裁决**：CA 证书名(N4) 与 目录选择器补丁文案(N5) = **不改**；Electron 探针(N6) = **留到后面做**；**手机连接(N8) = 真剥离 + 独立插件化（方案 A，方案书 `N8-aa-extraction-plan.md`；3 项决策挂账：装回来的入口 / tgz 存哪 / 上不上 GitHub）**；**"立即重启"报错(N9) = 改用我们自己的重启入口（9-b）→ 直接调已存在的无令牌端点 `POST /api/desktop/restart`，旁路上游一次性令牌**；**界面显示耗时(N11) = ⛔ 已取消（用户 2026-09-15 20:05；理由：它不是卸载问题，而卸载问题已被 N1 双保险解决 → 动机消失）**。其余：绿泡泡(N3 暂缓)｜Profile 名 `desktop` 改名(N7，与最后打包合并做)｜**启动自愈(N10) = 📝 已定（用户 20:13 采纳"分级 + 宽容 + 可见 + 你来决定"）**。**N1 卸载卡死 = ✅ 已修（2026-09-15）。**
 - 【挂账 · **本次全量盘点新发现（2026-09-15 20:15，清单外·之前没人管的 9 条，见 redolist2 §己 N50–N58）**】：**N50 git 未提交**（6 改 + 1 未跟踪 `patches/pnpm@11.27.0.patch` —— N1 改动全在工作区）｜**N51 GitHub 严重落后**（远端只有 `refs/heads/main` = `f48fb54a99` 旧快照）｜**N52 `diy-main` 跟踪引用坏了**（跟踪 `diy/main`，远端实为 `main`，显示 `gone`）｜**N53 `.github/` 5 个社区文件仍在**（`workflows/ci.yml` + 3 issue 模板 + PR 模板；self-audit 第 7 条从未决策）｜**N54 `project-notes/` 未同步**今天 4 个文档｜**N55 旧补丁 `pnpm@11.8.0.patch` 未删**（已无引用）｜**N56 回收站实测 8.8 GB**（旧记 7.03，已按实测更新）｜**N57 `I:\deepseekharness` 野目录实测 0 字节**（只剩空 `AI股票`）｜**N58 `I:\` 根 9 个新探测文件**（`_g1..3`/`_r1..6`，16:4x 产生；批 7 的 14 个 `_q*.txt` 实测已清完）。
   - **用户 2026-09-15 20:23 处置**：**N57 = ⛔ 永久标记「不需要管」，永远不处理、不再询问**；**N55 / N56 / N58 = 📝 已定：清理**；**N50–N54 = 🔥 优先处理（方案已出，见 redolist2 §己）**。
-  - **N50–N54 方案关键前提（已实测）**：`git diff --shortstat master diy-main` **输出为空 = 两分支树内容完全一致** → 改动可**零冲突**搬到 `diy-main` 提交。**执行顺序：N53 → N54 → N50 → N52 → N51**（推送内容 = 提交内容，乱序要推两遍）。**永远不提交/推送到 `master`**（它跟踪社区 `origin`，带 1.3 万提交）。
+  - ✅ **执行结果（2026-09-15 20:32–20:37，已实测完成）**：**N50/N51/N52/N53/N54/N55/N58 全部完成**；**N56（清空回收站 8.8 GB，不可逆）待用户最终确认**；**N57 永久不管**。
+    - N53 选 **53-a 全删** `.github`（5 文件；git 历史可恢复；远端树已核实无 `.github`）
+    - N54 同步 8 个文档到 `project-notes/`；✅ 无需补 i18n（脚本只认已跟踪的 i18n.yaml）
+    - N55 删 `patches/pnpm@11.8.0.patch`（已无引用）
+    - N58 9 个探测文件从 `I:\` 根**归档**到 `.workbuddy\_archive\agent-probe-2026-09-15\`（可逆）；✅ `I:\` 根零残留
+    - N50 提交 `96a57d27df`（20 条变更，全符合预期）；N51 推送 `f48fb54a99..96a57d27df`；N52 跟踪修好 + 本地分支改名 `main`
+    - **端到端验证 5 项全过**：工作区干净 / 远端 = `96a57d27df` / 远端无 `.github` / 远端含新补丁与新文档 / `git push --dry-run` = up-to-date
 - 【复核纠正 · 记录与实测不符】① `self-audit` C 类称"已删孤儿 tgz `vendor/agents-anywhere/…tgz`" → **实测仍在**（522 KB；但它是 N8 素材，保留正确）② `cleanup-plan` 批 7 记"剩 14 个待清" → **实测已清完** ③ `redolist.html:57` 写"44 项编号" → 实际编到 **51**（归档只读，仅记录不改）。
 - 【复核确认已做完】`deepseek-harness` 悬空 submodule gitlink **已清**｜旧工作副本 **已删**｜根 `package.json` description **已改**｜beta 引用 **已摘净**｜社区参照目录 **仍在（正确）**｜`I:\deepseek-harness\插件\` 三个目录 **均在**。
 - 【遗留 · 技术债】清空回收站（I 盘压着 7.03 GB，待用户确认）｜`I:\deepseekharness` 野目录｜`dsh-913\deepseek-harness` 悬空 submodule 条目（另立项）。
