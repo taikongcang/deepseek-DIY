@@ -351,6 +351,15 @@ PID=19764  （同上，去掉 runner.js 与 "--" 前缀）
 - 官方可选共用模型指令（工具描述触发不可靠时加）：「用户要求记住某事时调用记忆写入工具；历史信息可能相关时，检索记忆并使用相关结果。」
 - 官方验证法（3 步，**必须新建会话、但不用重启 Host**）：会话 A 说 `Remember that my validation drink is lapsang-<unique>.` → 新建会话 B 问 `What is my drink? Check memory.` → 再让模型用该值。注意首次发现是**异步**的，要等 `mcp__...` 工具出现再发验证提示。
 
+### 7. ⛔ **接入记忆服务后，设置里不会出现"记忆管理"界面**（2026-09-16 取证）
+- **全仓 UI 包搜「记忆」二字 → 零命中**。⇒ 界面上**根本没有"记忆"这个东西**。
+- **没有任何 UI 包处理 `mcp`**（在 `dsh-client-ui-*/lib/client.js` 里搜 `mcp__` / `"mcp"` / `mcpServers` → 全空）。
+- **`dsh-mcp-client` 是纯 host 侧插件**：其 `package.json` **无 `dsh.client` 字段** → **没有客户端半边、没有界面**。
+- 设置里现有页面只有 5 个包：`settings`（通用）/ `settings-models`（模型）/ `settings-plugins`（插件）/ `settings-plugin-inventory`（插件清单）/ `settings` 容器 —— **没有 MCP 页、没有记忆页**。
+- **记忆实际以"模型工具"形式存在**：`mcp__<serverName>__<tool>`。⇒ 能"看到"它的地方是**轨迹视图的「工具」标签页**（`tab.tools` = 「工具」；`record.toolsMissing` = 「本次请求没有工具」）—— 那里列的是**本次请求可用的工具**。⚠️ 这一点是**按代码推断**，未实机验（需真接一个 MCP 才能确认渲染）。
+- **管理方式只能靠**：① 直接编辑提供方的存储文件（如 `~/.dsh-mcp-reference-memory.jsonl`）② 让模型调它的工具去查/改。
+- ⇒ **"像 WorkBuddy 那样有记忆管理界面" = 官方没有 → 属自制功能候选（与 N30 右侧栏进化同类）。**
+
 ## 八、社区参照 / 版本情报
 
 - Agents Anywhere（侧边栏「手机连接」）= 社区捆的第三方桥接包 `@agents-anywhere/dsh-bridge-next`，不在官方内核、也不是我方新增；社区 v2.0.7（提交 `1e31e4d08e`，2026-09-08）起引入（v2.0.4 的 package.json 无此依赖）。入口在侧边栏「设置」上方，弹窗三页签。**（2026-09-15 用户已定：社区版只作参考样本，不追随升级）**
