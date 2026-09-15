@@ -1,0 +1,80 @@
+diff --git a/lib/index.js b/lib/index.js
+index 0e94dd3..c8afe6e 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -19,6 +19,17 @@ import { isUserInvocable } from "@deepseek-ai/dsh-skill";
+ import { isAbsolute } from "node:path";
+ import { FsError } from "@deepseek-ai/dsh-fs";
+ import mime from "mime-types";
++// DIY: name every new session directory after its local creation time so session
++// folders are easy to find and delete. The 8 hex characters keep ids unique when
++// two sessions are created within the same second.
++function diyTimestampedSessionId() {
++	const now = new Date();
++	const pad = (value) => String(value).padStart(2, "0");
++	const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
++	const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
++	const random = randomUUID().replace(/-/gu, "").slice(0, 8);
++	return `session-${date}-${time}-${random}`;
++}
+ //#region lib/types/agent.js
+ /** Agent activation, composition, and model-selection policy owned by API Session. */
+ var __addDisposableResource$4 = function(env, value, async) {
+@@ -570,7 +581,7 @@ var SessionCommandController = class {
+ 	*/
+ 	async create(request) {
+ 		if (request.workspaceId !== void 0 && request.cwd !== void 0) throw new RemoteError("gateway/bad-request", "session.create accepts workspaceId or cwd, not both", {});
+-		const sessionId = request.sessionId ?? brandString(`session-${randomUUID()}`);
++		const sessionId = request.sessionId ?? brandString(diyTimestampedSessionId());
+ 		let workspace;
+ 		if (request.workspaceId !== void 0) {
+ 			workspace = this.ctx.workspaceRegistry.get(request.workspaceId);
+@@ -689,7 +700,7 @@ var SessionCommandController = class {
+ 			} catch (error) {
+ 				throw new RemoteError("gateway/internal", `failed to resolve fork workspace for session "${request.sessionId}": ${String(error)}`, {});
+ 			}
+-			const childId = brandString(`session-${randomUUID()}`);
++			const childId = brandString(diyTimestampedSessionId());
+ 			const composition = await this.agents.composeAgent(this.agents.presetForObservation(source));
+ 			try {
+ 				const { provider, model } = this.ctx.agentDefaultModel.currentSelection();
+diff --git a/lib/types/commands.js b/lib/types/commands.js
+index c210650..e9a4b6b 100644
+--- a/lib/types/commands.js
++++ b/lib/types/commands.js
+@@ -62,6 +62,17 @@ import { canonicalClientTimeZone } from '@deepseek-ai/dsh-util-time';
+ import { assertNever } from '@deepseek-ai/dsh-util-values';
+ import { RemoteError, remoteErrorOf } from '@deepseek-ai/dsh-typert-protocol';
+ import { ApiSessionCwdConflict, ApiSessionNotFound, ApiSessionPresetConflict, ApiSessionSubagentOwnership, apiSessionSubagentOwnershipError, hasApiSessionSubagentOwner, inspectApiSession, } from "./agent.js";
++/** DIY: name every new session directory after its local creation time so session
++ * folders are easy to find and delete. The 8 hex characters keep ids unique when
++ * two sessions are created within the same second. */
++function diyTimestampedSessionId() {
++    const now = new Date();
++    const pad = (value) => String(value).padStart(2, '0');
++    const date = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
++    const time = `${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
++    const random = randomUUID().replace(/-/gu, '').slice(0, 8);
++    return `session-${date}-${time}-${random}`;
++}
+ function hasPromptContent(content) {
+     return content.some(part => part.type !== 'text' || part.text.trim().length > 0);
+ }
+@@ -89,7 +100,7 @@ export class SessionCommandController {
+         if (request.workspaceId !== undefined && request.cwd !== undefined) {
+             throw new RemoteError('gateway/bad-request', 'session.create accepts workspaceId or cwd, not both', {});
+         }
+-        const sessionId = request.sessionId ?? brandString(`session-${randomUUID()}`);
++        const sessionId = request.sessionId ?? brandString(diyTimestampedSessionId());
+         let workspace;
+         if (request.workspaceId !== undefined) {
+             workspace = this.ctx.workspaceRegistry.get(request.workspaceId);
+@@ -232,7 +243,7 @@ export class SessionCommandController {
+             catch (error) {
+                 throw new RemoteError('gateway/internal', `failed to resolve fork workspace for session "${request.sessionId}": ${String(error)}`, {});
+             }
+-            const childId = brandString(`session-${randomUUID()}`);
++            const childId = brandString(diyTimestampedSessionId());
+             const composition = await this.agents.composeAgent(this.agents.presetForObservation(source));
+             try {
+                 const { provider, model } = this.ctx.agentDefaultModel.currentSelection();

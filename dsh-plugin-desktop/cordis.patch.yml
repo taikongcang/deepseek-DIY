@@ -1,0 +1,49 @@
+# Desktop Host operations compose around the existing Web bundle. Compatibility
+# mode keeps upstream ownership of the browser carrier and rendered UI.
+- insert:
+    - id: desktop-shell
+      name: dsh-plugin-desktop
+      config:
+        mode: compatibility
+    - id: desktop-terminal
+      name: dsh-plugin-desktop/terminal
+      disabled: !!js process.platform === 'linux'
+    - id: desktop-diagnostics
+      name: dsh-plugin-desktop/diagnostics
+    - id: desktop-notifications
+      name: dsh-plugin-desktop/notifications
+    - id: desktop-pnpm
+      name: dsh-plugin-desktop/pnpm
+    - id: desktop-profiles
+      name: dsh-plugin-desktop/profiles
+    # This build publishes its own releases, so the background poll for the
+    # community service is off. The tray command and the settings button still
+    # run an on-demand check against the local source.
+    - id: desktop-updates
+      name: dsh-plugin-desktop/updates
+      config:
+        enabled: false
+
+# A desktop launch has no terminal operator waiting for the Web readiness line.
+- id: web-runtime
+  config:
+    openBrowser: false
+    printUrl: false
+    surfaceContext: true
+    trustedHosts: []
+
+# The deployment persona is a deployment choice and is configured on the
+# system-prompt row itself (`dsh-persona` only shadows it per agent preset).
+#
+# A patch replaces the targeted row's WHOLE config — there is no deep merge — so
+# this row restates every key `dsh-web-app` owns for it. Dropping either key here
+# silently resets it to the schema default: the deployment persona would become
+# empty and the working directory would stop being announced. If a later upstream
+# layer adds a key to this row, restate it here too.
+- id: system-prompt
+  config:
+    personaPrefix: >-
+      You are a coding agent powered by the {{model}} model.
+
+      始终使用简体中文进行思考（reasoning）与回答，包括中间分析步骤、工具调用前后的说明。专有名词、代码、命令、文件路径保持原文。
+    personaSuffix: Your working directory is {{cwd}}.

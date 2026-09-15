@@ -1,0 +1,79 @@
+diff --git a/lib/index.js b/lib/index.js
+index 48a1455..5522851 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -1,6 +1,6 @@
+ import z from "@deepseek-ai/schemastery";
+ import { SessionFormatUnsupportedMigrationError, sessionFormatCatalog } from "@deepseek-ai/dsh-session-format-catalog";
+-import { readdirSync } from "node:fs";
++import { existsSync, readdirSync } from "node:fs";
+ import { link, lstat, mkdir, mkdtemp, open, readFile, readdir, realpath, rm, stat, truncate } from "node:fs/promises";
+ import { basename, dirname, isAbsolute, join, parse, resolve, toNamespacedPath } from "node:path";
+ import { performance } from "node:perf_hooks";
+@@ -871,6 +871,16 @@ function encodeSegment(raw) {
+ * @param cwd - the session's project directory.
+ * @returns a single filesystem-safe project directory name.
+ */
++/** DIY: keep human-readable characters (including CJK) instead of escaping them.
++* Only the escape introducer `~` and the characters Windows rejects in a file name
++* are still escaped, so a project path like `I:\deepseekharness\AI股票` becomes the
++* readable directory `--I-deepseekharness-AI股票--` instead of `~80A1~7968`. */
++function isReadableProjectKeyChar(ch) {
++	if (ch === "~") return false;
++	const code = ch.charCodeAt(0);
++	if (code < 32 || code === 127) return false;
++	return !/[<>:"/\\|?*]/.test(ch);
++}
+ function projectKey(cwd) {
+ 	if (cwd.length === 0) throw new Error("cannot encode an empty project path");
+ 	let readable = "";
+@@ -881,7 +891,7 @@ function projectKey(cwd) {
+ 		if (ch === "/" || ch === "\\" || ch === ":") {
+ 			if (!separatorRun) readable += "-";
+ 			separatorRun = true;
+-		} else if (ch !== "~" && /^[A-Za-z0-9._-]$/.test(ch)) {
++		} else if (isReadableProjectKeyChar(ch)) {
+ 			readable += ch;
+ 			separatorRun = false;
+ 		} else {
+@@ -898,9 +908,39 @@ function projectKey(cwd) {
+ * @param cwd - the session's project directory; `undefined` selects `_no-cwd`.
+ * @returns the project directory path under `root`.
+ */
++/** DIY: before this change non-ASCII code units were escaped as `~XXXX`, so sessions
++* already on disk live under that legacy key. This reproduces the legacy key verbatim
++* so those directories can still be located. */
++function legacyProjectKey(cwd) {
++	if (cwd.length === 0) throw new Error("cannot encode an empty project path");
++	let readable = "";
++	let separatorRun = false;
++	for (let i = 0; i < cwd.length; i++) {
++		const code = cwd.charCodeAt(i);
++		const ch = String.fromCharCode(code);
++		if (ch === "/" || ch === "\\" || ch === ":") {
++			if (!separatorRun) readable += "-";
++			separatorRun = true;
++		} else if (ch !== "~" && /^[A-Za-z0-9._-]$/.test(ch)) {
++			readable += ch;
++			separatorRun = false;
++		} else {
++			readable += "~" + code.toString(16).toUpperCase().padStart(4, "0");
++			separatorRun = false;
++		}
++	}
++	return `--${(readable.replace(/^-+/, "") || "root").slice(0, 251)}--`;
++}
++/** DIY: prefer the readable key, but keep using the legacy directory when that is the
++* only one present, so sessions written before this change stay visible. */
+ function projectDir(root, cwd) {
+ 	if (cwd === void 0) return join(root, "_no-cwd");
+-	return join(root, projectKey(cwd));
++	const readable = join(root, projectKey(cwd));
++	if (!existsSync(readable)) {
++		const legacy = join(root, legacyProjectKey(cwd));
++		if (legacy !== readable && existsSync(legacy)) return legacy;
++	}
++	return readable;
+ }
+ /**
+ * The directory owned by one session and available for future session-local
