@@ -76,15 +76,64 @@
     <table style="margin:0;">
       <tr><th style="width:5%">序</th><th style="width:7%">编号</th><th style="width:24%">要做什么</th><th style="width:30%">落点</th><th style="width:12%">规模</th><th>前置条件</th></tr>
       <tr><td>1</td><td><b>N9</b></td><td><b>重启按钮改调我们自己的入口</b><br>市场「立即重启」→ 改调 <code>POST /api/desktop/restart</code>，<b>删掉上游那套一次性令牌</b>（永不出现 <code>intent-expired</code>）</td><td><code>dsh-community-market/</code>：<code>src/install/service.ts</code>、<code>src/api-types.ts</code>、<code>src/client/{api.ts,MarketSettingsTab.tsx,locales.ts}</code></td><td class="mid">中</td><td>无</td></tr>
-      <tr><td>2</td><td><b>N8</b><br><b>+ N10</b></td><td><b>AA 真剥离 + 独立插件化</b> ／ <b>启动自愈</b>（分级 + 宽容 + 可见）<br><span style="color:#A32D2D">⚠️ 两项都动 <code>profile.ts</code> → 同一批做</span></td><td><code>dsh-plugin-desktop/</code>：<code>src/profile.ts</code>(35+)、<code>main.ts</code>(10)、<code>profile-preferences.ts</code>(9)、向导 4 文件(50)、设置页 2 文件(42)、<code>safe-mode.ts</code>、<code>host-bootstrap.ts</code>；+ 9 个测试 + 2 个脚本 + 删 <code>vendor/agents-anywhere</code></td><td class="hard">大</td><td>⚠️ <b>N8 有待办</b>：① 前置验证（临时 profile 里 CLI 装 AA tgz → 起 → 卸，<b>未做</b>）② <b>3 项决策挂账</b>（N8-a 装回来的入口 / N8-b tgz 存哪 / N8-c 上不上 GitHub）</td></tr>
+      <tr><td>2</td><td><b>N8</b><br><b>+ N10</b></td><td><b>AA 真剥离 + 独立插件化</b> ／ <b>启动自愈</b>（分级 + 宽容 + 可见）<br><span style="color:#A32D2D">⚠️ 两项都动 <code>profile.ts</code> → 同一批做</span></td><td><code>dsh-plugin-desktop/</code>：<code>src/profile.ts</code>(35+)、<code>main.ts</code>(10)、<code>profile-preferences.ts</code>(9)、向导 4 文件(50)、设置页 2 文件(42)、<code>safe-mode.ts</code>、<code>host-bootstrap.ts</code>；+ 9 个测试 + 2 个脚本 + 删 <code>vendor/agents-anywhere</code></td><td class="hard">大</td><td>⚠️ <b>N8 还有 3 项小决策没定</b>（见下方「N8 的 3 项决策」）＋ <b>1 项前置验证</b>（怎么装回来 —— 已查清做法，见下）</td></tr>
       <tr><td>3</td><td><b>N7</b></td><td><b>Profile 名 <code>desktop</code> 改名</b>（现数据是测试数据、可丢弃，无迁移负担）</td><td>源码 5 处 + 脚本 5 处 + 少量测试（待核）</td><td class="easy">小</td><td>无</td></tr>
       <tr><td>4</td><td><b>N6</b></td><td><b>Electron 探针复验</b>（加固）—— <b>须你手动跑</b>（沙箱会拦）</td><td><code>.workbuddy/_archive/probe-local-update-fetch.js</code></td><td class="easy">小</td><td>首次已实测通过，此项是加固</td></tr>
-      <tr><td>5</td><td><b>N3</b></td><td><b>绿泡泡</b>（思考过程那个气泡）</td><td>待查</td><td class="mid">?</td><td>⚠️ <b>需你先定「做不做」</b>（一直<code>暂缓</code>中）</td></tr>
+      <tr style="color:#888;"><td>—</td><td><s>N3</s></td><td><s>绿泡泡（思考过程气泡）</s> —— <b>用户 2026-09-16 00:11 定：暂缓，等考虑好了再说</b> ⇒ <b>本轮不做，不阻塞任何事</b></td><td>—</td><td>—</td><td>无</td></tr>
       <tr><td>—</td><td><b>丁组</b></td><td><b>自制（我方新增功能）</b> —— 编号 N30+，<b>目前空位待你提需求</b></td><td>—</td><td>—</td><td>等你提</td></tr>
       <tr><td>—</td><td><b>N90</b></td><td><b>① 一次性实施以上全部 ② 最后一次性打包 + 安装验证</b></td><td>入口：<code>I:\deepseekharness更新DIY\工具\build-win.cmd</code></td><td class="mid">—</td><td>等 1–5 与丁组全定完</td></tr>
     </table>
     <div style="font-size:12.5px;margin-top:10px;color:#7a1f1f;">
-      <b>当前卡在哪</b>：<b>N8 的 3 项决策</b>（N8-a/b/c）＋ <b>N8 的前置验证</b> ＋ <b>N3 要不要做</b> —— 这三件事定了，就能一路开工到打包。
+      <b>当前只剩两件要你拍板</b>：<b>① N8 的 3 项小决策</b>（N8-a/b/c，见下）　<b>② N8 的前置验证</b>（怎么"装回来"—— 做法已查清，见下方「N8 前置验证」）。<br>
+      ✅ <b>卡点比上一版少了</b>：绿泡泡(N3) 已移出（暂缓，不阻塞）；其余项<b>没有任何前置条件</b>，随时可开工。
+    </div>
+
+    <h3 style="margin-top:22px;">📌 N8 的 3 项决策到底是什么（自解释版 · 2026-09-16 00:11 补）</h3>
+    <table style="margin:0;">
+      <tr><th style="width:9%">编号</th><th style="width:22%">问题（大白话）</th><th style="width:34%">选项</th><th>为什么需要你定</th></tr>
+      <tr><td><b>N8-a</b></td><td><b>以后怎么把「手机连接」装回来？</b></td><td>
+        <b>a-1</b> 接受"<b>终端装、界面卸</b>"：装的时候开终端敲一条命令，卸的时候用界面按钮<br>
+        <b>a-2</b> 我另做一个"<b>从本地文件安装</b>"的界面入口（自制功能，进丁组）→ 全程界面化<br>
+        <b>a-3</b> 先只做剥离，装回来的方式以后再议
+      </td><td>市场界面<b>装不了本地包</b>（它只认 npm 官方源上的正式版，而 AA 不在 npm 上、还是 dev 版）。所以剥离后"装回来"只有终端一条路 —— 要不要为此<b>额外做开发</b>，取决于你</td></tr>
+      <tr><td><b>N8-b</b></td><td><b>AA 那个安装包（522 KB 的小文件）以后放哪？</b></td><td>
+        <b>b-1</b> <code>I:\dsh-plugins\</code>（纯 ASCII 独立目录）<br>
+        <b>b-2</b> 更新源 <code>I:\deepseekharness更新DIY\发布\</code> 里一起放<br>
+        <b>b-3</b> 你自己指定
+      </td><td>剥离后它就从仓库里移走了，得有个固定的存放地，否则以后找不着。体积很小（522 KB），放哪都行</td></tr>
+      <tr><td><b>N8-c</b></td><td><b>要不要把这个小文件也传到 GitHub？</b></td><td>
+        <b>c-1</b> 传（换机器能直接取）<br>
+        <b>c-2</b> 不传（只留本机）
+      </td><td>它是<b>第三方 MIT 包</b>（不是我们写的），里面含 Python 脚本。传上去 = 省事；不传 = 少传一个非自有产物</td></tr>
+    </table>
+
+    <h3 style="margin-top:22px;">🧪 N8 前置验证 · 怎么手动验（2026-09-16 00:11 查证后写明）</h3>
+    <div class="box box-good" style="font-size:13px;margin:8px 0;">
+      <b>⭐ 先说结论：卡口基本解除（读源码所得，有据可依）</b><br>
+      读官方 CLI 源码 <code>@deepseek-ai/dsh/lib/plugin-Ddi42qoW.js</code>，<b>本地 tarball 是被明确支持的</b>：<br>
+      · 其注释原文：「a <b>git/path/tarball/alias</b> spec on the command line reconciles by its <b>true package name</b>」→ <b>tarball 被点名</b>；<br>
+      · 它还会在装完后<b>自动对账</b> <code>dsh.profile.bundles</code>（凡是声明了 <code>dsh.bundle</code> 的依赖会自动加进 bundle 列表）；<br>
+      · 只要包的 <code>package.json</code> 里有 <code>dsh.bundle.patch</code>（AA 有 ✅），就会被当作 bundle 激活。<br>
+      ⇒ 剩下的只是"<b>实测跑一遍</b>"，而不是"不知道行不行"。
+    </div>
+    <div class="box box-info" style="font-size:13px;">
+      <b>⭐ 另一个关键发现：app 内置终端里本来就有 <code>dsh</code> 命令，不用手搓</b><br>
+      实测 app 会生成 <code>data\desktop\host-commands\&lt;profile&gt;\generations\&lt;hash&gt;\bin\dsh.cmd</code>，内容已自动设好 <code>ELECTRON_RUN_AS_NODE=1</code> + <code>DSH_HOME</code> + 默认 profile。内置终端会把这个目录<b>前置到 PATH</b>。<br>
+      ⇒ 打开终端就能直接用 <code>dsh</code>（以及 <code>pnpm</code>）。
+    </div>
+    <table style="margin:0;">
+      <tr><th style="width:8%">步骤</th><th>做什么</th><th style="width:38%">判据 / 备注</th></tr>
+      <tr><td><b>0</b></td><td>先备份现有 profile 清单（<b>保险</b>）：把 <code>E:\app\deepseekharness\data\profiles\desktop\package.json</code> 复制一份改名留底</td><td>已有过一份 <code>package.json.bak-20260915-1715</code>，可再存一份到别处</td></tr>
+      <tr><td><b>1</b></td><td>打开 app → 设置 → <b>Profile</b> 区 → 「Profile 名称」输入 <code>aatest</code> → <b>创建</b>（<b>不要</b>切过去，先只创建）</td><td>用界面创建 = 保证是 Desktop 兼容的 profile。<b>全程不碰现有 <code>desktop</code></b></td></tr>
+      <tr><td><b>2</b></td><td>设置 → 桌面设置 → <b>打开终端</b> → 先探一下环境：<br><code>dsh --help</code>　和　<code>dsh plugin --help</code></td><td>能看到用法说明 = 命令可用 ✅</td></tr>
+      <tr><td><b>3</b></td><td><b>真正装一次</b>（把 AA 装进临时 profile）：<br><code>dsh plugin --profile aatest add "I:\dsh-913\vendor\agents-anywhere\agents-anywhere-dsh-bridge-next-0.1.0-dev.0.desktop.c00df092c98b2.rcda81994.tgz"</code></td><td><b>这就是要验的核心</b>。⚠️ 会联网拉依赖（AA 的 peerDependencies 锁了一批 <code>@deepseek-ai/dsh-*</code>），可能几分钟、占几百 MB</td></tr>
+      <tr><td><b>4</b></td><td>看清单有没有被<b>自动加上</b>该包：<br><code>type %DSH_HOME%\profiles\aatest\package.json</code></td><td>① <code>dependencies</code> 里出现 <code>@agents-anywhere/dsh-bridge-next</code>　② <code>dsh.profile.bundles</code> 里<b>也</b>出现同一条 = 自动对账生效 ✅</td></tr>
+      <tr><td><b>5</b></td><td>验证"能不能被 app 加载"：设置 → Profile → <b>切到 <code>aatest</code></b>（app 会重启）</td><td>看<b>侧边栏是否出现「手机连接」</b>；会话能正常开 = 独立运行成立 ✅<br>⚠️ 若 AA 报"未找到内部 Connector 源码"，说明还需 Desktop 注入 —— 那就要回到方案 A 的取舍上重新讨论</td></tr>
+      <tr><td><b>6</b></td><td>验证"能不能卸干净"：终端 <code>dsh plugin --profile aatest remove @agents-anywhere/dsh-bridge-next</code></td><td><code>bundles</code> 里那条也消失、app 仍能正常启动 = 完整闭环 ✅</td></tr>
+      <tr><td><b>7</b></td><td>收尾：切回 <code>desktop</code>，把测试 profile 删掉（设置 → Profile → 删除）</td><td>—</td></tr>
+    </table>
+    <div class="box box-warn" style="font-size:12.5px;">
+      <b>三条提醒</b>：① <b>不要动现有 <code>desktop</code> profile</b>（AA 还在里面开着）② 第 3 步会下载依赖，<b>慢是正常的</b> ③ 如果第 2 步发现终端里<b>没有</b> <code>dsh</code> 命令，告诉我，我改用另一条路（直接用 <code>pnpm</code> + 手工把包名写进 <code>bundles</code>）。
     </div>
   </div>
 
@@ -131,7 +180,7 @@
 
   <table>
     <tr><th style="width:8%">编号</th><th style="width:26%">项目</th><th>说明 / 当前状态</th></tr>
-    <tr><td class="n">N3</td><td>绿泡泡 <span style="color:#888">（原 28）</span></td><td><span class="mid">⏸ 暂缓</span> —— 用户此前定为暂缓。</td></tr>
+    <tr><td class="n">N3</td><td>绿泡泡 <span style="color:#888">（原 28）</span></td><td><span class="mid">⏸ 暂缓 · 不在本轮</span> —— <b>用户 2026-09-16 00:11 定：「暂时不做了，等我考虑好了再说」</b>。⇒ 从「开工清单」里<b>移出</b>，不影响其他项开工。</td></tr>
     <tr><td class="n">N4</td><td>CA 证书名 <span style="color:#888">（原 34）</span></td><td><b class="mid">⛔ 用户 2026-09-15 已裁决：不动</b>。<br>值 = <code>CA_COMMON_NAME = 'DeepSeek Harness Desktop Local CA'</code>（<code>dsh-plugin-desktop/src/lan-https-certificate.ts:22</code>）。<b>是运行时</b>（启用"局域网访问"时当场生成自签根证书 + 站点证书）用的名字，<b>跟 .exe 打包安装无关</b>；本机没启用该功能，改了零收益。</td></tr>
     <tr><td class="n">N5</td><td>目录选择器补丁文案 <span style="color:#888">（原 35）</span></td><td><b class="mid">⛔ 用户 2026-09-15 已裁决：不动</b>。<br>值 = <code>patches/dsh-client-ui-directory-picker-browse@0.1.5-rc.1.patch</code> 里两条：<code>DSH Desktop native directory picker is unavailable</code>（:126）、<code>DSH Desktop directory validation is unavailable</code>（:131）。<b>这是社区自带的补丁</b>；这两条只在"页面判为 win32 但桌面侧没注入原生选择器函数"时抛，<b>我们自己的安装包一定会注入 → 正常跑不到</b>。</td></tr>
     <tr><td class="n">N6</td><td>Electron 探针 <span style="color:#888">（原 36）</span></td><td><b class="todo">⏸ 用户 2026-09-15 定：留到后面完成</b>。<br>脚本 = <code>_archive/probe-local-update-fetch.js</code>（一次性验证脚本，非产品代码）。用途：在真实 Electron 进程里用<b>生产代码的确切参数</b>跑 7 个场景，验证 <code>net.fetch</code> 能读 <code>file://</code> 中文路径 —— 这是"本地更新源"方案的<b>命门前提</b>。<b>首次已实测通过</b>，此项是加固复验。须手动跑（沙箱会拦）。</td></tr>
