@@ -60,7 +60,7 @@
       <tr><td><b>甲</b></td><td>已做（卸载卡死：<b>治标</b>「超时+对账」+ <b>治本</b>「pnpm 升 11.27.0」；另修好脏数据）</td><td>N1 – N2</td><td class="mod">🔧 已改源码·未打包</td></tr>
       <tr><td><b>乙</b></td><td>第 1 阶段继承（N4/N5 ⛔ 不改 · N6 待手动 · N7 待做 · N8/N9 📝 已定待实施 · N3 ⏸ 待定）</td><td>N3 – N9</td><td class="mod">🔨 待开工</td></tr>
       <tr><td><b>丙</b></td><td>N10 <b>📝 已定</b>（分级+宽容+可见，待实施）／ N11 <b>⛔ 已取消</b></td><td>N10 – N11</td><td class="mod">🔨 待开工</td></tr>
-      <tr><td><b>丁</b></td><td><b>自制</b>：<b>N30 右侧栏进化</b>（让它能直接查看/编辑文件·代码·文档）· 其余待提</td><td>N30 +</td><td class="todo">📝 已入清单<br>（后续慢慢做）</td></tr>
+      <tr><td><b>丁</b></td><td><b>自制</b>：<b>N30 右侧栏进化</b> · <b>N31 接入记忆服务</b> · <b>N32 记忆管理界面</b> · 其余待提</td><td>N30 – N32 +</td><td class="todo">📝 已记录<br>（全部"最后再考虑"）</td></tr>
       <tr><td><b>戊</b></td><td>收尾：① 一次性实施 ② 最后一次性打包 + 安装验证</td><td>N90</td><td class="todo">⏸ 等前面全定完</td></tr>
       <tr><td><b>己</b></td><td><b>全量盘点 9 条 —— 全部结案</b>（N50–N55/N58 ✅ 已完成 · N56 ✅ 用户手动清空 · N57 ⛔ 永久不管）</td><td>N50 – N58</td><td class="easy">✅ 已清完</td></tr>
     </table>
@@ -80,7 +80,7 @@
       <tr><td>3</td><td><b>N7</b></td><td><b>Profile 名 <code>desktop</code> 改名</b>（现数据是测试数据、可丢弃，无迁移负担）</td><td>源码 5 处 + 脚本 5 处 + 少量测试（待核）</td><td class="easy">小</td><td>无</td></tr>
       <tr><td>4</td><td><b>N6</b></td><td><b>Electron 探针复验</b>（加固）—— <b>须你手动跑</b>（沙箱会拦）</td><td><code>.workbuddy/_archive/probe-local-update-fetch.js</code></td><td class="easy">小</td><td>首次已实测通过，此项是加固</td></tr>
       <tr style="color:#888;"><td>—</td><td><s>N3</s></td><td><s>绿泡泡（思考过程气泡）</s> —— <b>用户 2026-09-16 00:11 定：暂缓，等考虑好了再说</b> ⇒ <b>本轮不做，不阻塞任何事</b></td><td>—</td><td>—</td><td>无</td></tr>
-      <tr><td>—</td><td><b>丁组</b></td><td><b>N30 右侧栏进化</b>（能直接查看/编辑文件·代码·文档）—— 用户 2026-09-16 定"<b>后面慢慢来修改添加</b>"，<b>不阻塞当前开工</b>；其余自制项待你提</td><td>待定</td><td class="mid">中～大</td><td>要先定"编辑到什么程度" + 选型（改官方包 vs 自制新标签页）</td></tr>
+      <tr><td>—</td><td><b>丁组</b></td><td><b>N30 右侧栏进化</b>（能直接查看/编辑文件·代码·文档）· <b>N31 接入记忆服务</b>（配置类·零代码）· <b>N32 记忆管理界面</b>（依赖 N31）—— 用户 2026-09-16 定"<b>只做记录、暂不讨论、最后再考虑</b>"，<b>不阻塞当前开工</b>；其余自制项待你提</td><td>待定</td><td class="mid">中～大</td><td>N30/N32 要先定形态 + 选型（改官方包 vs 自制新客户端插件）</td></tr>
       <tr><td>—</td><td><b>N90</b></td><td><b>① 一次性实施以上全部 ② 最后一次性打包 + 安装验证</b></td><td>入口：<code>I:\deepseekharness更新DIY\工具\build-win.cmd</code></td><td class="mid">—</td><td>等 1–5 与丁组全定完</td></tr>
     </table>
     <div style="font-size:12.5px;margin-top:10px;color:#7a1f1f;">
@@ -274,8 +274,31 @@
     <tr><td><b>备注</b></td><td>用户口径："<b>后面慢慢来修改添加</b>" → <b>不阻塞当前开工</b>（N9 → N8+N10 → N7）。</td></tr>
   </table>
 
+  <h3><span class="n">N31</span>接入记忆服务（外挂第三方记忆） <span class="todo">📝 已记录 · 暂不讨论 · 最后再考虑</span></h3>
+  <div class="h2note">用户 2026-09-16 01:00 定：「记下，但是都暂时不管不讨论，只做个记录，最后来考虑」。</div>
+  <table>
+    <tr><th style="width:20%">要素</th><th>内容</th></tr>
+    <tr><td><b>动机</b></td><td>官方<b>不内建记忆功能</b>；希望 AI 能跨会话"记住"东西。官方给了标准接法（2026-09-16 取证，详见 <code>tech-notes.md §七-6</code>）。</td></tr>
+    <tr><td><b>形态</b></td><td><b>三选一</b>（官方示例配置 <code>apps/cli/config/examples/mcp-memory/</code>）：<b>Memorix</b>（<code>memorix@1.3.0</code>，Node 22.18+）／<b>MCP Reference Memory</b>（<code>@modelcontextprotocol/server-memory@2026.7.4</code>，本地知识图谱；⚠️ 只做子串匹配、非语义检索、无摘要/遗忘）／<b>Engram</b>（<code>v1.20.0</code>，需 Go 1.25.10+）。</td></tr>
+    <tr><td><b>落点</b></td><td><b>不改代码</b>。把示例里的单条 <code>insert</code> patch 合并进<b>用户补丁层</b>：单 Profile = <code>$DSH_HOME\profiles\&lt;名&gt;\cordis.patch.yml</code>；全 Profile = <code>$DSH_HOME\cordis.patch.yml</code>。⚠️ <b>不要覆盖已有文件</b>（可能已有无关 patch）。经 <code>@deepseek-ai/dsh-mcp-client</code> 起 stdio 子进程并暴露 <code>mcp__&lt;serverName&gt;__&lt;tool&gt;</code>。</td></tr>
+    <tr><td><b>怎么验证</b></td><td>官方三步法：会话 A 说「记住我的验证饮料是 X」→ <b>新建</b>会话 B 问「我的验证饮料是什么？查记忆」→ 再让模型用该值。⚠️ 首次工具发现是<b>异步</b>的，要等 <code>mcp__…</code> 工具出现再发提示。</td></tr>
+    <tr><td><b>备注</b></td><td><b>暂不讨论、不实施</b>；<b>不阻塞当前开工</b>。</td></tr>
+  </table>
+
+  <h3><span class="n">N32</span>记忆「管理界面」（像 WorkBuddy 那样） <span class="todo">📝 已记录 · 暂不讨论 · 最后再考虑</span></h3>
+  <div class="h2note">起因：用户问"接上记忆服务后设置里会不会出现记忆管理界面"。<b>已取证：不会 —— 官方没做。</b></div>
+  <table>
+    <tr><th style="width:20%">要素</th><th>内容</th></tr>
+    <tr><td><b>动机</b></td><td>希望有一个**界面**能查看/编辑/删除记忆条目（像 WorkBuddy 设置里的记忆管理）。</td></tr>
+    <tr><td><b>现状取证</b>（2026-09-16）</td><td>① 全部 UI 包搜「记忆」→ <b>零命中</b> ② 没有任何 UI 包处理 <code>mcp</code> ③ <code>dsh-mcp-client</code> 的 <code>package.json</code> <b>无 <code>dsh.client</code></b> → 没有界面那一半 ④ 设置里只有 5 个页面（通用/模型/插件/插件清单），<b>无 MCP 页、无记忆页</b>。<br>⇒ 记忆现在只以**模型工具**形式存在；能"看到"它的地方是**轨迹视图的「工具」标签页**（<b>按代码推断，未实机验</b>）。管理只能靠改存储文件或让模型调工具。</td></tr>
+    <tr><td><b>形态</b></td><td><b>待定</b>。（可能是：设置里加一个「记忆」页 / 右侧栏加一个记忆标签页 —— 与 <b>N30</b> 同类，可考虑合并设计。）</td></tr>
+    <tr><td><b>落点</b></td><td><b>待查</b>。方向同 N30：自做一个客户端插件（走 <code>dsh.client</code> 机制）可能比改官方包干净。</td></tr>
+    <tr><td><b>怎么验证</b></td><td>待方案定后补（至少要有"界面上改一条记忆 → 落盘 → 新会话能召回"）。</td></tr>
+    <tr><td><b>备注</b></td><td><b>依赖 N31</b>（没接记忆服务就先没有东西可管）；<b>暂不讨论、不实施</b>；不阻塞当前开工。</td></tr>
+  </table>
+
   <div class="box box-info" style="font-size:13px;margin-top:16px;">
-    <b>⬜ 其他自制项待填。</b> 本阶段所有"我们自己要加/要做"的新东西都记在这里，编号继续往下排（<b>N31</b> 起）。
+    <b>⬜ 其他自制项待填。</b> 本阶段所有"我们自己要加/要做"的新东西都记在这里，编号继续往下排（<b>N33</b> 起）。
     每条至少写清：<b>要解决什么</b>（动机）→ <b>做成什么样</b>（形态）→ <b>改哪些落点</b> → <b>怎么验证</b>。
   </div>
 
