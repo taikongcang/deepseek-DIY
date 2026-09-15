@@ -66,3 +66,35 @@
 | 更新源（客户端拉取版本与安装包） | `I:\deepseekharness更新DIY\发布\` |
 | 项目记忆与文档 | `I:\deepseekharness制作\.workbuddy\` |
 | 社区版（只读参照，不修改） | `I:\deepseekharness9-13\9-13DSH-desktop最新更新一套` |
+
+## 七、推送到 GitHub
+
+代码与项目文档托管在公开仓库 **`taikongcang/deepseek-DIY`**（https://github.com/taikongcang/deepseek-DIY）。
+
+**两个 remote 分工**
+
+| remote | 指向 | 用途 |
+|---|---|---|
+| `origin` | 社区版 `anywhere-labs/dsh-desktop` | 对比新旧版、`git fetch --tags` 取社区 tag —— **不推送** |
+| `diy` | `taikongcang/deepseek-DIY` | **我们的仓库，只往这里推** |
+
+⚠️ 本地 `master` 带完整社区历史（**1.3 万提交、`.git` 约 245 MB**）→ **不要直接推 master**。
+推送走**无历史快照分支 `diy-main`**（单个 root commit，只含我们自己的东西）。社区历史需要时用 `origin` 取。
+
+**同步命令**（在 `I:\dsh-913` 执行）
+
+```powershell
+git add -A
+git commit -m "<说明>"                 # ① 在 master 上记录改动
+git checkout diy-main
+git checkout master -- .               # ② 把 master 的最新内容覆盖到快照分支
+git add -A
+git commit -m "sync: <说明>"
+git push diy diy-main:main             # ③ 推送到 GitHub main
+git checkout master                    # ④ 切回开发分支
+```
+
+**项目文档**（需求清单 / 方案 / 审查报告 / 记忆）放在 `project-notes/`，它在 master 工作区与快照分支里都存在。
+其**源头**是 `I:\deepseekharness制作\.workbuddy\`（AI 的记忆目录），同步前先把它拷进 `project-notes\`（排除 `_archive/`、`awesome-catalog/`、`tmp-*`、`backups/` 等）。
+
+**推送前必做**：扫描有无敏感信息（凭据、token、`.env`、会话数据）。当前已知安全（无 `.env`、无凭据文件；`.gitignore` 已排除 `node_modules/`、`dist/`、`_logs/`）。

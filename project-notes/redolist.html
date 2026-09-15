@@ -49,7 +49,7 @@
     <b>旧工作副本</b>（路径含中文，已停用、留作备份）：<code>I:\deepseekharness9-13\9-13deepseekharness最新更新修改</code><br>
     <b>更新源（已建立）</b>：<code>I:\deepseekharness更新DIY\发布</code> ｜ <b>社区版参照</b>（只读）：<code>I:\deepseekharness9-13\9-13DSH-desktop最新更新一套</code><br>
     改动总数：<b>44 项编号</b>（1–26 升级重做 / 27–33 增量需求 / 34–37 收尾挂账 / 38–44 后续发现；其中<b>第 21–22、27 项</b>查证取消、<b>第 39 项</b>因方针变更作废）<br>
-    <b>进度（2026-09-15 16:3x 更新）</b>：<b class="easy">✅ 已执行 31 项</b>（1–20、23–26、29–33、37）｜ <b>作废 4 项</b>（21、22、27、<b>39</b>）｜ <b>关闭 1 项</b>（41）｜ <b>本轮已执行</b>：<code>AGENTS.md</code> 重写 · 44 补丁审查完 · 45 版本号 <code>3.0.0</code>+对齐记录 · 48 <code>.agents</code> 隔离 · <b>46 beta 摘除（973.6 MB）</b> · <b>50 docs 清理（删 10 文件）</b>｜ <b>待办 9 项</b>（28 / 34 / 35 / 36 / 38 / 40 / 42 / 43 / 47 根文档剩余 / 49 GitHub）<br>
+    <b>进度（2026-09-15 17:0x 更新）</b>：<b class="easy">✅ 已执行 31 项</b>（1–20、23–26、29–33、37）｜ <b>作废 4 项</b>（21、22、27、39）｜ <b>关闭 1 项</b>（41）｜ <b>本轮已执行</b>：<code>AGENTS.md</code> 重写 · 44 补丁审查 · 45 版本号 <code>3.0.0</code> · 46 beta 摘除 · <b>47 根文档全部改写</b> · 48 <code>.agents</code> 隔离 · 50 docs 清理 · <b>51 建 GitHub 公开仓并推送（<code>taikongcang/deepseek-DIY</code>）</b>｜ <b>待办 8 项</b>（28 / 34 / 35 / 36 / 38 / 40 / 42 / 43）<br>
     <b>验证（实测）</b>：<code>desktop test</code> 30 failed（<b>100% 环境/平台类，非我方问题</b>）｜ <code>typecheck</code> 零类型错误 ｜ <code>market check</code> 264/264 全绿 ｜ 双语文档 51 records / 102 documents 一致<br>
     <b>打包（2026-09-15 00:29 实测）</b>：<b class="easy">✅ 成功</b> —— <code>yarn dist:win</code> preflight 13 文件 245 测试全绿 → NSIS 构建 → 安装包 <code>deepseekharness-2.0.9-x64-Setup.exe</code>（<b>129.2 MB</b>，sha256 <code>B40B8776…</code>）→ 已拷入更新源 <code>I:\deepseekharness更新DIY\发布\</code>（sha256 校验一致）<br>
     <b>安装（2026-09-15 实测）</b>：✅ <b class="easy">新包已装入 <code>E:\app\deepseekharness</code></b> —— 注册表 <code>deepseekharness 2.0.9</code>；exe / app.asar 与产物 <b>sha256 完全一致</b>；已运行并完成配置（<code>settings.yaml</code> 写于 00:59）→ <b>未签名包未被智能应用控制拦截</b><br>
@@ -87,9 +87,10 @@
       <tr><td><b>已定</b></td><td><b>版本号走自有序列</b>，从 <code>3.0.0</code> 起；建 <code>UPSTREAM-ALIGNMENT.md</code> 记录每次对齐的社区版 / 官方内核</td><td>45</td><td>1 处 version + 1 新文档</td><td class="easy">✅ 已执行</td></tr>
       <tr><td><b>已定</b></td><td><b>摘除 beta 包</b>（对自用无用；实测与 stable 源码同构、无独有内容）</td><td>46</td><td>6 文件 + 删目录 <b>973.6 MB / 54479 文件</b></td><td class="easy">✅ 已执行并复验（16:2x）</td></tr>
       <tr><td><b>已定</b></td><td><b>清掉 <code>docs/</code> 里无用的 10 个文件</b>，只留 <code>architecture</code> / <code>plugin-development</code> / <code>evidence</code> 三块</td><td>50</td><td>删 10 文件</td><td class="easy">✅ 已执行并复验</td></tr>
-      <tr><td><b>进行中</b></td><td><b>根文档改写成自己的</b>：<code>AGENTS.md</code> ✅ 重写 / <code>docs/</code> ✅ 清理 / README · PRIVACY 纯自用 ⏳ / CONTRIBUTING 两份 ⏳ / <b>CODE_OF_CONDUCT 待你定</b></td><td>47</td><td>剩余 README×3(+i18n) · PRIVACY×2(+i18n) · CONTRIBUTING×2</td><td class="mid">◐ 部分完成</td></tr>
+      <tr><td><b>已完成</b></td><td><b>根文档全部改写成自己的</b>：<code>AGENTS.md</code> ✅ / <code>docs/</code> ✅ 只留 3 块 / README ✅ 纯自用 / PRIVACY ✅ 纯自用 / CONTRIBUTING ✅ 两份 / CODE_OF_CONDUCT ✅ 已删</td><td>47</td><td>—</td><td class="easy">✅ 已完成</td></tr>
       <tr><td><b>已定</b></td><td><code>.agents/notes</code> <b>保留供人学习</b>，但<b>禁止 AI 读取 / 引用</b>（已写入 <code>AGENTS.md</code>）</td><td>48</td><td>AGENTS.md 1 条规则</td><td class="easy">✅ 已执行</td></tr>
-      <tr><td><b>待澄清</b></td><td><b>GitHub 上传范围</b> —— 用户：除"修改完之后的完整文件和文件夹"外，其他都放 GitHub</td><td>49</td><td>—</td><td class="todo">❓ 待澄清</td></tr>
+      <tr><td><b>已定</b></td><td><b>GitHub</b>：公开仓 <code>deepseek-DIY</code>；上传 <b>代码 + 文档</b>（<code>project-notes/</code>），不上传安装包等大产物</td><td>49</td><td>—</td><td class="easy">✅ 已确认</td></tr>
+      <tr><td><b>已完成</b></td><td><b>建仓并推送</b>：<code>taikongcang/deepseek-DIY</code>（966 文件 + <code>project-notes/</code> 37 个文档）；走<b>无历史快照分支</b> <code>diy-main</code>（社区 1.3 万提交不推）；<code>origin</code> 保留社区用于新旧对比</td><td>51</td><td>—</td><td class="easy">✅ 已完成（2026-09-15 17:0x）</td></tr>
     </table>
   </div>
 
