@@ -60,7 +60,7 @@
       <tr><td><b>甲</b></td><td>已做（卸载卡死：<b>治标</b>「超时+对账」+ <b>治本</b>「pnpm 升 11.27.0」；另修好脏数据）</td><td>N1 – N2</td><td class="mod">🔧 已改源码·未打包</td></tr>
       <tr><td><b>乙</b></td><td>第 1 阶段继承（N4/N5 ⛔ 不改 · N6 待手动 · N7 待做 · N8/N9 📝 已定待实施 · N3 ⏸ 待定）</td><td>N3 – N9</td><td class="mod">🔨 待开工</td></tr>
       <tr><td><b>丙</b></td><td>N10 <b>📝 已定</b>（分级+宽容+可见，待实施）／ N11 <b>⛔ 已取消</b></td><td>N10 – N11</td><td class="mod">🔨 待开工</td></tr>
-      <tr><td><b>丁</b></td><td><b>自制</b>：<b>N30 右侧栏进化</b> · <b>N31 接入记忆服务</b> · <b>N32 记忆管理界面</b> · 其余待提</td><td>N30 – N32 +</td><td class="todo">📝 已记录<br>（全部"最后再考虑"）</td></tr>
+      <tr><td><b>丁</b></td><td><b>自制</b>：<b>N30 右侧栏进化</b> · <b>N31 接入记忆服务</b> · <b>N32 记忆管理界面</b> · <b>N33 用量管理（🔴 讨论中）</b> · 其余待提</td><td>N30 – N33 +</td><td class="todo">📝 已记录<br>（N33 起进入"制作与修改"）</td></tr>
       <tr><td><b>戊</b></td><td>收尾：① 一次性实施 ② 最后一次性打包 + 安装验证</td><td>N90</td><td class="todo">⏸ 等前面全定完</td></tr>
       <tr><td><b>己</b></td><td><b>全量盘点 9 条 —— 全部结案</b>（N50–N55/N58 ✅ 已完成 · N56 ✅ 用户手动清空 · N57 ⛔ 永久不管）</td><td>N50 – N58</td><td class="easy">✅ 已清完</td></tr>
     </table>
@@ -298,9 +298,23 @@
   </table>
 
   <div class="box box-info" style="font-size:13px;margin-top:16px;">
-    <b>⬜ 其他自制项待填。</b> 本阶段所有"我们自己要加/要做"的新东西都记在这里，编号继续往下排（<b>N33</b> 起）。
+    <b>⬜ 其他自制项待填。</b> 本阶段所有"我们自己要加/要做"的新东西都记在这里，编号继续往下排（<b>N34</b> 起）。
     每条至少写清：<b>要解决什么</b>（动机）→ <b>做成什么样</b>（形态）→ <b>改哪些落点</b> → <b>怎么验证</b>。
   </div>
+
+  <h3><span class="n">N33</span>用量管理（费用 / 额度统计） <span class="todo">🔴 讨论中 · 2026-09-16 起，进入"制作与修改"范围</span></h3>
+  <div class="h2note">用户 2026-09-16 01:03：「我需要一个用量管理……之前已经制作过一次了，但是<b>之前的制作有问题</b>，我现在需要找到重新进行修改和制作。」</div>
+  <table>
+    <tr><th style="width:20%">项目</th><th>内容</th></tr>
+    <tr><td><b>上次的产物</b><br>（已找到）</td><td>底子是<b>第三方插件 `dsh-cost-meter`</b>（<code>Han-1413141/dsh-cost-meter</code>，v1.6.12，MIT，npm 上有）——「DeepSeek Harness 会话费用统计插件」。<br>三份副本都在 <code>I:\deepseek-harness\插件\</code>：<br>· <code>复制代码\cost-meter\</code> = <b>原版</b>（含 <code>.git</code>，可 <code>git pull</code> 更新）<br>· <code>修改代码\cost-meter\</code> = <b>我们的工作副本</b>（⚠️ <b>无 .git</b>）<br>· <code>cost-meter-完整源码\</code> = <b>我们改完后的存档</b>（含 src+lib+node_modules）<br>· 另有 <code>复制代码\dsh-balance-plugin\</code>（另一个第三方余额插件原版）</td></tr>
+    <tr><td><b>上次改了什么</b></td><td><b>改了 5 个文件</b>：<code>src/client.js</code>（<b>439 行</b>改动）、<code>scripts/build.mjs</code>、<code>lib/client.js</code>（构建产物）、<code>lib/store.js</code>、<code>lib/typert.host.js</code>。<br>内容（2026-08-31 记录）：圆环 88px(内 68) · <b>峰谷样式四值</b>（ring 默认 / pendulum / compact / classic）· 新增<b>摆锤视图</b>（PendulumBar + 当月热图 + PeakPendulumCard）· 设置页下拉四项 · i18n 中英。<br>最后改动时间：<b>2026-08-31 20:50</b>。</td></tr>
+    <tr><td><b>上次停在哪</b></td><td>2026-09-01 20:32 <b>拍板了"自研费用插件"的 9 项功能清单</b>（费用金额体系 / 价格表 / 峰谷计价 / 官方价格一键同步 / 预算图框 / 官方余额查询 / 安装前历史导入 / 峰谷切换弹窗 / 26 周用量热图），<b>下一步是"逐项精细化讲解功能用途，等你审"</b> —— <b>就停在这里</b>。<br>当时另定：「9 家 Coding Plan 额度查询」<b>暂缓</b>；未列入：自定义 Provider 余额 / 按模型统计回填 / Plan·API 双轨 / 隐藏开关。</td></tr>
+    <tr><td><b>⚠️ 现状</b>（已实测）</td><td><b>app 里现在没有它</b> —— <code>E:\app\deepseekharness\data\profiles\desktop\node_modules\</code> 只有 <code>@napi-rs</code> 与 <code>@yolk_vat-y</code>（残留空壳），<b>没有 cost-meter</b>。它当年是装在<b>旧 DSH_HOME（I 盘）的 web profile</b> 里的；旧数据目录现已不在。⇒ <b>这就是你现在看不到用量管理的直接原因。</b></td></tr>
+    <tr><td><b>⚠️ 现状三个隐患</b></td><td>① <b>我们的 439 行改动没有版本历史</b>（<code>修改代码</code> 副本无 <code>.git</code>），只能靠"原版 vs 改版"两份文件对比回溯；<br>② <code>修改代码\cost-meter\</code> 里<b>误套了一层重复目录</b> <code>cost-meter\cost-meter\</code>（含 <code>.git</code> 的重复副本）—— 2026-08-31 就发现、用户喊停未清；<br>③ <b>版本号仍写 <code>1.6.12</code></b>（没改）→ 与上游同号，将来分不清"我们的版本"和"上游 1.6.12"。</td></tr>
+    <tr><td><b>⚠️ 未知（需你补）</b></td><td><b>我找不到"当时为什么叫停"的记录</b> —— 2026-09-02 的日志里<b>0 处</b>提到费用/cost-meter；只有 <code>MEMORY.md</code> 的待办写着「2026-09-02 叫停」。<b>⇒ 需要你说明"之前的制作有什么问题"</b>（是路线不对 / 有 bug / 装不上看不见 / 还是别的），这决定接下来选哪条路。</td></tr>
+    <tr><td><b>形态</b>（待定）</td><td>三条路可挑（<b>等你说清"问题"再定性</b>）：<br><b>A</b> 继续改 cost-meter fork（439 行改动已在，但缺版本历史、与上游脱钩、将来升级难）<br><b>B</b> <b>自研</b>一个我们自己的用量插件（09-01 那 9 项清单可直接复用）<br><b>C</b> 直接用<b>上游原版</b>装进 <code>desktop</code> profile（零改动、可随上游升级，但没有我们想要的改造）</td></tr>
+    <tr><td><b>参考事实</b></td><td>DSH <b>本身已有内置用量显示</b>（上游 <code>dsh-client-ui-chat</code> 的 <code>stats.*</code> + host 侧 <code>dsh-token-meter</code>：TTFT / tok/s / 轮步数 / 上下文压力 / 上下文组成）。<b>cost-meter 与它互补</b>：内置管 token 与上下文，cost-meter 管"钱"和"历史"（费用/余额/额度/热图/账本）。</td></tr>
+  </table>
 
   <div class="box box-warn" style="font-size:13px;">
     <b>⛔ 已明确放弃、不入清单（避免以后重复讨论）</b><br>
