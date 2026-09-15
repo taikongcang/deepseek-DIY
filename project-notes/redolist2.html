@@ -60,7 +60,7 @@
       <tr><td><b>甲</b></td><td>已做（卸载卡死：<b>治标</b>「超时+对账」+ <b>治本</b>「pnpm 升 11.27.0」；另修好脏数据）</td><td>N1 – N2</td><td class="mod">🔧 已改源码·未打包</td></tr>
       <tr><td><b>乙</b></td><td>第 1 阶段继承（N4/N5 ⛔ 不改 · N6 待手动 · N7 待做 · N8/N9 📝 已定待实施 · N3 ⏸ 待定）</td><td>N3 – N9</td><td class="mod">🔨 待开工</td></tr>
       <tr><td><b>丙</b></td><td>N10 <b>📝 已定</b>（分级+宽容+可见，待实施）／ N11 <b>⛔ 已取消</b></td><td>N10 – N11</td><td class="mod">🔨 待开工</td></tr>
-      <tr><td><b>丁</b></td><td><b>自制</b>（我方新增功能 —— <b>尚未提需求</b>）</td><td>N30 +</td><td class="todo">⬜ 空位待填</td></tr>
+      <tr><td><b>丁</b></td><td><b>自制</b>：<b>N30 右侧栏进化</b>（让它能直接查看/编辑文件·代码·文档）· 其余待提</td><td>N30 +</td><td class="todo">📝 已入清单<br>（后续慢慢做）</td></tr>
       <tr><td><b>戊</b></td><td>收尾：① 一次性实施 ② 最后一次性打包 + 安装验证</td><td>N90</td><td class="todo">⏸ 等前面全定完</td></tr>
       <tr><td><b>己</b></td><td><b>全量盘点 9 条 —— 全部结案</b>（N50–N55/N58 ✅ 已完成 · N56 ✅ 用户手动清空 · N57 ⛔ 永久不管）</td><td>N50 – N58</td><td class="easy">✅ 已清完</td></tr>
     </table>
@@ -80,7 +80,7 @@
       <tr><td>3</td><td><b>N7</b></td><td><b>Profile 名 <code>desktop</code> 改名</b>（现数据是测试数据、可丢弃，无迁移负担）</td><td>源码 5 处 + 脚本 5 处 + 少量测试（待核）</td><td class="easy">小</td><td>无</td></tr>
       <tr><td>4</td><td><b>N6</b></td><td><b>Electron 探针复验</b>（加固）—— <b>须你手动跑</b>（沙箱会拦）</td><td><code>.workbuddy/_archive/probe-local-update-fetch.js</code></td><td class="easy">小</td><td>首次已实测通过，此项是加固</td></tr>
       <tr style="color:#888;"><td>—</td><td><s>N3</s></td><td><s>绿泡泡（思考过程气泡）</s> —— <b>用户 2026-09-16 00:11 定：暂缓，等考虑好了再说</b> ⇒ <b>本轮不做，不阻塞任何事</b></td><td>—</td><td>—</td><td>无</td></tr>
-      <tr><td>—</td><td><b>丁组</b></td><td><b>自制（我方新增功能）</b> —— 编号 N30+，<b>目前空位待你提需求</b></td><td>—</td><td>—</td><td>等你提</td></tr>
+      <tr><td>—</td><td><b>丁组</b></td><td><b>N30 右侧栏进化</b>（能直接查看/编辑文件·代码·文档）—— 用户 2026-09-16 定"<b>后面慢慢来修改添加</b>"，<b>不阻塞当前开工</b>；其余自制项待你提</td><td>待定</td><td class="mid">中～大</td><td>要先定"编辑到什么程度" + 选型（改官方包 vs 自制新标签页）</td></tr>
       <tr><td>—</td><td><b>N90</b></td><td><b>① 一次性实施以上全部 ② 最后一次性打包 + 安装验证</b></td><td>入口：<code>I:\deepseekharness更新DIY\工具\build-win.cmd</code></td><td class="mid">—</td><td>等 1–5 与丁组全定完</td></tr>
     </table>
     <div style="font-size:12.5px;margin-top:10px;color:#7a1f1f;">
@@ -261,9 +261,27 @@
 
   <!-- ============ 丁 ============ -->
   <h2>丁、自制（我方新增功能）</h2>
-  <div class="box box-info" style="font-size:13px;">
-    <b>⬜ 空位待填。</b> 本阶段所有"我们自己要加/要做"的新东西记在这里，编号从 <b>N30</b> 起。
+
+  <h3><span class="n">N30</span>右侧栏「进化」：让它能直接查看/编辑文件、代码、文档 <span class="todo">📝 已入清单 · 后续慢慢做</span></h3>
+  <div class="h2note">用户 2026-09-16 00:44 定：「<b>把右侧栏进化，也加入清单，这个后面慢慢来修改添加</b>」。</div>
+  <table>
+    <tr><th style="width:20%">要素</th><th>内容</th></tr>
+    <tr><td><b>动机</b>（要解决什么）</td><td>现在右侧栏是<b>只读</b>的：里面的「工作区文件」只能浏览、「文档预览」是<code>readOnly</code> 预览（2026-09-16 取证）。<b>想要像 WorkBuddy 那样 —— 在右侧栏里直接看代码、直接改文件/文档并保存。</b></td></tr>
+    <tr><td><b>现状取证</b></td><td>右侧栏容器 = <code>@deepseek-ai/dsh-client-ui-sidebar-right</code>（自带「开始」引导页；能力：多标签 / 分栏（最多两格）/ 拖拽放置（左·右·上·下分栏）/ 浮动 / 全屏）。内容来源 = <code>sidebar-files</code>（工作区文件）+ <code>sidebar-documentpreview</code>（文档预览）+ <code>chat</code>（会话内容）。全仓搜「保存/编辑」文案，<b>没有一条</b>是"在侧栏编辑文件并保存"。</td></tr>
+    <tr><td><b>形态</b>（做成什么样）</td><td><b>待定</b>。至少三类可能：① 给「文档预览」加编辑+保存 ② 给「工作区文件」加树内新建/改名/删除 ③ 加一个我们自己的"代码编辑器"标签页。⚠️ 需要先定"编辑到什么程度"（只读增强 / 轻量编辑 / 完整编辑器）。</td></tr>
+    <tr><td><b>落点</b></td><td><b>待查</b>。两个方向：<b>(a) 改官方包</b> —— <code>sidebar-files</code> / <code>sidebar-documentpreview</code> 都是<b>官方包（无源码 → 只能叠补丁）</b>，改动会随内核升级需要重适配；<b>(b) 自制一个新标签页插件</b> —— 走官方"客户端插件 + <code>dsh.client</code>"机制（像 AA 那样），<b>不动官方包</b>，可能更干净。<b>动手前必须先做方向选型。</b></td></tr>
+    <tr><td><b>怎么验证</b></td><td>待方案定后补：至少要有"改一个文件 → 保存 → 内容真的落盘"这一条端到端判据。</td></tr>
+    <tr><td><b>备注</b></td><td>用户口径："<b>后面慢慢来修改添加</b>" → <b>不阻塞当前开工</b>（N9 → N8+N10 → N7）。</td></tr>
+  </table>
+
+  <div class="box box-info" style="font-size:13px;margin-top:16px;">
+    <b>⬜ 其他自制项待填。</b> 本阶段所有"我们自己要加/要做"的新东西都记在这里，编号继续往下排（<b>N31</b> 起）。
     每条至少写清：<b>要解决什么</b>（动机）→ <b>做成什么样</b>（形态）→ <b>改哪些落点</b> → <b>怎么验证</b>。
+  </div>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⛔ 已明确放弃、不入清单（避免以后重复讨论）</b><br>
+    · <b>系统提示词中文化</b>（2026-09-16 00:44 用户定：「不做修改了，放弃」）—— 已查清它由 <b>4 个官方包</b>拼成（<code>dsh-system-prompt</code> / <code>dsh-agent-presets</code> 的 persona 行 / <code>dsh-file-reference</code> / <code>dsh-tool-bash</code>·<code>dsh-tool-pwsh</code>），要全中文化得给 4 个官方包叠补丁，且<b>改系统提示词可能影响模型表现</b>。结论：<b>不动</b>。
   </div>
 
   <!-- ============ 戊 ============ -->

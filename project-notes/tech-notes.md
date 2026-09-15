@@ -298,7 +298,61 @@ PID=19764  （同上，去掉 runner.js 与 "--" 前缀）
 - ⚠️ **两套 UI 机制别混**：标题栏三个图标（终端/重启/开发者）的悬停提示 = HTML 原生 `title`（系统 tooltip）；模式徽章的悬停卡片 = 应用自绘 HoverCard。**不是版本差异**：`DesktopNativeActions.tsx` 在 v2.0.4→v2.0.9 字节相同、我方零改动；变的只是文案。
 - 对照旧版一律走 GitHub（用户 2026-09-15 定）：用社区仓库 tag/commit 历史与官方内核。**不再把回收站当资料来源**。示例：`git show v2.0.4:dsh-plugin-desktop/src/client/desktop-settings-locales.ts`；本地 clone 的 origin 带 `ghfast.top` 镜像前缀，`git fetch --tags origin` 实测可拉新 tag。
 
-## 七、社区参照 / 版本情报
+## 七、UI / 功能溯源（2026-09-16 取证，用户答疑用）
+
+> 方法：读 `node_modules/@deepseek-ai/*` 源码 + 文案键 + 官方 GitHub（`deepseek-ai/deepseek-harness`）+ 实包版本对比。**每条都有出处，无推断的地方已标注。**
+
+### 1. 「系统提示词」面板 = 官方**轨迹(Trajectory)视图**的一个标签页
+- 包：`@deepseek-ai/dsh-client-ui-trajectory`，键 `tab.systemPrompt` = 「系统提示词」。
+- 同视图其他标签：概述 / 原始输出 / 预览 / 原文 / 来源 / 参数 / 结果 / Schema / 计时 / 差异 / **系统提示词** / 工具 / 选项 / 用量。
+- ⚠️ **不是新增功能**（与用户直觉相反，已实测）：社区提交 `588bef5dec`（2026-08-28）引入该包，`git merge-base --is-ancestor 588bef5dec v2.0.4` **判定已包含**；再从 npmmirror 下 `0.1.2-alpha.2`（旧线）与 `0.1.5-rc.1`（现装）解包比对，**两者 `tab.*` 列表完全一致**。
+- ⚠️ **未验**："入口按钮位置有没有变"没验（需 2.0.4 实机）。
+
+### 2. 系统提示词是**4 个官方包**拼出来的（想中文化得动 4 处）
+| 截图段落 | 来源 |
+|---|---|
+| `You are an AI agent powered by DeepSeek Harness.` | `dsh-system-prompt`（`lib/index.js:216` 默认段落） |
+| `You are a coding agent powered by the {{model}} model.` + `Your working directory is {{cwd}}.` | `dsh-agent-presets` 的 preset **persona 行**（`presets/standard/agent.cordis.yml:24-29`；整文件 255 行/12.9 KB，`cordis` 266 行/14.0 KB） |
+| `Tokens prefixed with @ are workspace paths…` | `dsh-file-reference` |
+| `Non-zero exits are reported as '[exit code: N]'…` | `dsh-tool-bash` / `dsh-tool-pwsh` |
+- **⛔ 用户 2026-09-16 00:44 决定：不改（放弃）**。理由：要全中文化得给 4 个官方包叠补丁，且改系统提示词**可能影响模型表现**。
+- 📌 留档的"低成本改法"（将来若要）：用**用户补丁层**覆盖 persona 行 —— `$DSH_HOME/profiles/<名>/cordis.patch.yml`（单 profile）或 `$DSH_HOME/cordis.patch.yml`（全 profile）。⚠️ 按 id 的 patch 是**整体替换**，必须重述该行所有字段（见坑 11）。
+
+### 3. 输入框 `@` = **引用机制**（工作区文件 / 会话）
+- 文案：placeholder「发消息或创建任务, / 调用指令, **@ 文件或对话**」；另有 `message.referenceSummary` = 「引用会话 · {labels}」。
+- 实现：`dsh-client-ui-input-trigger` 是 `/` 与 `@` 的**通用触发器框架**；具体来源由 `dsh-client-ui-reference`（`trigger: "@"`）与 `dsh-client-ui-commands`（`/`）等注册。三者在 `dsh-web-app/cordis.patch.yml:286-301` **均已挂载**。
+- `dsh-client-ui-reference` 的 `inject` = `["inputTriggers","locale","sessions","remote","remote.fileReferences","remote.sessionReferenceResolver"]`；候选由 `remote.fileReferences.list(sessionId, query)` + `sessionReferenceResolver.candidates(...)` 提供（后者**仅在未加引号时**查：`quoted === true ? [] : …`）。
+- ⚠️ **两个"没反应"的原因（2026-09-16 查到）**：
+  1. **语法要求**：`dsh-file-reference` 的 `@` 词法正则 = `/(?:^|\s)(@([^\s]*))$/` → **`@` 前面必须是行首或空白**；中文后直接打 `@`（无空格、无换行）**不触发**。
+  2. **候选为空**：候选来自"**该会话绑定的工作区**"。实测用户唯一会话的工作区 = `I:\deepseekharness\AI股票`（`data/storages/workspace.json`），而**该目录里一个文件都没有** → 文件候选为空；会话引用也因为**只有 1 个会话**而为空。
+- ⚠️ **未验**："候选为空时 UI 是完全不弹还是弹空菜单"**没实机验**，不猜。
+
+### 4. 右侧栏 = `dsh-client-ui-sidebar-right`（是**容器**，不是单一功能）
+- **容器能力**（读包内文案键）：打开/收起 · 全屏/退出全屏 · **多标签页** · **分栏（最多两格**，宽度不足提示「栏宽不足，拖宽侧边栏后再分栏」）· **拖拽放置**（移到这里/左·右·上·下分栏）· **浮动**（可"收回到侧边栏"）· 空面板 · 「这类内容还没有可用的查看方式」。
+- **内容来源**：自带「开始」引导页（`tab.guide.title`）｜`dsh-client-ui-sidebar-files` = **工作区文件**｜`dsh-client-ui-sidebar-documentpreview` = **文档预览**｜`dsh-client-ui-chat` = 会话内容。
+- ⛔ **只读**：全仓搜「保存/编辑」中文文案，命中的全是**消息队列编辑**、**工具名**（`tool.title.edit`/`write`）、**反馈**，**没有一条**是"在侧栏编辑文件并保存" → **不能直接改文件**。⚠️ 该结论属**线索判断，未实机点验**。
+- 左侧栏家族 = `sidebar`（我方打过补丁改两列布局）+ `sidebar-files` + `sidebar-documentpreview`。
+
+### 5. 「轮次导航」（对话记录跳转）= 官方功能，**条件：至少 2 轮**
+- 文案：`chat.turnNavigation.label` = 「轮次导航」｜`jump` = 「跳转到第 {turn} 轮」｜`jumpLoad` = 「**加载并跳转到第 {turn} 轮**」（未加载的历史也能跳）。
+- ⭐ **显示条件（读代码所得，决定性）**：`dsh-client-ui-chat` 的 `TurnNavigatorRail` 里有一行 **`if (items.length < 2) return null;`** → **少于 2 轮就不渲染**。⇒ 用户"上下文不够所以没显示"的直觉**方向对、原因不对**：不是长度问题，是**轮数 < 2**。
+- 另注：`search.*`（「{shown} 处匹配 · {files} 个文件」）属**搜索结果渲染**，**不是**"对话记录搜索框"。
+
+### 6. ⭐⭐ 官方**不内建记忆功能**，走 **MCP 外挂第三方记忆服务**
+- 官方 `packages/` 共 54 个目录，**没有 `memory` 包**（相关的是 `compaction` 上下文压缩 / `context` / `session` / `session-query` / `storage` / `skill`）；本地 265 个官方包名里**也搜不到带 mem 的**。
+- 官方文档：**`docs/user/guide/mcp-memory.md`（中文版 `.zh.md`）「连接第三方记忆 MCP 服务」** —— 提供**三份默认关闭的参考配置**（`apps/cli/config/examples/mcp-memory/`），经 `@deepseek-ai/dsh-mcp-client` 接入：
+  | 系统 | 实测版本 | 传输 | 前置 |
+  |---|---|---|---|
+  | **Memorix** | `memorix@1.3.0` | stdio | Node 22.18+ + `npm i -g memorix@1.3.0` |
+  | **MCP Reference Memory** | `@modelcontextprotocol/server-memory@2026.7.4` | stdio | 同上 npm 装；本地知识图谱，存 `$HOME/.dsh-mcp-reference-memory.jsonl`；**只是不区分大小写的子串匹配，不是语义检索；无 embedding/自动摘要/冲突消解/遗忘策略** |
+  | **Engram** | `v1.20.0` | stdio | Go 1.25.10+ |
+- **职责边界（官方原文）**：DSH 只做「解析 overlay → 起 stdio 子进程 / 连 Streamable HTTP → 发现工具 → 以 `mcp__<serverName>__<tool>` 暴露」；**不负责**下载服务器、初始化数据库、选模型/embedding、建云账号、迁移数据。**交付组合不含任何记忆服务器** → 不传 `--patch` 就全部关闭。
+- **启用方式**：`dsh web --patch <那份 yml>`；**要持久** → 把那条 `insert` patch 合并进**用户补丁层**（`$DSH_HOME/profiles/<名>/cordis.patch.yml` 或 `$DSH_HOME/cordis.patch.yml`）。⚠️ **不要覆盖已有文件**（可能已有无关 patch）。⇒ **接记忆服务不需要改一行代码。**
+- 官方可选共用模型指令（工具描述触发不可靠时加）：「用户要求记住某事时调用记忆写入工具；历史信息可能相关时，检索记忆并使用相关结果。」
+- 官方验证法（3 步，**必须新建会话、但不用重启 Host**）：会话 A 说 `Remember that my validation drink is lapsang-<unique>.` → 新建会话 B 问 `What is my drink? Check memory.` → 再让模型用该值。注意首次发现是**异步**的，要等 `mcp__...` 工具出现再发验证提示。
+
+## 八、社区参照 / 版本情报
+
 - Agents Anywhere（侧边栏「手机连接」）= 社区捆的第三方桥接包 `@agents-anywhere/dsh-bridge-next`，不在官方内核、也不是我方新增；社区 v2.0.7（提交 `1e31e4d08e`，2026-09-08）起引入（v2.0.4 的 package.json 无此依赖）。入口在侧边栏「设置」上方，弹窗三页签。**（2026-09-15 用户已定：社区版只作参考样本，不追随升级）**
 - 社区 v2.0.10 情报（**仅存档，不再作为升级目标**）：tag `697e7d782c`（2026-09-14），距 v2.0.9 仅 10 个提交；内核 0.1.5-rc.1（`183f08e9`）→ 0.1.5-rc.2（`fb2c4b9e`）；13 个社区补丁只改名不改内容（`R100`）；上游改了 Windows 打包方式（不开 ASAR，提交 `09070dd72e`/`83cc4f821c`/`c7e1dbc940`/`fea9287036`）。我方 3 个补丁经解包逐文件比对：`dsh-api-session-controller`、`dsh-session-persistence-jsonl` **零改动**；只有 `dsh-client-ui-sidebar` 的 `lib/client.js` 真变了（-29B）。撞车面很小：上游 2.0.10 的 37 个改动文件中与我方 127 条改动只 5 个重合（都在 scripts/tests）。
 - ✅ **打包 2026-09-15 00:29 成功**：安装包 `deepseekharness-2.0.9-x64-Setup.exe` 129.2 MB 已拷入 `I:\deepseekharness更新DIY\发布\`，更新源闭环完成；用户已装上并跑起来（未被 SAC 拦）。
