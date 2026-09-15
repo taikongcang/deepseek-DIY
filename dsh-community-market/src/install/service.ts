@@ -31,6 +31,13 @@ const MAX_INTENTS = 256
 const MAX_CANDIDATES = 10_000
 const MAX_PNPM_STREAM_OUTPUT_BYTES = 32 * 1024
 const MAX_FAILURE_CAUSE_LENGTH = 4 * 1024
+/**
+ * Upper bound for one pnpm mutation. A pnpm child can finish its work and still
+ * never exit (observed on Windows: `pnpm remove` wrote the dependency and lock
+ * changes and then kept running), so the wait must be bounded instead of
+ * trusting the child to settle.
+ */
+const PNPM_OPERATION_TIMEOUT_MS = 5 * 60 * 1000
 const BLOCKED_PRODUCT_PACKAGES = new Set([
   'dsh-plugin-desktop',
   'dsh-plugin-desktop-beta',
@@ -239,6 +246,8 @@ export interface MarketInstallServiceOptions {
   readonly candidateTtlMs?: number
   readonly maxIntents?: number
   readonly maxCandidates?: number
+  /** Upper bound for one pnpm mutation before the child is cancelled. */
+  readonly pnpmTimeoutMs?: number
   /** Receives bounded package-manager failures for the Desktop persistent log. */
   readonly logFailure?: (message: string) => void
 }
@@ -470,6 +479,7 @@ export class MarketInstallService {
   private readonly candidateTtlMs: number
   private readonly maxIntents: number
   private readonly maxCandidates: number
+  private readonly pnpmTimeoutMs: number
   private readonly logFailure: ((message: string) => void) | undefined
   private readonly generation = new AbortController()
   private operationActive = false
@@ -486,12 +496,14 @@ export class MarketInstallService {
     this.candidateTtlMs = options.candidateTtlMs ?? CANDIDATE_TTL_MS
     this.maxIntents = options.maxIntents ?? MAX_INTENTS
     this.maxCandidates = options.maxCandidates ?? MAX_CANDIDATES
+    this.pnpmTimeoutMs = options.pnpmTimeoutMs ?? PNPM_OPERATION_TIMEOUT_MS
     this.logFailure = options.logFailure
     for (const [label, value] of [
       ['intent TTL', this.intentTtlMs],
       ['candidate TTL', this.candidateTtlMs],
       ['intent limit', this.maxIntents],
       ['candidate limit', this.maxCandidates],
+      ['pnpm timeout', this.pnpmTimeoutMs],
     ] as const) {
       if (!Number.isSafeInteger(value) || value < 1) throw new TypeError(`invalid market install ${label}`)
     }
@@ -724,7 +736,20 @@ export class MarketInstallService {
       const profile = this.sameProfile(intent.profile)
       await directProfilePluginVersion(profile, intent.packageName)
       operationSignal.throwIfAborted()
-      await this.runPnpm(['remove', intent.packageName], operationSignal)
+      let pnpmFailure: unknown
+      try { await this.runPnpm(['remove', intent.packageName], operationSignal) }
+      catch (cause) { pnpmFailure = cause }
+      if (pnpmFailure !== undefined) {
+        // A failed or timed-out removal can still have written the dependency
+        // change. Leaving that package in `dsh.profile.bundles` makes the next
+        // boot fail to resolve it, so align the bundle list with what pnpm
+        // actually wrote before surfacing the failure.
+        const manifest = await readManifest(join(profile.dir, 'package.json'))
+        if (profileDependency(manifest, intent.packageName) === undefined) {
+          await setProfileBundle(profile, intent.packageName, false).catch(() => {})
+        }
+        throw pnpmFailure
+      }
       try { await setProfileBundle(profile, intent.packageName, false) }
       catch {
         throw new MarketInstallError(
@@ -853,13 +878,27 @@ export class MarketInstallService {
     const stderr = captureBoundedOutput(handle.stderr)
     const cancel = () => handle.cancel()
     combinedSignal.addEventListener('abort', cancel, { once: true })
+    let timedOut = false
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const expiry = new Promise<never>((_resolve, reject) => {
+      timer = setTimeout(() => {
+        timedOut = true
+        try { handle.cancel() } catch {}
+        reject(new Error(`pnpm ${args.join(' ')} exceeded ${String(this.pnpmTimeoutMs)} ms`))
+      }, this.pnpmTimeoutMs)
+    })
     let outcome: MarketDesktopPnpmOutcome
     try {
-      try { outcome = await handle.done }
+      try { outcome = await Promise.race([handle.done, expiry]) }
       catch (cause) {
         combinedSignal.throwIfAborted()
         const details = packageManagerDetails(args, stdout.read(), stderr.read(), undefined, cause)
-        throw this.packageManagerError('The desktop package manager failed.', details)
+        throw this.packageManagerError(
+          timedOut
+            ? `The desktop package manager did not finish within ${String(this.pnpmTimeoutMs)} ms and was cancelled.`
+            : 'The desktop package manager failed.',
+          details,
+        )
       }
       combinedSignal.throwIfAborted()
       if (outcome.exitCode !== 0 || outcome.signal !== null) {
@@ -867,6 +906,7 @@ export class MarketInstallService {
         throw this.packageManagerError('The desktop package manager did not complete successfully.', details)
       }
     } finally {
+      if (timer !== undefined) clearTimeout(timer)
       combinedSignal.removeEventListener('abort', cancel)
       stdout.stop()
       stderr.stop()

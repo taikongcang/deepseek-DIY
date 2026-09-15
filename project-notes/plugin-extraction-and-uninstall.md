@@ -40,11 +40,25 @@
 
 | 方案 | 做什么 | 收益 | 代价 / 风险 |
 |---|---|---|---|
-| **A 真剥离** | 移除 AA：① 从 `dsh-plugin-desktop`(+beta) 依赖里删掉 ② 删 `vendor/agents-anywhere` + 去掉 `aa:prepare-release` 步骤 ③ 删设置页 AA 单选 + 相关文案键 ④ 删 `profile.ts` 的注入/过滤（`AA_PACKAGE_NAME`、`AA_ROW_ID`、`isAaEntry`、`527` 行注入、`960-981` 加载块）⑤ 删启动恢复里对它的判定 | app 变轻、AA 变可选、**装进 profile 后可在市场里卸载** | 改动**触及 Desktop 深度集成**（设置页/启动恢复/校验）；**每次追社区版都要重做这层 diff**；AA 不在 npm → 要自建分发（本地 tgz）；它的 client/sidebar 入口要重新验证 |
-| **B 只关开关（推荐先用）** | 设置→桌面设置→「关闭手机连接」 | **零改动、零风险**；关闭后 AA **不进 profile layers**（不加载） | 文件仍在 app 内（约占 1.1 MB unpacked + Python connector）；数据目录 `data\agents-anywhere` 仍在 |
+| **A 真剥离** | 移除 AA：① 从 `dsh-plugin-desktop`(+beta) 依赖里删掉 ② 删 `vendor/agents-anywhere` + 去掉 `aa:prepare-release` 步骤 ③ 删设置页 AA 单选 + 相关文案键 ④ 删 `profile.ts` 的注入/过滤（`AA_PACKAGE_NAME`、`AA_ROW_ID`、`isAaEntry`、`527` 行注入、`960-981` 加载块）⑤ 删启动恢复里对它的判定 | app 变轻（1.7 MB）、AA 变可选、**装进 profile 后可在市场里卸载**；**且打包不再需要 `aa:prepare-release` 这一步 → 构建链更短、更容易做到完全离线** | 改动**触及 Desktop 深度集成**（设置页/启动恢复/校验），面较大。**⚠️ 原记"每次追社区版都要重做这层 diff"已作废** —— 2026-09-15 方针重定义后我们**不追社区升级**，`dsh-plugin-desktop` 是我们自己的 workspace 源码 → **这是一次性改动，无复发成本**（除非将来主动启用社区某处改动）。AA 不在 npm → 若还要用需自建 tgz 分发；它的 client/sidebar 入口要重新验证 |
+| **B 只关开关（推荐先用）** | 设置→桌面设置→「关闭手机连接」 | **零改动、零风险**；关闭后 AA **不进 profile layers**（不加载） | 文件仍在 app 内（**实测 1.7 MB**，全部在 `lib/bundled-connector`，**不含独立 Python 运行时**）；数据目录 `data\agents-anywhere` 仍在 |
 | **C 折中** | 只做"减重"：删依赖 + 删 vendor + 去掉 prepare 步骤（保留开关与加载逻辑），并把"层不可用"从**报错**降级为**静默跳过**（否则关着开关也会永久显示"未能启动"横幅）；之后由我们自己把 AA 以 tgz 装进 profile，再用开关控制 | 剥离体积与供应链，改动比 A 小；AA 可由我们自己安装/卸载 | 仍需维护一处 diff（把 failure 降级 + 默认关闭）；安装要走 CLI，不能走市场 UI |
 
-**我的建议**：**先 B（立刻可用、零风险）**；若你确实要"app 里不含 AA"，则做 **C**（比 A 稳妥，且顺带解决 v2.0.10 关 ASAR 后的路径问题）。**A 不推荐**（改动面大、长期维护成本高，而收益与 C 基本相同）。
+**我的建议（2026-09-15 19:20 复核后修订）**：
+- 若只是"不想让它跑" → **B**（零改动）。但注意：**文件还在盒子里，开关还能被再打开**。
+- 若确认"永不使用手机连接、app 里不要这坨东西" → **A 现在是首选**（不再是原记的"不推荐"）。原因见上面修正：① 1.7 MB 虽小，但**真正价值是供应链干净 + 构建链缩短**（去掉 `aa:prepare-release` 这一步，打包更容易完全离线）；② **复发成本已消失**（我们不追社区升级，`dsh-plugin-desktop` 是我们自己的源码，一次性改完即止）。
+- **C 的价值下降**：它原本是"既减重又保留开关能力"的折中，但既已决定不用，保留开关逻辑只是留负担。
+
+**2026-09-15 19:20 复核补充的硬事实**（用于拍板）：
+
+| 事实 | 值 | 取证方式 |
+|---|---|---|
+| AA 开关**当前状态** | **`aaEnabled: true`（开着的、在跑）** | 读 `data\desktop\profile-preferences\<hash>\state.json` |
+| AA 在安装包里的**体积** | **1.7 MB**（`resources\app.asar.unpacked\node_modules\@agents-anywhere\dsh-bridge-next\lib\bundled-connector` 占满 1.7 MB 全部） | `du -sh` 实 measure |
+| 是否含独立 Python 运行时 | **不含**。`bundled-connector` 里只是 `connector/cli.py` 等脚本 | 目录实测 |
+| 仓库里的 AA 源 | `vendor/agents-anywhere/…tgz` = **522 KB** | `ls -la` |
+| **本构建 ASAR 是开着的** | `package.json` → `"asar": { "smartUnpack": true }`，且 `win.asarUnpack` **已列** `bundled-connector/**`（mac/linux 同） | 读 `dsh-plugin-desktop/package.json:332,363,391-398,427-434` |
+| ⇒ 对 A/C 的影响 | 原记"ASAR 时代默认 `connectorSourceDir` 会指向物理不存在的 `app.asar\lib\bundled-connector`" **在本构建下已被 `asarUnpack` 覆盖**，隐患比原记更小 | — |
 
 **另外一个必须知道的交互**（无论选哪个）：**AA 的"加载"由 Desktop 开关决定，不由 profile 决定**。所以就算你把它装进 profile，只要开关是"关闭"，它也不会加载（但会出现在"已安装"列表里）。
 

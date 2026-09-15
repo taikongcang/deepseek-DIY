@@ -277,6 +277,71 @@ describe('simplified Profile package operations', () => {
     })
     expect(calls).toEqual([['remove', otherMarketPackage]])
   })
+
+  it('bounds a pnpm mutation that never settles and cancels the child', async () => {
+    const profileDir = await createProfile()
+    await writeInstalledProfile(profileDir)
+    const cancel = vi.fn()
+    const service = new MarketInstallService(
+      () => ({ name: 'desktop', dir: profileDir }),
+      {
+        run() {
+          return {
+            stdout: Readable.from([]),
+            stderr: Readable.from([]),
+            done: new Promise<never>(() => {}),
+            cancel,
+          }
+        },
+      },
+      { verify: vi.fn() },
+      { pnpmTimeoutMs: 20 },
+    )
+
+    const preview = await service.previewUninstallPackage(packageName, new AbortController().signal)
+    await expect(service.executePreview(preview.intent, new AbortController().signal)).rejects.toMatchObject({
+      code: 'operation-failed',
+      message: expect.stringContaining('did not finish within'),
+    })
+    expect(cancel).toHaveBeenCalledOnce()
+  })
+
+  it('aligns the bundle list when an unsettled removal already dropped the dependency', async () => {
+    const profileDir = await createProfile()
+    await writeInstalledProfile(profileDir)
+    const service = new MarketInstallService(
+      () => ({ name: 'desktop', dir: profileDir }),
+      {
+        run() {
+          return {
+            stdout: Readable.from([]),
+            stderr: Readable.from([]),
+            done: (async () => {
+              // pnpm wrote the dependency change and then never exited.
+              await writeFile(join(profileDir, 'package.json'), JSON.stringify({
+                name: 'fixture-profile',
+                dependencies: {},
+                dsh: { profile: { bundles: [packageName] } },
+              }))
+              return await new Promise<never>(() => {})
+            })(),
+            cancel: vi.fn(),
+          }
+        },
+      },
+      { verify: vi.fn() },
+      { pnpmTimeoutMs: 20 },
+    )
+
+    const preview = await service.previewUninstallPackage(packageName, new AbortController().signal)
+    await expect(service.executePreview(preview.intent, new AbortController().signal)).rejects.toMatchObject({
+      code: 'operation-failed',
+    })
+    expect(JSON.parse(await readFile(join(profileDir, 'package.json'), 'utf8'))).toMatchObject({
+      dependencies: {},
+      dsh: { profile: { bundles: [] } },
+    })
+  })
 })
 
 describe('market Profile inventory routes', () => {

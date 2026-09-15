@@ -43,7 +43,13 @@
 <body>
 <div class="wrap">
 
-  <h1>本次修改清单</h1>
+  <h1>本次修改清单（第 1 阶段 · 已归档）</h1>
+  <div class="box box-bad" style="margin:0 0 18px;font-size:13.5px;">
+    <b>⚠️ 本清单已归档为历史（2026-09-15 17:30 起）</b><br>
+    这是<b>第 1 阶段</b>（升级重做 / 改名 / 中文化 / 本地更新源 / beta 摘除 / GitHub 建仓）的完整记录，<b>只读、不再演进</b>。<br>
+    <b>现行唯一权威清单 = <code>redolist2.html</code></b>（第 2 阶段，从 2026-09-15 17:30 起算，"修改与自制"）。
+    本文件中<b>仍未完成</b>的项已迁入其乙组（N3–N9，编号换新）；已完成的项留在原地作追溯。
+  </div>
   <div class="meta">
     <b>本次源码（工作副本）</b>：<code>I:\dsh-913</code>（社区版 2.0.9 · 内核 0.1.5-rc.1）<br>
     <b>旧工作副本</b>（路径含中文，已停用、留作备份）：<code>I:\deepseekharness9-13\9-13deepseekharness最新更新修改</code><br>
@@ -82,7 +88,7 @@
       <tr><td><b>讨论中</b></td><td>把"手机连接"（Agents-Anywhere）从安装包中<b>剥离成独立可安装插件</b></td><td>40</td><td>见 <code>plugin-extraction-and-uninstall.md</code></td><td class="todo">⏸ 待拍板</td></tr>
       <tr><td><b>已定</b></td><td>市场"已安装"列表给"所有"插件加"卸载"按钮 —— <b>用户 2026-09-15 实测确认：自己装的插件本来就有"卸载"</b>；<code>dsh-base</code>/<code>dsh-web-app</code> 是产品自有 bundle（只读是上游故意设的闸）</td><td>41</td><td>无需改动</td><td class="easy">✅ 已确定：维持现状</td></tr>
       <tr><td><b>新发现</b></td><td>市场装完插件点<b>"立即重启"报错</b>「无法请求重启…请稍后手动重启」—— 查实为市场侧<b>一次性重启令牌</b>失效（5 分钟 TTL、仅存内存），请求根本没到桌面侧；<b>不影响安装本身</b></td><td>42</td><td>上游设计；要改需新增补丁</td><td class="todo">⏸ 待拍板（要不要硬化）</td></tr>
-      <tr><td><b>新发现</b></td><td>市场<b>卸载卡死</b>（界面永远"正在卸载…"）—— pnpm remove 进程做完了活却<b>不退出</b>，而市场侧<b>无超时</b>；且清单 <code>dsh.profile.bundles</code> 留着已删插件（<b>下次启动会起不来</b>）</td><td>43</td><td>上游设计缺陷；修 = 直接改我方源码</td><td class="todo">⏸ 待拍板（要修）</td></tr>
+      <tr><td><b>新发现</b></td><td>市场<b>卸载卡死</b>（界面永远"正在卸载…"）—— pnpm remove 进程做完了活却<b>不退出</b>，而市场侧<b>无超时</b>；且清单 <code>dsh.profile.bundles</code> 留着已删插件（<b>下次启动会起不来</b>）</td><td>43</td><td>上游设计缺陷；<b class="easy">2026-09-15 已修</b>（源码直接改）</td><td class="easy">✅ 已修（未打包）</td></tr>
       <tr><td><b>已定</b></td><td>三处补丁归属确认：21 个 = <b>必须保留 14</b>（7 官方功能命脉 + 4 第三方 + 我方 3）+ <b>ASAR 依赖 4</b>（现在必须留）+ <b>3 个暂保留</b></td><td>44</td><td>见 <code>patch-audit-2026-09-15.md</code></td><td class="easy">✅ 已审查完</td></tr>
       <tr><td><b>已定</b></td><td><b>版本号走自有序列</b>，从 <code>3.0.0</code> 起；建 <code>UPSTREAM-ALIGNMENT.md</code> 记录每次对齐的社区版 / 官方内核</td><td>45</td><td>1 处 version + 1 新文档</td><td class="easy">✅ 已执行</td></tr>
       <tr><td><b>已定</b></td><td><b>摘除 beta 包</b>（对自用无用；实测与 stable 源码同构、无独有内容）</td><td>46</td><td>6 文件 + 删目录 <b>973.6 MB / 54479 文件</b></td><td class="easy">✅ 已执行并复验（16:2x）</td></tr>
@@ -95,7 +101,7 @@
   </div>
 
   <div class="box box-bad">
-    <h3>🔴 第 43 项 · 市场"卸载"会卡死（2026-09-15 实测，属实且有后患）</h3>
+    <h3>✅ 第 43 项 · 市场"卸载"会卡死 —— <b class="easy">2026-09-15 已修复</b>（2026-09-15 实测，属实且有后患）</h3>
     <p style="margin:6px 0;">
       <b>现象</b>：卸载 <code>@yolk_vat-y/dsh-project-memory</code> → 确认框永久停在「正在卸载…」，取消键被禁用，无进度、无结果、无超时。
     </p>
@@ -108,9 +114,21 @@
       <tr><td>残留</td><td>它带的两个扁平依赖 <code>@napi-rs</code>、<code>pdfjs-dist</code> 仍在 <code>node_modules</code>（pnpm 的收尾 prune 未完成）→ 无害孤儿，之后 <code>pnpm install</code> 会清</td></tr>
     </table>
     <p style="margin:6px 0 0;font-size:13px;">
-      <b>修的方式</b>：这是<b>我们自己源码</b>（<code>dsh-community-market/src/install/service.ts</code> 的 <code>runPnpm</code>）→ <b>直接改</b>，不需要补丁。建议三件：
+      <b>修的方式</b>：这是<b>我们自己源码</b>（<code>dsh-community-market/src/install/service.ts</code> 的 <code>runPnpm</code>）→ <b>直接改</b>，不需要补丁。当初建议三件：
       ① 给 pnpm 运行加<b>超时 + 到时 terminate</b>；② 让界面在 pending 时显示<b>已耗时/可取消</b>；
       ③ 把「pnpm 已删包但 bundles 未更新」这种中间态做<b>启动自愈</b>（启动时校验 bundles 可解析，缺了就剔除并告警）。
+    </p>
+    <p style="margin:10px 0 0;font-size:13px;">
+      <b class="easy">✅ 2026-09-15 17:1x 实际执行 —— 做了 ① 与 ③ 的等价物；② 降级为可选；另发现并修好一处现存脏状态</b>
+      <br>① <b>超时</b>：<code>runPnpm</code> 由「直接 <code>await handle.done</code>」改为 <code>Promise.race([handle.done, expiry])</code>；新增常量 <code>PNPM_OPERATION_TIMEOUT_MS = 5 * 60 * 1000</code>，并可由构造项 <code>pnpmTimeoutMs</code> 覆盖（已加入参数校验）。超时即 <code>handle.cancel()</code> 并抛 <code>operation-failed</code>（消息含 <code>did not finish within … ms</code>）→ <b>界面不再永久转圈</b>。
+      <br>③ <b>清单对齐</b>（比"启动自愈"更靠前 —— 直接掐断脏状态的产生）：<code>executeUninstall</code> 改为捕获 pnpm 失败而不立刻抛出 → 重读 profile 的 <code>package.json</code>，若「依赖已被删」则先把 <code>dsh.profile.bundles</code> 里的该包去掉，再抛出原错误 → <b>再也不会留下"包没了但清单还写着"的中间态</b>。
+      <br><b>验证</b>：新增 2 个单测（超时取消 / 失败后清单对齐）→ market 全套 <b>266 passed</b>（原 264 + 2）；<code>tsc</code> 三个 tsconfig（main / client / tests）<b>全部 exit 0</b>。
+      <br>⚠️ <b>未生效于已安装版本</b>：改的是源码，<b>必须重新打包 + 重新安装</b>才生效（见 <code>run-package-guide.md</code>）。
+      <br>② <b>界面显示已耗时 / 可取消</b> —— <b>未做</b>（改动涉及 <code>MarketSettingsTab.tsx</code> + locales + 测试）。有了超时后界面最多等 5 分钟即报错，不再是"永久卡死"，故降级为可选优化。
+      <br>③′ 真正的<b>启动自愈</b>（改 <code>profile.ts:561-565</code> 的 <code>else throw cause</code> 为跳过）—— <b>未做，留待拍板</b>：它属<b>行为语义变更</b>（第三方 bundle 解析失败由 fail-fast 改为静默跳过），需先把取舍讲清楚。
+    </p>
+    <p style="margin:10px 0 0;font-size:13px;">
+      <b>🔧 同时修好了用户机器上的现存脏状态（要紧）</b>：<code>E:\app\deepseekharness\data\profiles\desktop\package.json</code> 的 <code>bundles</code> 里<b>确实还留着</b> <code>@yolk_vat-y/dsh-project-memory</code>（文件 mtime = <b>14:36</b>，正是那次卸载的时刻），而 <code>node_modules\@yolk_vat-y</code> <b>已空</b> → 按原逻辑 <b>该 app 下次启动会直接失败、进恢复助手</b>。已备份为同目录 <code>package.json.bak-20260915-1715</code>，随后从 <code>bundles</code> 删去该包（现只剩 <code>@deepseek-ai/dsh-base</code> + <code>@deepseek-ai/dsh-web-app</code>）。
     </p>
   </div>
 
@@ -1057,7 +1075,8 @@ if (portableDataDir !== undefined) {
     <b>已执行 31 项</b>：1–20（改名 12 / 便携 1 / 市场源 7）、23–26（升级源 4）、29–33（增量需求 5）、37（收尾补遗）<br>
     <b>作废 4 项</b>：21、22（中文化补丁）、27（指令中文化）—— 官方 0.1.5-rc.1 已内置；<b>39</b> —— <b>方针变更作废</b>（社区版=参考样本，不追随升级）<br>
     <b>关闭 1 项</b>：41（实测确认自装插件本来就有"卸载"，无需改动）<br>
-    <b>待办 8 项</b>：28 绿泡泡（暂缓）｜ 34 CA 证书名（待拍板）｜ 35 目录选择器补丁文案（待拍板）｜ 36 Electron 探针（待手动）｜ 38 Profile 名 desktop 改名（下次更新处理，数据可丢弃）｜ 40 手机连接剥离（待拍板）｜ 42 立即重启报错（待拍板）｜ 43 卸载卡死（待拍板，建议修）<br>
+    <b>待办 7 项</b>：28 绿泡泡（暂缓）｜ 34 CA 证书名（待拍板）｜ 35 目录选择器补丁文案（待拍板）｜ 36 Electron 探针（待手动）｜ 38 Profile 名 desktop 改名（下次更新处理，数据可丢弃）｜ 40 手机连接剥离（待拍板）｜ 42 立即重启报错（待拍板）<br>
+    <b>已修 1 项</b>：<b class="easy">43 卸载卡死 ✅ 2026-09-15</b>（超时 + 清单对齐；改 <code>dsh-community-market/src/install/service.ts</code>，266 测试全绿；<b>需重新打包安装才生效</b>）<br>
     <b>补丁</b>：<code>patches/</code> 共 <b>21 个</b>（18 社区自带 + 我方新增 3 个：session-controller / session-persistence-jsonl / client-ui-sidebar）
     <p style="margin:8px 0 0;">
       <b>代码全部未提交</b>（<code>git status</code>：127 条）→ <code>git checkout -- .</code> 可一键全撤，新增补丁与 <code>src/adapters/awesome-list.ts</code> 等 untracked 文件需单独删。<br>
