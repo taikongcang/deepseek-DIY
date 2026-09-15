@@ -66,7 +66,7 @@
   - ⭐ **分支约定（2026-09-15 20:37 更新：`diy-main` 已改名为 `main`）**：本地**当前工作分支 = `main`**（跟踪 `diy/main`，**已同步**）→ **`git push` 直接可用**（实测 `--dry-run` = `Everything up-to-date`）。远端 `diy` 只有 **一个分支 `main`**（= 默认分支）。本地另有 `master`（带社区 **13261** 提交，跟踪 `origin/master`，**只作社区对比**）。
   - ⚠️ **`push.default=simple` 的坑**：它要求**本地与远端分支同名**，否则 `git push` 直接 `fatal`（exit 128）。所以"设好跟踪引用"**不等于**"能直接 push" —— 必须**名字也对上**（这正是把 `diy-main` 改名 `main` 的原因）。
   - ⚠️ **`git fetch`/`git update-ref` 建不出 `refs/remotes/diy/main`**（命令报成功、引用却不落盘；而 `.git/refs/` 目录实测可 mkdir/可写）→ **正解：直接写松散引用文件** `.git/refs/remotes/diy/main`（内容 = 40 位 sha + 换行），**跨调用持久**。
-  - 🔴 **安全隐患（未处理）**：`master` 与远端 `origin/master` **同名** → 在 `master` 上执行 `git push` **会把我们的内容推到社区仓库**。防范 = 给 `origin` 设一个无效 `pushurl`（待用户点头）。
+  - ✅ **防误推已装（2026-09-15 20:45，用户同意）**：`git config remote.origin.pushurl "BLOCKED://origin-is-the-community-repo-never-push-to-it"` → 在 `master` 上误执行 `git push` **立刻 fatal 被拦**（实测 `remote helper 'BLOCKED' aborted session`，exit 128），**再也推不到社区仓库**。`remote.origin.url`（fetch 用）保留不动。
 - 文档在 `project-notes/`（**源头是 `.workbuddy`**）→ **改完清单/记忆后要拷过去 + 提交推送**，否则 GItHub 上又落后。
 - ✅ **`bilingual-docs.mjs` 只认已被 git 跟踪的 `*.i18n.yaml`** → `project-notes/` 无 i18n 文件，**往里面加 `.md`/`.html` 不需要补 i18n 哈希**。
 - **`AGENTS.md` 已重写**为我们的真实约束（ASCII 路径 / 不拉 submodule / 只发 stable / `dist:win` 不用 `package:dir` / `DSH_AA_SOURCE_REF=pinned` / 补丁边界 / 版本号规则），并**禁止 AI 读 `.agents/`**（社区设计笔记，保留供人参考）。
@@ -104,7 +104,8 @@
 - 【挂账 · 详见 `redolist2.html`】**用户 2026-09-15 已裁决**：CA 证书名(N4) 与 目录选择器补丁文案(N5) = **不改**；Electron 探针(N6) = **留到后面做**；**手机连接(N8) = 真剥离 + 独立插件化（方案 A，方案书 `N8-aa-extraction-plan.md`；3 项决策挂账：装回来的入口 / tgz 存哪 / 上不上 GitHub）**；**"立即重启"报错(N9) = 改用我们自己的重启入口（9-b）→ 直接调已存在的无令牌端点 `POST /api/desktop/restart`，旁路上游一次性令牌**；**界面显示耗时(N11) = ⛔ 已取消（用户 2026-09-15 20:05；理由：它不是卸载问题，而卸载问题已被 N1 双保险解决 → 动机消失）**。其余：绿泡泡(N3 暂缓)｜Profile 名 `desktop` 改名(N7，与最后打包合并做)｜**启动自愈(N10) = 📝 已定（用户 20:13 采纳"分级 + 宽容 + 可见 + 你来决定"）**。**N1 卸载卡死 = ✅ 已修（2026-09-15）。**
 - 【挂账 · **本次全量盘点新发现（2026-09-15 20:15，清单外·之前没人管的 9 条，见 redolist2 §己 N50–N58）**】：**N50 git 未提交**（6 改 + 1 未跟踪 `patches/pnpm@11.27.0.patch` —— N1 改动全在工作区）｜**N51 GitHub 严重落后**（远端只有 `refs/heads/main` = `f48fb54a99` 旧快照）｜**N52 `diy-main` 跟踪引用坏了**（跟踪 `diy/main`，远端实为 `main`，显示 `gone`）｜**N53 `.github/` 5 个社区文件仍在**（`workflows/ci.yml` + 3 issue 模板 + PR 模板；self-audit 第 7 条从未决策）｜**N54 `project-notes/` 未同步**今天 4 个文档｜**N55 旧补丁 `pnpm@11.8.0.patch` 未删**（已无引用）｜**N56 回收站实测 8.8 GB**（旧记 7.03，已按实测更新）｜**N57 `I:\deepseekharness` 野目录实测 0 字节**（只剩空 `AI股票`）｜**N58 `I:\` 根 9 个新探测文件**（`_g1..3`/`_r1..6`，16:4x 产生；批 7 的 14 个 `_q*.txt` 实测已清完）。
   - **用户 2026-09-15 20:23 处置**：**N57 = ⛔ 永久标记「不需要管」，永远不处理、不再询问**；**N55 / N56 / N58 = 📝 已定：清理**；**N50–N54 = 🔥 优先处理（方案已出，见 redolist2 §己）**。
-  - ✅ **执行结果（2026-09-15 20:32–20:37，已实测完成）**：**N50/N51/N52/N53/N54/N55/N58 全部完成**；**N56（清空回收站 8.8 GB，不可逆）待用户最终确认**；**N57 永久不管**。
+  - ✅ **执行结果（2026-09-15 20:32–20:45，已实测完成）**：**§己 9 条全部结案** —— **N50/N51/N52/N53/N54/N55/N58 由 AI 完成**；**N56（回收站）用户 20:44 已手动清空**（现场复核：8.8 GB → 31 MB，I 盘可用 484→493 GB）；**N57 永久不管**。
+    - ⭐ **N50–N58 这组已全部关闭，§己 结案。清单已进入「🔨 开工清单」阶段（待实施：N9 → N8+N10 → N7 → N6 → N3/丁组 → N90）。**
     - N53 选 **53-a 全删** `.github`（5 文件；git 历史可恢复；远端树已核实无 `.github`）
     - N54 同步 8 个文档到 `project-notes/`；✅ 无需补 i18n（脚本只认已跟踪的 i18n.yaml）
     - N55 删 `patches/pnpm@11.8.0.patch`（已无引用）
@@ -113,6 +114,6 @@
     - **端到端验证 5 项全过**：工作区干净 / 远端 = `96a57d27df` / 远端无 `.github` / 远端含新补丁与新文档 / `git push --dry-run` = up-to-date
 - 【复核纠正 · 记录与实测不符】① `self-audit` C 类称"已删孤儿 tgz `vendor/agents-anywhere/…tgz`" → **实测仍在**（522 KB；但它是 N8 素材，保留正确）② `cleanup-plan` 批 7 记"剩 14 个待清" → **实测已清完** ③ `redolist.html:57` 写"44 项编号" → 实际编到 **51**（归档只读，仅记录不改）。
 - 【复核确认已做完】`deepseek-harness` 悬空 submodule gitlink **已清**｜旧工作副本 **已删**｜根 `package.json` description **已改**｜beta 引用 **已摘净**｜社区参照目录 **仍在（正确）**｜`I:\deepseek-harness\插件\` 三个目录 **均在**。
-- 【遗留 · 技术债】清空回收站（I 盘压着 7.03 GB，待用户确认）｜`I:\deepseekharness` 野目录｜`dsh-913\deepseek-harness` 悬空 submodule 条目（另立项）。
+- 【遗留 · 已全部结案（2026-09-15 20:45 复核）】回收站 **✅ 用户 20:44 手动清空**（8.8 GB → 31 MB）｜`I:\deepseekharness` 野目录 **⛔ 永久不需管**（N57）｜`dsh-913\deepseek-harness` 悬空 submodule 条目 **✅ 已清**。
 - **清单**：权威 = **`redolist2.html`**（第 2 阶段，N1 起，"修改与自制"）；`redolist.html`（51 项）= 第 1 阶段，**已归档只读**。
 - **实施 + 打包策略（2026-09-15 用户定，19:49 强化）**：**所有改动先记入清单；不逐个改动就打包，也不边拍板边改代码** → 攒到"修改与自制"告一段落 → **改动与打包一起、一次性做完**（redolist2 §戊 N90）。

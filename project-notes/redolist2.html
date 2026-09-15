@@ -45,24 +45,47 @@
 
   <h1>修改与自制清单 · 第 2 阶段</h1>
   <div class="meta">
-    <b>起算时间</b>：2026-09-15 17:30（用户定："从现在的开始"）<br>
-    <b>本清单 = 唯一权威</b>。第 1 阶段清单 <code>redolist.html</code>（1–51 项，升级重做那一轮）自即日起<b>归档为历史</b>，只读、不再演进。<br>
-    <b>工作副本</b>：<code>I:\dsh-913</code> ｜ <b>现行安装</b>：<code>E:\app\deepseekharness</code> ｜ <b>更新源</b>：<code>I:\deepseekharness更新DIY\</code><br>
-    <b>打包策略（2026-09-15 用户定）</b>：本章程里的改动<b>不再逐个打包</b>；攒到"后续修改和自制"告一段落，<b>最后一次性打包</b>。<br>
-    <b>状态图例</b>：<span class="easy">✅ 已完成</span> ｜ <span class="mod">🔧 已改源码·未打包</span> ｜ <span class="mid">📝 已定·待统一实施</span> ｜ <span class="todo">⏸ 待拍板 / 待做</span> ｜ <span class="mid">⛔ 已定不做</span>
+    <b>起算时间</b>：2026-09-15 17:30（用户定："从现在的开始"）｜<b>最后整理</b>：2026-09-15 20:45<br>
+    <b>本清单 = 唯一权威</b>。第 1 阶段清单 <code>redolist.html</code>（1–51 项）已<b>归档为历史</b>，只读、不再演进。<br>
+    <b>工作副本</b>：<code>I:\dsh-913</code> ｜ <b>现行安装</b>：<code>E:\app\deepseekharness</code> ｜ <b>更新源</b>：<code>I:\deepseekharness更新DIY\</code> ｜ <b>GitHub</b>：<code>taikongcang/deepseek-DIY</code>（分支 <code>main</code>，已同步）<br>
+    <b>打包策略（用户定）</b>：改动<b>不逐个打包</b>，攒到"修改和自制"告一段落，<b>最后一次性打包</b>。<br>
+    <b>⭐ 现在的位置</b>：<b>受理/记录阶段已结束</b>（§己 9 条清理完毕）→ <b>进入"要开工了"阶段</b>，见下方 <b>🔨 开工清单</b>。<br>
+    <b>状态图例</b>：<span class="easy">✅ 已完成</span> ｜ <span class="mod">🔧 已改源码·未打包</span> ｜ <span class="mid">📝 已定·待实施</span> ｜ <span class="todo">⏸ 待定</span> ｜ <span class="mid">⛔ 不做 / 已取消</span>
   </div>
 
   <div class="box box-info">
     <h3>总览</h3>
     <table style="margin:0;">
-      <tr><th style="width:10%">类别</th><th style="width:44%">做什么</th><th style="width:12%">编号</th><th>状态</th></tr>
-      <tr><td><b>甲</b></td><td>本次已做（卸载卡死：<b>治标</b>「超时+对账」+ <b>治本</b>「pnpm 升到 11.27.0」；另修好现有脏数据）</td><td>N1 – N2</td><td class="mod">🔧 已改源码·未打包</td></tr>
-      <tr><td><b>乙</b></td><td>第 1 阶段继承的挂账（含用户已裁决的 2 项 + N8/N9 已定）</td><td>N3 – N9</td><td class="mid">📝 多数已定（见下）</td></tr>
-      <tr><td><b>丙</b></td><td>本次新增（N10 <b>已定</b>：分级+宽容+可见 / N11 <b>已取消</b>）</td><td>N10 – N11</td><td class="mid">📝 已清</td></tr>
-      <tr><td><b>丁</b></td><td><b>自制</b>（我方新增功能 —— 尚未提需求）</td><td>N30 +</td><td class="todo">⬜ 空位待填</td></tr>
-      <tr><td><b>戊</b></td><td>收尾：① <b>一次性实施</b>全部已定项 ② 最后一次性打包 + 安装验证</td><td>N90</td><td class="todo">⏸ 待做（须等前面全部定完）</td></tr>
-      <tr><td><b>己</b></td><td><b>本次全量盘点新发现</b>（9 条）→ <b>N50–N55、N58 已完成</b>；<b>N56 待确认（不可逆）</b>；<b>N57 永久不管</b></td><td>N50 – N58</td><td class="easy">✅ 基本清完</td></tr>
+      <tr><th style="width:9%">类别</th><th style="width:46%">做什么</th><th style="width:11%">编号</th><th>状态</th></tr>
+      <tr><td><b>甲</b></td><td>已做（卸载卡死：<b>治标</b>「超时+对账」+ <b>治本</b>「pnpm 升 11.27.0」；另修好脏数据）</td><td>N1 – N2</td><td class="mod">🔧 已改源码·未打包</td></tr>
+      <tr><td><b>乙</b></td><td>第 1 阶段继承（N4/N5 ⛔ 不改 · N6 待手动 · N7 待做 · N8/N9 📝 已定待实施 · N3 ⏸ 待定）</td><td>N3 – N9</td><td class="mod">🔨 待开工</td></tr>
+      <tr><td><b>丙</b></td><td>N10 <b>📝 已定</b>（分级+宽容+可见，待实施）／ N11 <b>⛔ 已取消</b></td><td>N10 – N11</td><td class="mod">🔨 待开工</td></tr>
+      <tr><td><b>丁</b></td><td><b>自制</b>（我方新增功能 —— <b>尚未提需求</b>）</td><td>N30 +</td><td class="todo">⬜ 空位待填</td></tr>
+      <tr><td><b>戊</b></td><td>收尾：① 一次性实施 ② 最后一次性打包 + 安装验证</td><td>N90</td><td class="todo">⏸ 等前面全定完</td></tr>
+      <tr><td><b>己</b></td><td><b>全量盘点 9 条 —— 全部结案</b>（N50–N55/N58 ✅ 已完成 · N56 ✅ 用户手动清空 · N57 ⛔ 永久不管）</td><td>N50 – N58</td><td class="easy">✅ 已清完</td></tr>
     </table>
+  </div>
+
+  <!-- ============ 开工清单 ============ -->
+  <div class="box box-bad">
+    <h3>🔨 开工清单（待实施 · 2026-09-15 20:45 整理）</h3>
+    <div class="h2note" style="color:#7a1f1f;margin-bottom:10px;">
+      这里是<b>真正要动代码/动文件</b>的全部内容，按建议顺序排。<b>每一条都已有方案</b>，等你下令即可开工。<br>
+      ⚠️ <b>实施顺序有讲究</b>：<b>N8 与 N10 都动 <code>profile.ts</code> → 必须排在同一批做</b>，避免同一文件来回改。
+    </div>
+    <table style="margin:0;">
+      <tr><th style="width:5%">序</th><th style="width:7%">编号</th><th style="width:24%">要做什么</th><th style="width:30%">落点</th><th style="width:12%">规模</th><th>前置条件</th></tr>
+      <tr><td>1</td><td><b>N9</b></td><td><b>重启按钮改调我们自己的入口</b><br>市场「立即重启」→ 改调 <code>POST /api/desktop/restart</code>，<b>删掉上游那套一次性令牌</b>（永不出现 <code>intent-expired</code>）</td><td><code>dsh-community-market/</code>：<code>src/install/service.ts</code>、<code>src/api-types.ts</code>、<code>src/client/{api.ts,MarketSettingsTab.tsx,locales.ts}</code></td><td class="mid">中</td><td>无</td></tr>
+      <tr><td>2</td><td><b>N8</b><br><b>+ N10</b></td><td><b>AA 真剥离 + 独立插件化</b> ／ <b>启动自愈</b>（分级 + 宽容 + 可见）<br><span style="color:#A32D2D">⚠️ 两项都动 <code>profile.ts</code> → 同一批做</span></td><td><code>dsh-plugin-desktop/</code>：<code>src/profile.ts</code>(35+)、<code>main.ts</code>(10)、<code>profile-preferences.ts</code>(9)、向导 4 文件(50)、设置页 2 文件(42)、<code>safe-mode.ts</code>、<code>host-bootstrap.ts</code>；+ 9 个测试 + 2 个脚本 + 删 <code>vendor/agents-anywhere</code></td><td class="hard">大</td><td>⚠️ <b>N8 有待办</b>：① 前置验证（临时 profile 里 CLI 装 AA tgz → 起 → 卸，<b>未做</b>）② <b>3 项决策挂账</b>（N8-a 装回来的入口 / N8-b tgz 存哪 / N8-c 上不上 GitHub）</td></tr>
+      <tr><td>3</td><td><b>N7</b></td><td><b>Profile 名 <code>desktop</code> 改名</b>（现数据是测试数据、可丢弃，无迁移负担）</td><td>源码 5 处 + 脚本 5 处 + 少量测试（待核）</td><td class="easy">小</td><td>无</td></tr>
+      <tr><td>4</td><td><b>N6</b></td><td><b>Electron 探针复验</b>（加固）—— <b>须你手动跑</b>（沙箱会拦）</td><td><code>.workbuddy/_archive/probe-local-update-fetch.js</code></td><td class="easy">小</td><td>首次已实测通过，此项是加固</td></tr>
+      <tr><td>5</td><td><b>N3</b></td><td><b>绿泡泡</b>（思考过程那个气泡）</td><td>待查</td><td class="mid">?</td><td>⚠️ <b>需你先定「做不做」</b>（一直<code>暂缓</code>中）</td></tr>
+      <tr><td>—</td><td><b>丁组</b></td><td><b>自制（我方新增功能）</b> —— 编号 N30+，<b>目前空位待你提需求</b></td><td>—</td><td>—</td><td>等你提</td></tr>
+      <tr><td>—</td><td><b>N90</b></td><td><b>① 一次性实施以上全部 ② 最后一次性打包 + 安装验证</b></td><td>入口：<code>I:\deepseekharness更新DIY\工具\build-win.cmd</code></td><td class="mid">—</td><td>等 1–5 与丁组全定完</td></tr>
+    </table>
+    <div style="font-size:12.5px;margin-top:10px;color:#7a1f1f;">
+      <b>当前卡在哪</b>：<b>N8 的 3 项决策</b>（N8-a/b/c）＋ <b>N8 的前置验证</b> ＋ <b>N3 要不要做</b> —— 这三件事定了，就能一路开工到打包。
+    </div>
   </div>
 
   <!-- ============ 甲 ============ -->
@@ -233,7 +256,7 @@
     <tr><td class="n">N53</td><td><code>.github/</code> 5 个社区文件仍在</td><td class="easy">✅ <b>已完成</b>（选 <b>53-a 全删</b>）<br>2026-09-15 20:32</td><td>已删除 5 个文件：<code>workflows/ci.yml</code>、<code>ISSUE_TEMPLATE/{bug_report,config,feature_request}.yml</code>、<code>pull_request_template.md</code>。<br>✅ 已在 <code>diy-main</code> 的 git 历史中 → <b>随时可恢复</b>。<br>✅ 远端树核对：<code>git ls-tree diy/main -- .github</code> 为空。</td></tr>
     <tr><td class="n">N54</td><td><code>project-notes/</code> 未同步</td><td class="easy">✅ <b>已完成</b><br>2026-09-15 20:32</td><td>已同步 8 个文件到 <code>project-notes/</code>：<code>redolist2.html</code>、<code>tech-notes.md</code>、<code>N8-aa-extraction-plan.md</code>、<code>plugin-extraction-and-uninstall.md</code>（更新版）、<code>redolist.html</code>（归档版）、<code>cleanup-plan.md</code>（批 7 + 回收站数字已更正）、<code>memory/MEMORY.md</code>、<code>memory/2026-09-15.md</code>。<br>✅ 已核实：<code>bilingual-docs.mjs</code> <b>只认已被 git 跟踪的 <code>*.i18n.yaml</code></b>，<code>project-notes/</code> 无 i18n 文件 → <b>新增文档不需要补 i18n 哈希</b>。</td></tr>
     <tr><td class="n">N55</td><td>旧补丁未删</td><td class="easy">✅ <b>已完成：已删</b><br>2026-09-15 20:32</td><td><code>patches/pnpm@11.8.0.patch</code> 已删除；<code>patches/</code> 下现只剩 <code>pnpm@11.27.0.patch</code>。<br>✅ 已进 git 历史，可恢复。</td></tr>
-    <tr><td class="n">N56</td><td>回收站 <b>8.8 GB</b><br><span style="color:#888">（复核更新）</span></td><td class="todo">⏸ <b>待你确认</b><br>（不可逆）</td><td>已定"清理"，但该操作<b>不可逆</b> → 按约定<b>执行前单独再确认一次</b>，本轮<b>未动</b>。<br>实测：<code>du -sh I:\$RECYCLE.BIN</code> = <b>8.8 GB</b>（旧记录 7.03 GB 已按实测更正）。<br>空间现状：I 盘可用 <b>484 GB</b> / E 盘 <b>453 GB</b>。</td></tr>
+    <tr><td class="n">N56</td><td>回收站（复核 8.8 GB）</td><td class="easy">✅ <b>已完成</b><br>（用户手动）</td><td><b>用户 2026-09-15 20:44 已手动清空</b>，本次<b>现场复核证实</b>：<br>· <code>du -sh I:\$RECYCLE.BIN</code> = <b>8.8 GB → 31 MB</b>（31 MB 是今天新删的小文件元数据）<br>· I 盘可用空间 <b>484 GB → 493 GB（+9 GB）</b> —— 与 8.8 GB 释放量吻合<br>✅ 无需任何动作。</td></tr>
     <tr><td class="n">N57</td><td><code>I:\deepseekharness</code> 野目录</td><td class="mid">⛔ <b>永久标记<br>不需要管</b></td><td><b class="mid">⛔ 用户 2026-09-15 20:23 明确：「N57 不用管，并且标注出来这个 N57 一直不需要管」→ 本项<b>永远不处理、以后不再询问</b>。</b><br>事实仅留档（无需任何动作）：实测 <b>0 字节</b>，里面只有一个空目录 <code>AI股票</code>。</td></tr>
     <tr><td class="n">N58</td><td><code>I:\</code> 根 <b>9 个新探测文件</b></td><td class="easy">✅ <b>已完成：已归档</b><br>2026-09-15 20:32</td><td>9 个文件已从 <code>I:\</code> 根移出 → 归档到 <code>.workbuddy\_archive\agent-probe-2026-09-15\</code>（<b>可逆</b>，不是硬删）。<br>✅ 实测 <code>I:\</code> 根已<b>零残留</b>（<code>ls /i/_*.txt</code> 无命中）。<br>文件：<code>_g1..3.txt</code>、<code>_r1..6.txt</code>（共 61 KB，内容 = gh CLI 检查 / 目录体积 / 提交身份 / i18n yaml 全文 / safe-delete 结果 / blob 哈希 / 测试输出 / 文件大小）。</td></tr>
   </table>
