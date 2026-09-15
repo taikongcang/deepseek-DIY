@@ -1,0 +1,4 @@
+﻿=== 是否管理员 ===
+False
+=== 排除路径 ===
+N/A: Must be an administrator to view exclusions

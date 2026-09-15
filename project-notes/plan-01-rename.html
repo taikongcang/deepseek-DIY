@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>施工方案 01 · 改名（已执行）</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; padding:32px 24px 80px; background:#fff; color:#1a1a1a;
+    font-family: system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; line-height:1.65; }
+  .wrap { max-width:1140px; margin:0 auto; }
+  h1 { font-size:21px; font-weight:500; margin:0 0 6px; }
+  .meta { font-size:13px; color:#666; margin-bottom:22px; }
+  h2 { font-size:16px; font-weight:500; margin:34px 0 6px; padding-bottom:8px; border-bottom:1px solid rgba(0,0,0,.1); }
+  h3 { font-size:14px; font-weight:500; margin:20px 0 6px; }
+  .h2note { font-size:12.5px; color:#777; margin:0 0 12px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0 6px; }
+  th,td { text-align:left; padding:8px 10px; border-bottom:1px solid rgba(0,0,0,.08); vertical-align:top; }
+  th { font-weight:500; background:rgba(0,0,0,.03); font-size:12.5px; }
+  code { font-family:ui-monospace,Consolas,monospace; font-size:12px; background:rgba(0,0,0,.05); padding:1px 5px; border-radius:4px; }
+  pre { background:#F7F7F5; border-radius:8px; padding:12px 14px; font-size:12.5px; line-height:1.7; overflow-x:auto; }
+  .box { border-radius:10px; padding:14px 18px; margin:16px 0; font-size:13.5px; }
+  .box-good{background:#E1F5EE} .box-warn{background:#FAEEDA} .box-bad{background:#FCEBEB} .box-info{background:#F7F7F5}
+  .box h3 { font-size:14px; font-weight:500; margin:0 0 8px; }
+  ul { margin:6px 0 0; padding-left:20px; font-size:13.5px; } li { margin-bottom:4px; }
+  .old { color:#A32D2D; } .new { color:#0F6E56; font-weight:500; } .n { color:#888; }
+  .tag { display:inline-block; font-size:11.5px; padding:1px 8px; border-radius:99px; margin-left:6px; vertical-align:2px; }
+  .t-must{background:#FCEBEB;color:#A32D2D} .t-skip{background:#F1EFE8;color:#5F5E5A} .t-test{background:#FAEEDA;color:#854F0B}
+  .ok{background:#E1F5EE;color:#0F6E56} .hold{background:#F1EFE8;color:#5F5E5A}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>施工方案 01 · 改名<span class="tag ok">已执行</span></h1>
+  <div class="meta">
+    对应清单第 <b>1–12 项</b> · 工作副本 <code>I:\deepseekharness9-13\9-13deepseekharness最新更新修改</code><br>
+    执行时间 <b>2026-09-14</b> · 改动规模：<b>38 个文件，+210 / −210 行</b>（全部未提交，可一键回退）
+  </div>
+
+  <div class="box box-good">
+    <h3>✅ 执行结果</h3>
+    已按你 2026-09-14 确认的口径完成改名：<b>任务栏 → deepseekharness</b>、<b>lisa 只留在窗口内标题栏那一处</b>、<b>终端 → R9</b>。
+    改动脚本与审计脚本留在 <code>I:\deepseekharness制作\.workbuddy\</code>（<code>rename-apply.mjs</code> / <code>rename-tests.mjs</code> / <code>rename-audit.mjs</code>），可复查、可重跑。
+    <br><br><b>⚠️ 尚未验证：</b>本机没有 <code>node_modules</code>，测试跑不起来。语法/构建/测试<b>需要你这边跑一次 <code>yarn install</code> + <code>yarn build</code> + 测试</b>才能确认。
+  </div>
+
+  <h2>一、替换规则表（最终口径）</h2>
+  <table>
+    <tr><th style="width:5%">#</th><th style="width:19%">类别</th><th style="width:23%">原来（社区版）</th><th style="width:20%">改成</th><th>用在哪</th></tr>
+    <tr>
+      <td class="n">1</td><td><b>产品名</b>（系统层）</td>
+      <td class="old"><code>DSH Desktop</code></td>
+      <td class="new"><code>deepseekharness</code></td>
+      <td>系统识别名、数据目录名、安装包名、快捷方式名（<b>无空格</b>）</td>
+    </tr>
+    <tr>
+      <td class="n">2</td><td><b>appId</b></td>
+      <td class="old"><code>ai.deepseek.dsh.desktop</code></td>
+      <td class="new"><code>deepseekharness.diy</code></td>
+      <td>系统里的应用标识</td>
+    </tr>
+    <tr>
+      <td class="n">3</td><td><b>窗口标题</b><br><span style="font-size:11.5px;color:#854F0B">＝任务栏显示的字</span></td>
+      <td class="old"><code>DeepSeek Harness Desktop</code></td>
+      <td class="new"><code>deepseekharness</code></td>
+      <td>任务栏 / 无障碍标题（<b>2026-09-14 你改的口径</b>，原计划是 lisa）</td>
+    </tr>
+    <tr>
+      <td class="n">4</td><td><b>窗口内标题栏</b><br><span style="font-size:11.5px;color:#854F0B">← 你说的「红框」</span></td>
+      <td class="old"><code>DSH Desktop</code></td>
+      <td class="new"><code>lisa</code></td>
+      <td><b>全软件唯一显示 lisa 的地方</b>（扩展模式标题栏 + 兼容模式标题栏）</td>
+    </tr>
+    <tr>
+      <td class="n">5</td><td><b>界面文案</b>（中英）</td>
+      <td class="old"><code>DSH Desktop</code></td>
+      <td class="new"><code>deepseek harness</code></td>
+      <td>设置页、托盘、弹窗、恢复助手、安装向导、通知（<b>带空格</b>）</td>
+    </tr>
+    <tr>
+      <td class="n">6</td><td><b>设置页大标题</b>（特例）</td>
+      <td class="old"><code>DSH Desktop 设置</code> / <code>DSH Desktop settings</code></td>
+      <td class="new"><code>deepseekharness设置</code> / <code>deepseekharness settings</code></td>
+      <td><b>只有这一条</b>用无空格版本（沿用旧版做法）</td>
+    </tr>
+    <tr>
+      <td class="n">7</td><td><b>终端名称</b></td>
+      <td class="old"><code>DSH Terminal</code> / <code>DSH 终端</code></td>
+      <td class="new"><code>R9</code></td>
+      <td>终端窗口标题、欢迎语、打开终端的按钮、托盘菜单、恢复页（<b>2026-09-14 你改的口径</b>，原计划是 DIY终端）</td>
+    </tr>
+    <tr>
+      <td class="n">8</td><td><b>产物文件名</b></td>
+      <td class="old"><code>DSH-Desktop-${version}-…</code></td>
+      <td class="new"><code>deepseekharness-${version}-…</code></td>
+      <td>安装包 / 便携包 / 更新下载默认文件名</td>
+    </tr>
+  </table>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>改完后，同一个软件会有四种叫法</b>（你 9-13 定的"暂不统一"，本次照做）：
+    <br>系统与任务栏　→ <code>deepseekharness</code>　　窗口内标题栏　→ <code>lisa</code>（仅此一处）
+    <br>界面文案　　　→ <code>deepseek harness</code>　　终端　　　　　→ <code>R9</code>
+  </div>
+
+  <h2>二、实际改动的文件（38 个）</h2>
+
+  <h3>A 组 · 身份与打包<span class="tag t-must">已改</span></h3>
+  <table>
+    <tr><th style="width:44%">文件</th><th>改了什么</th></tr>
+    <tr><td><code>src/product-identity.ts</code> ★核心</td><td>stable 段 <code>productName</code> → <code>deepseekharness</code>、<code>appId</code> → <code>deepseekharness.diy</code>（<b>beta 段未动</b>）</td></tr>
+    <tr><td><code>dsh-plugin-desktop/package.json</code></td><td>build 段 5 处：<code>appId</code>、<code>productName</code>、<code>shortcutName</code>、win / nsis 两个 <code>artifactName</code></td></tr>
+    <tr><td><code>scripts/verify-win-installer.ts</code></td><td>预期安装包名 <code>deepseekharness-…-Setup.exe</code>；解包后 <code>deepseekharness.exe</code></td></tr>
+    <tr><td><code>scripts/verify-win-portable.ts</code></td><td>便携包名、包内 exe 名、错误信息、校验标签（4 处）</td></tr>
+    <tr><td><code>src/bin.ts</code></td><td>CLI 帮助、APPDATA 报错、打包版提示（数据目录名走常量，自动跟随）</td></tr>
+    <tr><td><code>src/index.ts</code></td><td><code>windowTitle</code> → <code>deepseekharness</code>；2 条 profile 组合错误提示</td></tr>
+    <tr><td><code>build/assistedMessages.yml</code></td><td>安装向导进度提示（en / zh_CN / zh_TW 三语）→ <code>deepseekharness</code></td></tr>
+  </table>
+
+  <h3>B 组 · 界面文案与标题栏<span class="tag t-must">已改</span></h3>
+  <table>
+    <tr><th style="width:44%">文件</th><th>改了什么</th></tr>
+    <tr><td><code>src/client/DesktopFrameTitlebarView.tsx</code></td><td><b>红框那一处</b>：标题栏产品名 → <code>lisa</code></td></tr>
+    <tr><td><code>src/native-ui/compatibility-chrome/main.tsx</code></td><td>兼容模式标题栏产品名 → <code>lisa</code>（同一视觉位置）</td></tr>
+    <tr><td><code>src/desktop-terminal.ts</code></td><td>终端窗口标题 <code>start "R9"</code>；三套脚本（sh / PowerShell / cmd）欢迎语终端名 → <code>R9</code>；重启提示里的应用名 → <code>deepseekharness</code></td></tr>
+    <tr><td><code>src/client/desktop-settings-locales.ts</code></td><td>设置页标题（特例）+ 重启/市场/证书/通知文案 + 终端名（中英共 16 处）</td></tr>
+    <tr><td><code>src/native-dialog-copy.ts</code></td><td>更新、重启、安装、终端弹窗文案（中英共 24 处）</td></tr>
+    <tr><td><code>src/recovery-copy.ts</code></td><td>恢复助手全部文案（中英共 25 处）</td></tr>
+    <tr><td><code>src/setup-wizard-copy.ts</code></td><td>安装向导文案（中英 7 处）</td></tr>
+    <tr><td><code>src/tray-locale.ts</code></td><td>托盘菜单全部文案（中英 16 处）</td></tr>
+    <tr><td><code>src/notifications.ts</code></td><td>系统通知文案（中英 4 处）</td></tr>
+    <tr><td><code>src/client/directory-picker.ts</code></td><td>目录选择器 4 条错误信息</td></tr>
+    <tr><td><code>src/desktop-boot-recovery.ts</code>、<code>src/desktop-data-directory.ts</code></td><td>插件加载失败说明、终端归属错误</td></tr>
+    <tr><td><code>src/workspace-admission.ts</code></td><td>可移动磁盘 / 不支持文件系统的工作区提示（3 处）</td></tr>
+    <tr><td><code>src/windows-volume-diagnostics.ts</code></td><td>卷诊断原因文案</td></tr>
+    <tr><td><code>src/update-lifecycle.ts</code>、<code>src/update-download.ts</code>、<code>src/startup-recovery-window.ts</code></td><td>更新通知文案、下载默认文件名、终端不可用报错</td></tr>
+    <tr><td><code>src/native-ui/*.html</code>（4 个）</td><td>辅助窗口 <code>&lt;title&gt;</code>：对话框 / 恢复窗口 / 安装向导 / 兼容外壳</td></tr>
+  </table>
+
+  <h3>C 组 · 测试断言对齐<span class="tag t-test">已改</span></h3>
+  <table>
+    <tr><th style="width:44%">文件</th><th>改了什么</th></tr>
+    <tr><td><code>tests/package.spec.ts</code></td><td>productName / appId / 两个 artifactName / shortcutName 断言（5 处）</td></tr>
+    <tr><td><code>tests/verify-win-installer.spec.ts</code>、<code>verify-win-portable.spec.ts</code></td><td>夹具文件名、包内 exe 名、报错期望（共 7 处）</td></tr>
+    <tr><td><code>tests/electron-runtime.spec.ts</code></td><td>窗口规格夹具、菜单/托盘标签、弹窗文案、更新下载路径（41 处）</td></tr>
+    <tr><td><code>tests/desktop-terminal.spec.ts</code></td><td>欢迎语、重启提示、<code>start "R9"</code> 断言（5 处）</td></tr>
+    <tr><td><code>tests/desktop-copy.spec.ts</code>、<code>client-desktop-settings.spec.ts</code>、<code>update-download.spec.ts</code>、<code>bin.spec.ts</code>、<code>installer-messages.spec.ts</code></td><td>文案与路径断言（共 14 处）</td></tr>
+  </table>
+
+  <h3>D 组 · 明确不动<span class="tag t-skip">保持原样</span></h3>
+  <table>
+    <tr><th style="width:44%">东西</th><th>为什么不改</th></tr>
+    <tr><td>代码<b>注释</b>里的 <code>DSH Desktop</code></td><td>不影响运行，改它只增加改动噪音</td></tr>
+    <tr><td><b>协议请求头</b>：<code>X-DSH-Desktop-Installation-Id</code> / <code>-Version</code> / <code>-Channel</code> / <code>-Target-Version</code> / <code>-Renderer</code></td><td>这是跟服务端约定的字段名，改了会破坏协议</td></tr>
+    <tr><td><b>beta 身份</b>：<code>productName: 'DSH Desktop Beta'</code>、<code>appId: …desktop.beta</code>、两条 beta 提示文案</td><td>你已定"保留结构、只构建 stable"，beta 用不上，动了没收益</td></tr>
+    <tr><td><code>lan-https-certificate.ts</code> 的 <code>CA_COMMON_NAME = 'DeepSeek Harness Desktop Local CA'</code></td><td class="hold"><b>待你决定</b> —— 这是局域网 HTTPS 自签证书的名字。改了会让用户已信任的旧证书对不上；而且你这台机器没用局域网访问功能。要改说一声。</td></tr>
+    <tr><td><code>patches/dsh-client-ui-directory-picker-browse@0.1.5-rc.1.patch</code> 里两条 <code>DSH Desktop … unavailable</code> 报错</td><td class="hold"><b>待你决定</b> —— 它们在补丁文件里，改补丁会动到安装时的补丁校验（需要重新 <code>yarn install</code> 才生效），换来的只是一条报错文案。要做也可以，你定。</td></tr>
+    <tr><td>测试里纯示例路径（<code>/Applications/DSH Desktop</code>、<code>C:\Program Files\DSH Desktop\…</code> 等）</td><td>它们只是夹具输入，跟产品名无关，测试照样通过；改了只是美观</td></tr>
+    <tr><td><code>README.md</code> / <code>docs/</code> 里的名字</td><td>纯文档</td></tr>
+  </table>
+
+  <h2>三、执行方式（可复查）</h2>
+  <pre>1. 先读源码 + 旧版 diff，确认每一处该换成什么（不改的地方显式列出来）
+2. 用带「规则表 + 变更日志」的脚本改文案类（rename-apply.mjs）—— 逐行跑，注释行跳过
+3. 用脚本改测试断言（rename-tests.mjs）—— 只改断言/期望值，纯示例路径不动
+4. 用审计脚本（rename-audit.mjs）查漏 —— 把所有"非注释行"里的残留列出来，逐条判定该改还是该留
+5. 校验 package.json 能被 Node 正常解析</pre>
+
+  <h2>四、怎么验证改对了（还没做）</h2>
+  <table>
+    <tr><th style="width:26%">验证项</th><th>怎么验 / 现状</th></tr>
+    <tr><td>构建 / 类型检查</td><td>⏳ <b>待你在本机跑</b>：<code>yarn install</code> → <code>yarn build</code>，必须零报错</td></tr>
+    <tr><td>测试</td><td>⏳ <b>待你在本机跑</b>；本机没有 <code>node_modules</code>，我这边跑不了</td></tr>
+    <tr><td>有没有漏网</td><td>✅ <b>已用审计脚本查过</b>：src 只剩 8 处、全部在"D 组不动"名单里</td></tr>
+    <tr><td>真的生效</td><td>⏳ <b>打包后实机看</b>：任务栏、窗口标题栏（应显示 lisa）、设置页标题、托盘菜单、终端窗口标题、安装包文件名</td></tr>
+  </table>
+
+  <h2>五、出错怎么回退</h2>
+  <div class="box box-info" style="font-size:13px;">
+    工作副本带完整 <b>git 历史</b>，38 个文件的改动<b>全部未提交</b>：
+    <ul>
+      <li>看改了什么：<code>git diff --stat</code>（38 files changed, 210 insertions, 210 deletions）</li>
+      <li>撤销单个文件：<code>git checkout -- &lt;文件路径&gt;</code></li>
+      <li>全部撤销：<code>git checkout -- .</code></li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>

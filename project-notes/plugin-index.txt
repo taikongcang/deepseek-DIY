@@ -1,0 +1,265 @@
+dsh	
+dsh-acp	面向程序化客户端与维护者的仅自动化 Agent Client Protocol 服务器，用于通过 JSON-RPC stdio 驱动 DeepSeek Harness agent。
+dsh-acp-app	面向启动持久 harness agent 的用户与维护者，说明纯自动化 ACP stdio 应用 profile。
+dsh-agent	面向插件、UI 与编排器的 Agent 句柄、实时注册表、进程本地发起方作用域，以及 agent/* 事件词汇。
+dsh-agent-default-model	面向用户与维护者的部署默认模型选择说明，用于选择、配置或调试新创建的 agent 从哪个模型开始。
+dsh-agent-instructions	面向用户与维护者的工作区指令上下文说明，用于启用、设置预算或排查 AGENTS.md/CLAUDE.md 的加载与刷新。
+dsh-agent-loop	面向用户与维护者的默认 agent 驱动器说明，用于选择、配置或调试 agent 的创建方式以及轮次与步骤的运行方式。
+dsh-agent-loop-testkit	为 agent-loop 测试提供先决依赖挂载、生产 AgentLoop 驱动与职责明确的 Inbox 桩。
+dsh-agent-presets	按 preset cordis.yml 文件进行按会话的 agent 组装，供选择、配置或排查 agent preset 的用户与维护者阅读。
+dsh-agent-tool-presentation	面向用户与维护者的 agent 平面呈现选择器说明，用于选择、配置或调试 agent preset 的模型看到其工具的哪种形态。
+dsh-anonymous-user-id	面向用户与维护者的匿名按 harness home 身份说明，用于追踪遥测、反馈确认与 DeepSeek 提供方请求如何关联记录。
+dsh-api-gateway	带类型的 Client 到 Host 调用与 stream：分派、校验、取消、重连与转发的 Host 事件。
+dsh-api-remotes	应用 Remote 装配：为 Client 消费方选择带类型的 Host 能力与转发事件。
+dsh-api-session-controller	Host 与 Client 会话控制：创建、恢复、提示、跟随历史并投影实时会话状态。
+dsh-api-settings-controller	settings 与凭据配置界面的 Host Remote owner，涵盖脱敏读取、写入、凭据引用与原生文档打开。
+dsh-api-workspace-controller	Host 与 Client 工作区控制：修改工作区导航并跟随其完整投影。
+dsh-api-workspace-files	面向 Web GUI 的工作区文件服务：通过组合文件系统进行有界文件读取，并在 Session 工作区根内列举目录和观察已埋点的文件系统操作。
+dsh-app-boot	dsh profile 与临时 Python SDK 运行时的共享 Loader 启动支持：环境层、patch、诊断与配置预览。
+dsh-atomic-write	原子文件替换与跨进程写锁，供绝不允许在磁盘上留下不完整、被符号链接劫持或权限过宽内容的包使用。
+dsh-attachment	持久图片与文件附件，供用户与维护者在提示词与命令中附加、复用或排查上传内容。
+dsh-attachment-local	DSH_HOME 下附加图片的本地存储，供用户与维护者选择或排查图片附件的存放位置。
+dsh-authorization	面向用户与维护者的授权 flow 注册表：获取配置无法提供的凭据，因为拿到它需要与人对话。
+dsh-base	共享的 dsh 核心：为每个 dsh --profile 表层提供模型访问、工具、持久会话与安全默认值，供用户组合或定制 profile。
+dsh-bash-local	面向部署方与维护者的默认 POSIX Bash 执行器说明，用于选择、配置或排查基于 shell seam 的非隔离命令执行。
+dsh-bash-sandbox	面向部署方与维护者的沙箱 Bash 执行器说明，用于选择、配置或排查受限命令执行及其拒绝与升权事实。
+dsh-brand	供拥有易混淆领域值的包使用的名义字符串与数字类型及无状态构造函数。
+dsh-chunked-list	用于 projection state 的不可变追加列表，提供有界追加复制、按插入顺序迭代和 Zod 检查点校验。
+dsh-client-connection	Web GUI 的浏览器-Host 线层：Remote RPC、带重连的事件流投递、精确 Fetch 路由、/api HTTP 桥与浏览器信任栅栏。
+dsh-client-file-upload	按 Session 寻址上传浏览器文件，提供流式接收、进度、取消和供后续 prompt 使用的暂存凭证。
+dsh-client-hmr	面向开发者的浏览器客户端插件热重载说明：重建插件 bundle 后原地替换运行中的插件，用于迭代 web GUI。
+dsh-client-locale	面向用户与插件作者的 web GUI 本地化说明：zh/en 偏好、浏览器派生回退、类型化命名空间词典与框架翻译席位。
+dsh-client-modules	面向用户与维护者的 web GUI 客户端模块系统说明：宿主侧组合启动图并提供插件 bundle，浏览器侧按需加载，用于组合或排查客户端插件。
+dsh-client-resources	客户端资源模型：按协议注册的提供方把 URL 地址变成活数据，任何 slot 组件都通过 useResource 标准 hook 读取。
+dsh-client-store	具有显式快照、订阅与生命周期所有权的浏览器可观察状态 store。
+dsh-client-test-runtime	面向浏览器功能测试的 jsdom slot 测试运行时，供测试作者针对生产机制检验 slot、store 与渲染。
+dsh-client-ui-agent-preset	Web GUI 的 agent preset 表面：默认 preset 设置、新建会话 chip、会话标题标签与 preset 名单管理分区；供 agent 组装的用户与维护者阅读。
+dsh-client-ui-approval	通过作用域交互路径响应 Host 权限请求的浏览器批准界面。
+dsh-client-ui-attachment	对话 UI 的附件呈现：混合草稿附件栏、文档拖放目标、历史图片画廊与原图灯箱；供 Web 附件体验的用户与维护者阅读。
+dsh-client-ui-brand-official	面向侧栏的官方 DeepSeek Harness 品牌填充，仅在官方构建中生效；供选择或替换品牌呈现的用户与维护者阅读。
+dsh-client-ui-chat	渲染 Session 对话节点、历史图片、操作、本地化和滚动状态的浏览器 Chat target。
+dsh-client-ui-commands	Web GUI 的客户端命令 API：/ 命令 source、三类派发、会话级命令目录，以及面向业务包的 popupSelect 与 action 注册；供斜杠命令的用户与维护者阅读。
+dsh-client-ui-conversation	Target-neutral 对话装配与浏览器 shell：事件和视图注册表、逐会话 binding、输入状态、slot 与临时 composer takeover。
+dsh-client-ui-cordis	Cordis 动态插件浏览器面说明，供选择、组合或排查面板、工具卡片与 @pluginId 输入的用户与维护者阅读。
+dsh-client-ui-deliverables	Web GUI 的产出文件与可点击文件引用：已完成轮次末尾的产出文件行，以及收尾正文中的行内代码链接；供产出物体验的用户与维护者阅读。
+dsh-client-ui-directory-picker-browse	应用内目录浏览表面：填充工作区目录流程的 Miller 分栏「选择工作区目录」对话框；供 Web 拾取体验的用户与维护者阅读。
+dsh-client-ui-directory-picker-native	原生目录选择表面：驱动宿主操作系统选择器的浏览器半部，用于工作区目录流程；供选择拾取交互的用户与维护者阅读。
+dsh-client-ui-dockkit	dsh Web 客户端的停靠布局套件：带可逆操作的标签格分裂树、planner、线性历史，以及渲染并驱动它的组件。
+dsh-client-ui-goal	Web GUI 的 goal 表面：显示当前目标并支持编辑、暂停、恢复或清除的 composer 上下文条带；供 goal 体验的用户与维护者阅读。
+dsh-client-ui-input-trigger	Web GUI 的输入触发流水线：光标处的 / 与 @ 检测、分组候选菜单，以及把 pick 路由到已注册 source；供斜杠命令与引用的用户与维护者阅读。
+dsh-client-ui-jobs	Web 后台任务表面：列出本会话可见任务的会话头部动作；供后台任务体验的用户与维护者阅读。
+dsh-client-ui-layout	Web GUI 的外壳布局：三栏 AppFrame——其右栏是贴边面板的轨道——面板几何服务与主题呈现；供窗口外观的用户与维护者阅读。
+dsh-client-ui-message-feedback	Web 反馈界面：已定稿助手消息动作行中的 Like/Dislike 对、点踩与 `/feedback` 背后的反馈弹窗，以及确认 toast；供反馈体验的用户与维护者阅读。
+dsh-client-ui-model-selection	Web GUI 的模型选择：/model 弹窗与 composer 模型位共用一份按提供方分组的会话级目录；供模型路由的用户与维护者阅读。
+dsh-client-ui-open-in-app	Web 会话头部 \
+dsh-client-ui-permission-presets	Web GUI 的权限预设表面：通用设置中的默认行与切换当前会话的 /permission 选择器；供权限策略的用户与维护者阅读。
+dsh-client-ui-plan	Web GUI 的 plan 模式状态徽章：显示 plan 模式已开启并可将其关闭的 composer 控件；供 plan 模式的用户与维护者阅读。
+dsh-client-ui-primitives	dsh Web 客户端共享的 React UI 原子组件：控件、图标、Markdown 与数学公式渲染，以及终端/读取/差异/搜索/网页输出卡片（零 cordis）。
+dsh-client-ui-reference	Web @file 与 @session 引用 source：候选项、排序，以及原子行内引用（统一的文件/会话选取）。
+dsh-client-ui-renderer	浏览器 UI 渲染器：React slot 绑定、ctx.uiRenderer 与 dsh Web 客户端组装后应用的应用根。
+dsh-client-ui-schedule	面向用户与维护者的活动 Schedule 提醒只读 Web 目录说明，用于选择该界面并理解其 projection、时间与无障碍行为。
+dsh-client-ui-session	面向 Session Controller 列表、交互状态与逐会话上下文的 React 与 Slot 适配器。
+dsh-client-ui-settings	设置领域底座插件：设置命名空间 scope 服务、schema 服务，以及 dsh Web 客户端的规范设置 slot 类型约定。
+dsh-client-ui-settings-general	dsh Web 客户端的设置外壳、无特定功能归属文案与持久化产品引导命名空间：「通用」分区、触发控件界面框架与引导账本投影。
+dsh-client-ui-settings-models	dsh Web 客户端的模型设置与产品引导插件：提供方行、API 密钥管理、模型列表与 DeepSeek 首次运行弹窗。
+dsh-client-ui-settings-plugin-inventory	dsh Web 客户端设置中按作用域分组的只读插件清单标签页：Agent 预设组合在前，全局平面收在折叠分组里，搜索跨两组。
+dsh-client-ui-settings-plugins	dsh Web 客户端的「插件」设置分区：功能拥有的标签页、可配置宿主平面插件卡片，以及 settings.plugin.item 扩展点。
+dsh-client-ui-sidebar	dsh Web 客户端的侧边栏外壳插件：品牌行、New Session 操作、折叠控件、可感知滚动的区域席位与底部固定的 Settings 席位。
+dsh-client-ui-sidebar-documentpreview	右侧 Sidebar 的文档预览：共享文件加载与控件，可选 Markdown、代码、图片、PDF 和 HTML 渲染器，并以纯文本兜底。
+dsh-client-ui-sidebar-files	dsh Web 客户端右侧 Sidebar 的文件树 tab 类型：逐层经线上列出会话工作区根目录，按资源地址把文件打开到 Sidebar。
+dsh-client-ui-sidebar-right	dsh Web 客户端的右侧 Sidebar：每会话一个停靠面、两种呈现形态、导航控制器 ctx.sidebarRight、tab 类型注册表 ctx.sidebarRightTabs 与 Tab 域。
+dsh-client-ui-skill	dsh Web 客户端的 skill 引用与专属 skill 工具行：/ 触发的 skill source 与 skill 调用卡片。
+dsh-client-ui-slots	dsh Web 客户端的 slot 注册表纯核心：SlotMap 声明合并、单一 register 组合 API、四 share props 类型、store 席位与渲染器安装约定。
+dsh-client-ui-subagent	dsh Web 客户端的 subagent 对话目录、续接路由 UI 与 '@' 引用 source。
+dsh-client-ui-theme	dsh Web 客户端的主题与正文字号设置：--dsw-* token 样式表、ThemeRuntime 状态、「通用」设置行与插件前引导。
+dsh-client-ui-tool	dsh Web 客户端的 Client 工具展示插件：整次调用树组合、keyed 按工具视图 slot 与内置原子工具卡片。
+dsh-client-ui-trajectory	dsh Web 客户端的 Trajectory 视图：按轮次组织的事件记录表加交互式时间概览，注册进对话视图环。
+dsh-client-ui-user-questions	dsh Web 客户端的 ask_user_question 功能：接管编辑器的提问 UI 与 plan-review 审批卡片。
+dsh-client-ui-workflow-run	dsh Web 客户端的持久化工作流运行 Conversation Node：把顶层工作流运行重建为带嵌套成员折叠的独立聊天节点。
+dsh-client-ui-workspace	dsh Web 客户端的共享 Workspace 浏览器与选择器插件：分组或扁平的会话行、添加/重命名/重排序、搜索、fork、归档，以及目录流选取子 slot。
+dsh-client-web	面向用户与维护者的 web GUI 启动内核说明：客户端插件树的两阶段启动、无框架启动页与共享模块表，用于组合或排查浏览器应用。
+dsh-cmdline	dsh app bin 的应用自有命令行：应用从启动器剩余参数中解析自己的 flag、--help 与退出行为。
+dsh-code-runtime	抽象代码执行 seam（`ctx.codeRuntime`），供用户与维护者组合、消费或构建后端，以针对宿主提供的绑定运行一段模型编写的程序。
+dsh-code-runtime-worker-thread	Worker 线程代码执行，供用户与维护者组合、调优或排查这个已发布的 TypeScript 后端——它在全新的 Node worker 中运行每个程序。
+dsh-command-compact	面向交互式组合的按需 /compact 命令：它做什么、你会看到什么，以及如何挂载。
+dsh-command-feedback	会话反馈：`/feedback` 命令、Web 反馈弹窗背后的 `sessionFeedback` Host Remote，以及固定的分类表；供用户与维护者选择、组合或排查反馈采集。
+dsh-command-goal	面向在 UI 命令平面中选择、组合或排查 goal 控制的用户与维护者的 /goal 斜杠命令说明。
+dsh-commands	面向交互式 UI 的人类斜杠命令注册表：插件拥有的命令直接针对 agent 执行，不产生模型消息；供组合或扩展命令面的用户与维护者阅读。
+dsh-compaction	面向后端实现者与部署方的共享压缩约定：会话压缩做什么、何时使用，以及如何实现后端。
+dsh-compaction-basic	面向部署方的自动会话压缩：选择、调优或排查随 token 压力上升如何把较早历史摘要为总结。
+dsh-compaction-tool-result-pruner	面向组合压缩的部署方的工具输出修剪：选择大小限制或排查超大工具结果为何被缩短。
+dsh-cordis-client-runner	动态 Cordis 包的浏览器半说明，供选择、组合或排查页面如何应答运行请求并装载浏览器半代码的用户与维护者阅读。
+dsh-cordis-host-runner	动态 Cordis 包的 host 半说明，供选择、组合或排查注册表、沙箱与运行往返的 agent 与维护者阅读。
+dsh-credentials	面向用户与维护者的凭据 seam：在不把机密值写进配置的前提下解析、描述或存储凭据——引用值与持久化记录。
+dsh-credentials-local	面向用户与维护者的文件型凭据提供方：选择、配置或排查本地凭据存储及其环境分层。
+dsh-deepseek-llm-api-extensions	面向提供方插件的官方 DeepSeek 请求扩展注册表，用于贡献具有生命周期归属的顶层 API 字段。
+dsh-deque	供 Host 和浏览器包使用的环形双端队列，提供摊销常数时间的队列操作、已移除条目的即时释放和有界空闲存储。
+dsh-e2b	E2B 文件与命令工作的共享远程 Linux 沙箱：配置、生命周期，以及启动与关闭时会发生什么。
+dsh-experimental-agent-team	在一个会话中运行一个小型具名 agent 团队：成员之间的持久消息与共享任务板，供组合实验性 Team 插件的部署方阅读。
+dsh-experimental-agent-team-profile	叠加在 dsh-base 上公开发布的实验性 Agent Teams profile 层，提供 Team-scoped 协作工具并保留一次性 delegation。
+dsh-experimental-agent-team-web-profile	在 Host Team 层之后，为 Web profile 添加公开发布的实验性 Agent Teams 面板。
+dsh-experimental-client-ui-agent-team	使用并排查实验性 Web Agent Teams roster、共享任务板与 teammate 导航面板。
+dsh-experimental-tool-agent-team	九个让模型创建、发消息与协调 teammate 的工具，供组合实验性 Team 插件的部署方阅读。
+dsh-file-reference	面向宿主驱动 UI 的文件引用发现与 @file mention 语法，供选择该 seam 或为其搭配提供方的用户与维护者阅读。
+dsh-file-reference-local	面向用户与维护者的本地工作区 @file 补全提供方，用于启用、设置大小或排查 ctx.fileReferences 的发现能力。
+dsh-fs	`ctx.fs` 文件系统服务约定：面向选择或挂载文件系统后端的部署方，以及实现后端的开发者。
+dsh-fs-e2b	共享远程沙箱内的文件操作：agent 可以在那里对文件做什么、何时使用，以及可以期待什么——面向 E2B 家族的部署方与维护者。
+dsh-fs-local	`ctx.fs` 的宿主文件系统后端：面向选择或排查本地文件访问的部署方与维护者。
+dsh-fs-observation-policy	编辑前读取的文件系统策略插件：面向选择或排查受防护写入/编辑行为的部署方与维护者。
+dsh-fs-sandbox	强制沙箱的 `ctx.fs` 后端：面向把模型文件变更限制在会话工作区内的部署方与维护者。
+dsh-goal	面向选择、配置或排查同会话持久 goal 服务的用户与维护者：每会话一个持久的完成目标。
+dsh-goal-round-driver	面向选择、组合或排查自动 Goal Round 的用户与维护者的同会话续行驱动器说明。
+dsh-headless	dsh 的一次性任务模式：从命令行运行单个任务并打印最终答案，供用户脚本化或自动化 dsh。
+dsh-home-paths	DeepSeek Harness 主目录与用户数据路径的共享解析，供需要统一根目录、波浪号展开与稳定监听路径的包使用。
+dsh-hook-protocol	Claude Code 与 Codex 桥接背后的共享钩子规则——钩子能做什么、运行时会发生什么——供 hooks 子系统的用户与维护者阅读。
+dsh-hooks-claude-code	在 agent 运行期间使用你现有的 Claude Code hooks.json 或 settings 钩子配置——阻塞提示词与工具、附加上下文或强制继续——供本桥接的用户与维护者阅读。
+dsh-hooks-codex	在 agent 运行期间使用你现有的 Codex hooks.json 钩子配置——阻塞提示词与工具、附加上下文或强制继续——供本桥接的用户与维护者阅读。
+dsh-host-directory-picker	面向 web GUI 宿主的工作区目录选择 seam：原生与浏览后端所实现的服务约定、能力词汇与错误码。
+dsh-host-directory-picker-auto	目录选择 seam 的自适应选择器：在启动时判定一次 web GUI 宿主的处境，并挂载匹配的原生或浏览后端。
+dsh-host-directory-picker-browse	目录选择 seam 的应用内浏览后端：为 web GUI 宿主提供单层目录列举与子目录创建，也能服务于远程客户端。
+dsh-host-directory-picker-native	目录选择 seam 的原生 OS 选择器后端：为坐在 web GUI 宿主屏幕前的操作者每次打开一个平台选择器。
+dsh-host-frontend-static	Web 壳的 SPA dist 服务器：占据 webserver 回退席位，以遍历拒绝与 SPA index 回退服务已构建的前端。
+dsh-host-open-in-app	open-in-app 的主机半边：在 macOS、Windows、Linux 上把已安装的编辑器、Git GUI、终端与文件管理器解析为已验证的启动器，并以三条 webServer 路由提供目录、图标与启动端点。
+dsh-host-plugin-inventory	当前 Cordis Loader 插件状态的只读投影，并附带每个 Agent 预设的组合：面向 web GUI 宿主客户端的 pluginInventory 服务及其 pluginInventory/list Remote。
+dsh-host-webserver	web GUI 宿主的 HTTP 服务器：具名路由与 upgrade 注册、index 转换，以及服务 Web 壳 SPA dist 的唯一回退席位。
+dsh-http-proxy	Harness 的出站 HTTP 代理支持：从启动环境解析出的一份策略，如何覆盖到 Node fetch 本来会直连的每一个请求。
+dsh-invariants	面向用户与维护者的运行时不变量检查说明：选择、配置或排查由包自有检查组成的注册表服务。
+dsh-jobs	后台任务注册表约定，供组合、实现或排查后台工作的用户与维护者阅读：id、归属、生命周期与完成监听器。
+dsh-jobs-local	进程本地后台任务注册表，供组合、容量评估或排查进程内任务的用户与维护者阅读：按所有者的准入、生命周期与销毁。
+dsh-launch-environment	本次运行环境的不可变快照，记住每个值来自哪一层；供必须以不信任压平 process.env 的方式解析面向用户值的包使用。
+dsh-llm	面向用户与维护者的提供方无关模型调用服务说明：流式发起请求、注册提供方适配器或解析模型元数据。
+dsh-llm-deepseek	面向用户与维护者的 DeepSeek chat-completions 适配器说明：配置 deepseek-official 路由、thinking 与图片输入。
+dsh-llm-mock-server	用于在无提供方密钥的情况下测试 LLM 适配器与恢复策略的可编脚本 OpenAI 兼容故障服务器，面向测试作者与演示。
+dsh-llm-pi-ai	面向用户与维护者的 pi-ai 多提供方适配器说明：通过 pi-ai 目录与手工声明网关路由 harness LLM 服务。
+dsh-llm-replay	面向快照测试的无密钥 LLM 回放插件，供测试作者针对已记录模型 transcript 启动真实 agent。
+dsh-llm-retry	面向用户与维护者的重试执行器说明：在持久 agent 步骤边界上配置按提供方路由的模型请求恢复。
+dsh-loader-smoke	面向无密钥示例冒烟测试的共享子进程与直接 agent harness，供测试作者启动真实 Loader 组合。
+dsh-lsp	LSP 能力 seam（ctx.lsp）：按文件扩展名选择提供方、四种规范化的代码导航操作与结构化错误，供组合或扩展代码导航的用户与维护者阅读。
+dsh-lsp-stdio	ctx.lsp 的 stdio 语言服务器提供方：配置好的服务器命令、扩展名映射与有边界的临时打开查询，供组合本地代码导航的用户与维护者阅读。
+dsh-mcp-client	面向部署方与维护者的 MCP 客户端桥接说明，用于选择、配置或排查连接到外部 MCP 服务器、并将其工具注册到 ctx.tools 的插件。
+dsh-message-feedback	在权威 Session 日志中保存已完成 assistant 消息的评分、分类与备注。
+dsh-native-command	宿主原生命令与路径打开工具，提供无 shell 执行、取消、桌面探测与 WSL 路径交接。
+dsh-output-retention	为必须限制返回上下文量的工具提供有界的面向模型输出：项与文本 retainer，以及标准化的省略页脚。
+dsh-package-manifest	供启动器、客户端、构建工具和外部包共同使用的 package.json.dsh 元数据 TypeScript 声明。
+dsh-permission-presets	面向用户的权限预设：供选择、配置或排查把沙箱模式与审批策略捆绑在一起的 Permissions 选择器的用户与维护者阅读。
+dsh-persona	preset 挂载的可组装人设行，让单个 agent 拥有自己的系统提示词人设，供配置或排查它的用户与维护者阅读。
+dsh-plan-mode	面向用户与维护者的计划模式说明：用于选择、配置或排查带部署引导、/plan 命令与经用户评审退出的逐 agent 规划功能。
+dsh-plugin-package-inventory-deepseek	面向发送官方 DeepSeek 请求的部署，说明活跃 Loader 包清单元数据。
+dsh-pwsh-local	面向部署方与维护者的本地 PowerShell 执行器说明，用于选择、配置或排查基于 shell seam 的非隔离 PowerShell 命令执行。
+dsh-pwsh-sandbox	面向部署方与维护者的沙箱 PowerShell 执行器说明，用于选择、配置或排查受限 PowerShell 命令执行及其拒绝事实。
+dsh-repeat-tool-reminder	建议性循环卫生 guard：当 agent 重复完全相同的工具调用时提醒模型，供选择、配置或排查此插件的用户与维护者阅读。
+dsh-sandbox	进程沙箱服务约定：面向组合、使用或扩展同世界子进程隔离的用户与维护者。
+dsh-sandbox-local	面向 Linux、macOS 或 Windows 上选择、配置或排查进程隔离的用户与维护者的本地各平台沙箱后端。
+dsh-sandbox-policy	面向组合、配置或排查跨执行能力文件效果策略的用户与维护者的共享逐调用沙箱策略解析器与当前模型上下文。
+dsh-sandbox-windows-acl	面向 Windows 上选择、配置或排查受限令牌进程隔离的用户与维护者的 Windows 写入限制沙箱后端。
+dsh-schedule	面向用户与维护者的会话本地持久提醒说明：schedule_create、schedule_list 与 schedule_delete 工具及 live owner 交付，用于选择、配置或排查本包。
+dsh-scope	面向插件作者与维护者的作用域注册库，用于构建按 agent 或按分组隔离贡献的注册表或事件表面。
+dsh-sdk-app	面向启动 JSON-RPC harness 运行时的用户与维护者，说明 SDK stdio 应用 profile。
+dsh-sdk-client	面向以子进程方式启动 DeepSeek Harness 运行时、并通过 stdio JSON-RPC 驱动 agent 轮次的调用方的 TypeScript SDK 客户端：DeepSeekHarness 运行 API 与低层 HarnessClient。
+dsh-sdk-jsonrpc-server	面向让进程外 SDK 客户端在 DeepSeek Harness 运行时中打开会话并驱动 agent 的部署的 stdio JSON-RPC 服务插件。
+dsh-sdk-minimal	供需要不含共享 base bundle 的极简跨平台 coding agent 的用户使用的独立单工具 SDK profile。
+dsh-sdk-protocol	面向客户端与服务端实现者的 SDK 协议格式说明：Harness 运行时与其 SDK 客户端之间使用的按换行分帧 JSON-RPC 传输，以及具名的请求、结果与通知类型。
+dsh-session	面向用户与维护者的事件溯源会话日志与内存存储说明，用于构建、检查或扩展每个 agent 交互背后的持久记录。
+dsh-session-checkpoint-policy	面向用户与维护者的语义会话持久性检查点说明，用于部署不会在崩溃时丢失模型请求或工具副作用的持久化 agent。
+dsh-session-format	纯函数式相邻 Session 格式规划、无损 JSON 值检查、仅标头迁移与物理编解码分派。
+dsh-session-format-catalog	供持久化读取方使用的构建期静态第一方 Session 格式编解码器与相邻迁移装配。
+dsh-session-format-v0-to-v1	冻结的已发布 v0 Session 标头、事件与打包行解码器，以及到 v1 的恒等转换。
+dsh-session-format-v1-to-v2	冻结的已发布 v1 Session 读取器，以及把 Assistant 流嵌入已发布 v2 事件的基数变化迁移。
+dsh-session-format-v2-to-v3	完整的 V2 到 V3 Session 转换：系统头节点、经过审计的引用、PTC 与预设名称、规范信封、保留与拒绝规则。
+dsh-session-log-deepseek	面向启用官方 DeepSeek 请求元数据的部署，说明规范会话日志的增量上传。
+dsh-session-log-export	Web 会话日志 ZIP 导出：Host 流式传输、认证下载路由、Session Header 操作与 /export 命令。
+dsh-session-persistence	面向用户与维护者的持久会话存储 seam 说明，用于选择持久化后端、恢复会话，或按共享服务约定构建后端。
+dsh-session-persistence-jsonl	面向部署方与维护者的随产品交付 JSONL 会话持久化后端说明，用于选择、配置或排查带可选 Zstandard 压缩的逐会话持久日志。
+dsh-session-projection	面向开发者与维护者的会话投影注册表说明，用于向客户端载体提供日志派生逐会话状态的完整当前值，或维护驱动约定。
+dsh-session-projection-cache	面向部署方与维护者的持久会话投影缓存说明，用于选择、配置或排查持久检查点、零 I/O 列表读取与加速的冷投影折叠。
+dsh-session-query	面向消费方与后端作者的统一会话历史查询服务：对实时与持久会话日志的精确读取、关系追踪与提供方无关过滤。
+dsh-session-query-sqlite	面向部署方与维护者的 SQLite FTS5 会话历史全文搜索后端，用于选择、配置或排查查询服务之上的全文搜索。
+dsh-session-reference	跨会话快照引用与持久的不受信任模型上下文，供启用或排查 ctx.sessionReferenceResolver 的用户与维护者阅读。
+dsh-session-snapshot	面向无密钥 profile 测试的 session-log 快照支持：manifest、身份脱敏、规范化、workspace 检查与协议适配器。
+dsh-session-stats	面向客户端与维护者的全日志会话计数与墙钟时间说明，用于选择、组合或排查 sessionStats 投影单元。
+dsh-session-telemetry	面向部署方与后端作者的会话遥测捕获 seam 说明，用于选择上报后端、挂载脱敏规则或实现后端约定。
+dsh-session-telemetry-otel	面向部署方的 OpenTelemetry 会话遥测后端说明，用于选择模式、配置导出器或排查哪些数据离开本机。
+dsh-session-title	面向用户与维护者的日志会话标题说明，用于选择标题来源、配置服务或排查标题状态。
+dsh-session-title-all-prompts-llm	面向用户与维护者的全消息 LLM 会话标题提供方说明，用于选择标题策略或排查自动标题生成。
+dsh-session-title-first-prompt-llm	面向用户与维护者的首消息 LLM 会话标题提供方说明，用于选择标题策略或排查自动标题生成。
+dsh-session-title-llm	面向用户与维护者的共享模型标题生成策略说明，用于配置标题提供方或排查辅助 LLM 请求。
+dsh-session-turn-outline	面向组合或调试 turnOutline 投影单元的客户端与维护者的全量轮次大纲说明，支撑整会话轮次导航。
+dsh-settings	面向插件作者与维护者的用户设置服务：注册可配置 namespace、读取解析值或接入配置界面。
+dsh-settings-file	面向用户与维护者的文件型设置提供方：选择、配置或排查 YAML/JSON 设置文档及其热重载。
+dsh-shell	面向开发者与维护者的 bash 执行器 seam 说明，用于选择、组合或实现基于 ctx.shell 的命令执行。
+dsh-shell-env	受管 DSH_* shell 环境，供选择、配置或扩展每次模型 shell 调用所运行环境的使用者与维护者阅读。
+dsh-skill	skill 提供方注册表，供选择、配置或排查来自任意来源的 skill 如何被合并、解析与加载的用户与维护者阅读。
+dsh-skill-badge	随包附带的「powered by dsh」徽章 skill，供启用、使用或排查该可选徽章提供方的用户与维护者阅读。
+dsh-skill-filesystem	本地文件系统 skill 提供方，供编写本地 skill、或配置项目、自定义与用户 skill 根目录如何被发现与监视的用户与维护者阅读。
+dsh-spill	spill 存储服务：保存超大工具文本或已捕获的会话引用，并返回可检索的定位信息。
+dsh-spill-local	本地文件系统 spill 后端：spill 文本如何保存到私有会话级文件，并用 read 或 grep 取回。
+dsh-spill-policy	工具结果 spill 策略：部署如何用预览和可检索的 spill 文件把过大的纯文本工具结果挡在模型上下文之外。
+dsh-storage	存储枢纽（ctx.storage）：面向选择、挂载或排查具名存储后端与数据形式设施的组合方与维护者。
+dsh-storage-domain	领域数据形式（ctx.storageDomain）：面向在存储后端之上选择、挂载或排查经过 schema 校验、发出变更事件的 KV 领域的宿主与维护者。
+dsh-storage-json	JSON 存储后端：面向在配置根目录下选择、配置或排查整单元文件与逐记录文件的宿主与维护者。
+dsh-storage-sqlite	SQLite 存储后端：面向在单个数据库文件中选择、配置或排查按行存储文档的 KV 存储的宿主与维护者。
+dsh-subagent	面向用户与维护者的 subagent 委派 seam，用于选择提供方后端、组装委派工具或排查子 agent 运行问题。
+dsh-subagent-acp	面向用户与维护者的进程外 ACP subagent 后端，用于选择委派提供方、配置子 ACP agent 命令或排查远程子 agent 运行问题。
+dsh-subagent-claude-code	面向用户与维护者的一次性 Claude Code subagent 提供方，用于选择产品后端、安装 Profile bundle 或配置无人值守的 Claude Code 委派。
+dsh-subagent-codex	面向用户与维护者的一次性 Codex subagent 提供方，用于选择产品后端、安装 Profile bundle 或配置无人值守的 Codex 委派。
+dsh-subagent-dsh-sdk	面向用户与维护者的进程外 SDK subagent 后端，用于选择委派提供方、配置子 Harness 运行时命令或排查远程子 agent 运行问题。
+dsh-subagent-fork-in-process	面向用户与维护者的进程内 fork subagent 后端说明，用于选择、配置或排查以父级已完成轮次作初始内容的子 agent。
+dsh-subagent-in-process-driver	共享进程内 subagent 运行驱动器，供维护者与后端作者理解或扩展 spawn 与 fork 的运行生命周期。
+dsh-subagent-spawn-in-process	面向用户与维护者的进程内 spawn subagent 后端说明，用于选择、配置或排查全新子级委派。
+dsh-subprocess	面向组合作者与能力消费方的子进程服务（`ctx.subprocess`）说明：启动、观察并终止受管子进程与终端会话。
+dsh-subprocess-e2b	共享远程沙箱内的 shell 命令与终端：agent 可以在那里运行什么、输出如何处理，以及可以期待什么——面向 E2B 家族的部署方与维护者。
+dsh-subprocess-local	子进程服务的本地宿主提供方：在宿主机器上运行由 OS 所有的受管范围与真实终端会话，并明确披露较弱的 fallback。
+dsh-system-prompt	面向用户与维护者的系统提示词组装说明，用于添加提示词段、变量、工具 schema 来源或配置面向模型的提示词。
+dsh-terminal	面向部署方与消费方的持久终端会话说明，用于选择、组合或扩展限定所有者范围的 ctx.terminals 服务。
+dsh-terminal-bash	持久终端会话的随附 shell 后端：在共享沙箱策略下启动交互式 bash 或 pwsh，带就绪检测与有界逐行输出。
+dsh-time-context	可选的按步骤时钟上下文，包含当前时间、浏览器时区与经过时长，供启用或调优本插件的用户与维护者阅读。
+dsh-timeout	共享超时运算、截止时间融合与超时/取消分类，供需要限制调用方提示、启动 deadline 并在之后区分二者的能力使用。
+dsh-tmux-context	可选的按轮次 tmux 位置上下文，供启用或调优 agent 的 session、window 与 pane 感知的用户与维护者阅读。
+dsh-token-meter	面向用户与维护者的具备回放感知的 token 与上下文压力计量说明：评估提示词规模或构建压缩与占用显示。
+dsh-tool-ask-user	基于用户交互 seam 的模型侧 ask_user_question 工具；供组合或排查交互式 agent 表面的用户与维护者阅读。
+dsh-tool-bash	面向模型的 bash 工具，供选择、配置或排查一次性命令执行、后台任务与沙箱升权的使用者与维护者阅读。
+dsh-tool-bash-persistent	面向模型的持久 bash 工具，供选择、配置或排查跨调用保留的按所有者隔离 shell 状态的使用者与维护者阅读。
+dsh-tool-call-timeout-policy	为配合取消的工具调用设置协作式时间上限，并在超时流程完成后映射为清晰的模型错误，供选择或排查此插件的用户与维护者阅读。
+dsh-tool-cordis	面向 agent 与维护者的 Cordis 运行时工具说明，用于选择、组合或排查动态包工作流。
+dsh-tool-fs	面向模型的 read、read_image、write 与 edit 工具：供组合或排查 agent 文件系统访问的用户与维护者使用。
+dsh-tool-fs-search	面向模型的 glob 与 grep 发现工具：供组合或排查 agent 工作区搜索的用户与维护者使用。
+dsh-tool-goal	面向选择、组合或排查 get_goal、create_goal 与 update_goal 的用户与维护者的模型侧 goal 工具说明。
+dsh-tool-jobs	面向模型的背景任务控制，供选择、配置或排查 job_output、job_list、job_kill 与完成通知的用户与维护者阅读。
+dsh-tool-lsp	面向模型的 lsp 工具：四种只读代码导航操作、从 1 开始的 UTF-16 光标坐标、有边界的结果与悬停文本，供组合模型代码导航的用户与维护者阅读。
+dsh-tool-present	通过 present 声明交付可访问的文件；配置、Session 归属与源文件打开。
+dsh-tool-pwsh	面向模型的 pwsh 工具，供选择、配置或排查 Windows 上一次性 PowerShell 执行、后台任务与沙箱升权的使用者与维护者阅读。
+dsh-tool-pwsh-persistent	面向模型的持久 pwsh 工具，供选择、配置或排查跨调用保留的按所有者隔离 PowerShell 状态的使用者与维护者阅读。
+dsh-tool-ralph	面向模型的 ralph 工具：面向一个不可变目标的固定前台全新 agent 循环，供选择或配置全新 agent 迭代的用户与维护者阅读。
+dsh-tool-session-query	面向 agent 开发者与维护者的工作区授权模型会话历史工具，用于选择、配置或排查既往会话搜索、追踪与事件读取。
+dsh-tool-skill	面向模型的 skill 目录与加载工具，供了解 agent 看到什么、或配置会话 skill 目录的用户与维护者阅读。
+dsh-tool-str-replace-editor	基于 `ctx.fs` 的独立 str_replace_editor 工具：供组合 Claude Code 风格文件编辑能力的用户与维护者使用。
+dsh-tool-subagent	面向模型的 subagent 委派工具，供用户与维护者配置、组合或排查基于 subagent 提供方的委派。
+dsh-tool-subagent-control	全局 send_message、interrupt_agent 与 list_agents 工具，供用户与维护者组合或排查可继续子级的控制。
+dsh-tool-terminal	面向需要跨调用终端状态的 agent 的 6 个持久终端工具，带所有者隔离、有界结果与可选后台发送。
+dsh-tool-todo	面向 DeepSeek Harness 会话日志的模型侧 todo_write 工具：整表替换、单一会话归属与 todos 投影，供选择、配置或排查该工具的用户与维护者阅读。
+dsh-tool-web	构建于 ctx.web 之上的面向模型 web 工具（web_search、web_fetch）：部署方如何启用、配置并观察模型看到的搜索与抓取工具。
+dsh-tool-workflow	面向模型的 workflow 工具：运行扇出 subagent 的 JavaScript 编排脚本，供选择或配置模型驱动编排的用户与维护者阅读。
+dsh-tools	面向工具作者与维护者的工具注册表与执行流水线说明，用于注册、限制、呈现或调试面向模型的工具。
+dsh-typert-generator	构建时 Typert 生成器：源代码类型分析、与编译器无关的模型与产物生成，供接入 Typert 发布或消费生成产物的维护者阅读。
+dsh-typert-loader	生成的 Typert 产物所用的 Loader 集成：已挂载的包如何自动把宿主侧反射与 schema 贡献给运行时注册表。
+dsh-typert-protocol	共享的 Typert Remote 协议：业务包、生成产物、Host Gateway 与 Client API 使用的装饰器、wire 描述符、编解码器与提供方约定。
+dsh-typert-registry	运行时 Typert 注册表：保存生成的包反射、实时 Zod schema 与 Remote 调用描述符，并按需为消费方解析。
+dsh-user-approval	与通道无关的一次性审批 seam；供组合应答者、设置策略或排查以拒绝方式关闭的权限决定的用户与维护者阅读。
+dsh-user-questions	基于 waterfall 的问答服务，用于工具、权限插件、本地 answerer 与 Agent-scoped Web 交互。
+dsh-util-crypto	面向替换仅安全上下文可用的 crypto.randomUUID 调用的维护者，说明跨运行时 UUID 生成。
+dsh-util-time	面向在协议边界接收调用方所报时区的维护者，说明 IANA 时区校验与规范化。
+dsh-util-values	供运行时包使用的无损 JSON 校验、分离式快照、深度冻结、结构相等与穷尽联合类型辅助函数。
+dsh-util-workspace-path	浏览器安全的 Workspace 路径辅助函数：拼接相对路径、缩写 POSIX 主目录并生成显示标题。
+dsh-web	web 访问服务（ctx.web）：部署方与插件作者如何通过可互换的提供方搜索 web 与抓取 URL，以及统一的选择策略与错误词汇。
+dsh-web-app	dsh 的浏览器 GUI：交互式聊天、模型与设置管理、会话历史，供用户运行 dsh web 表层。
+dsh-web-fetch-http	ctx.web 的匿名公共 HTTP(S) 抓取后端：部署方如何挂载有界、安全的 URL 抓取，含同源重定向与仅文本解码。
+dsh-web-frontend	
+dsh-web-search-deepseek	ctx.web 的 DeepSeek 搜索提供方：部署方如何通过 Anthropic 兼容 Messages API 挂载 DeepSeek 原生 web 搜索，并逐次解析凭据。
+dsh-web-search-exa	ctx.web 的 Exa 搜索提供方：部署方如何挂载厂商原生 web 搜索，获得可移植 snippet 与发布日期。
+dsh-web-search-perplexity	ctx.web 的 Perplexity 搜索提供方：部署方如何挂载 OpenAI 兼容的 Perplexity 搜索，获得生成答案与引用。
+dsh-webhook	面向注册可信外部事件策略并创建 Workspace Session 的维护者，说明 webhook 规则运行时。
+dsh-webhook-github	面向把已认证 JSON 事件路由到 webhook 运行时的部署，说明带签名的 GitHub webhook 适配器。
+dsh-win32-process	面向实现或排查 Windows ACL 沙箱与普通子进程 Job runner 的维护者，说明底层 Win32 进程原语。
+dsh-workflow	工作流编排能力：运行由模型编写的、扇出 subagent 的脚本，供选择或构建在 ctx.workflowEngine 之上的用户与维护者阅读。
+dsh-workflow-worker-thread	worker-thread 工作流引擎：在宿主事件循环之外执行由模型编写的编排脚本，供选择或配置执行隔离的用户与维护者阅读。
+dsh-workspace	面向选择、挂载或排查持久 workspace 记录与会话头校验成员资格的宿主的 Workspace 实体注册表（ctx.workspaceRegistry）说明。

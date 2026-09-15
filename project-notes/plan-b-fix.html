@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>B 类 17 项修补方案 + 第 1 项补遗（待审）</title>
+<style>
+  :root{
+    --bg:#fbfbfd; --card:#fff; --line:#e3e6ec; --txt:#1f2430; --dim:#616b7d;
+    --ok:#0a7f4b; --warn:#b26a00; --bad:#c0392b; --accent:#2f6feb;
+    --code-bg:#f4f6f9; --old:#ffecec; --new:#e8f7ee;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;padding:32px 28px 64px;background:var(--bg);color:var(--txt);
+       font:15px/1.75 -apple-system,"Segoe UI","Microsoft YaHei",sans-serif;}
+  .wrap{max-width:1080px;margin:0 auto}
+  h1{font-size:24px;margin:0 0 6px}
+  h2{font-size:19px;margin:38px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h3{font-size:16px;margin:22px 0 8px}
+  .meta{color:var(--dim);font-size:13px;margin-bottom:4px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:14px 0}
+  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);
+        border-radius:8px;overflow:hidden;margin:12px 0;font-size:13.5px}
+  th,td{padding:9px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  th{background:#f2f4f8;font-weight:600;white-space:nowrap}
+  tr:last-child td{border-bottom:none}
+  code{background:var(--code-bg);padding:1px 5px;border-radius:4px;
+       font:13px/1.6 ui-monospace,Consolas,"Courier New",monospace;word-break:break-all}
+  pre{background:var(--code-bg);border:1px solid var(--line);border-radius:8px;
+      padding:12px 14px;overflow:auto;font:12.5px/1.65 ui-monospace,Consolas,monospace;margin:10px 0}
+  .pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:12px;font-weight:600}
+  .p-ok{background:#e6f6ec;color:var(--ok)}
+  .p-warn{background:#fdf3e2;color:var(--warn)}
+  .p-bad{background:#fdecea;color:var(--bad)}
+  .p-info{background:#e8f0fe;color:var(--accent)}
+  .old{background:var(--old)}
+  .new{background:var(--new)}
+  .num{color:var(--dim);white-space:nowrap}
+  .note{border-left:3px solid var(--warn);background:#fffaf0;padding:10px 14px;border-radius:0 8px 8px 0;margin:12px 0}
+  .note.bad{border-color:var(--bad);background:#fff5f4}
+  .note.ok{border-color:var(--ok);background:#f3fbf6}
+  ul{margin:8px 0 8px 20px;padding:0}
+  li{margin:4px 0}
+  .small{font-size:13px;color:var(--dim)}
+  .tag{font-size:12px;padding:1px 7px;border-radius:4px;background:#eef1f6;color:var(--dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>B 类 17 项修补方案 ＋ 第 1 项补遗（待审）</h1>
+<p class="meta">
+  对象清单：<code>redolist.html</code> 第 37 项 B1 验证产物 · 工作副本 <code>I:\dsh-913</code><br>
+  依据：<code>plan-01-rename.html</code>（第 1 项改名口径） + 实测红名单（2026-09-14 22:36）<br>
+  状态：<span class="pill p-warn">方案待审，未动手</span>
+</p>
+
+<h2>0. 改名口径（权威，来自 plan-01-rename.html）</h2>
+<table>
+  <tr><th>位置</th><th>新值</th><th>备注</th></tr>
+  <tr><td>系统与任务栏</td><td><code>deepseekharness</code></td><td>productName / appId 前缀</td></tr>
+  <tr><td>窗口内标题栏</td><td><code>lisa</code></td><td><b>全软件唯一显示 lisa 的地方</b></td></tr>
+  <tr><td>界面文案（中/英）</td><td><code>deepseek harness</code></td><td>通知、弹窗、托盘文案等</td></tr>
+  <tr><td>终端</td><td><code>R9</code></td><td>终端窗口标题 + 托盘命令</td></tr>
+  <tr><td>appId</td><td><code>deepseekharness.diy</code></td><td></td></tr>
+  <tr><td>产物名 / exe 名</td><td><code>deepseekharness-…-Setup.exe</code> / <code>deepseekharness.exe</code></td><td></td></tr>
+  <tr><td>设置页标题</td><td><code>deepseekharness设置</code> / <code>deepseekharness settings</code></td><td></td></tr>
+</table>
+
+<div class="note">
+  <b>本方案只做两件事：</b>
+  ① 把 <b>B 类 17 个失败</b>对应的测试期望值改成源码实际输出的新文案（<b>不动源码</b>）；
+  ② 把<b>第 1 项补遗</b>（改名漏网的地方）一次补齐。
+  两者合并，避免改两轮。
+</div>
+
+<h2>1. B 类 17 个失败 → 精确修复清单（共 23 行）</h2>
+<p class="small">全部只改 <code>dsh-plugin-desktop/tests/</code> 下的<b>断言期望值</b>。新值来源标注在「依据」列 —— 全部有实据（源码原文或实测 diff），无一处靠猜。</p>
+
+<h3>A. <code>tests/updates.spec.ts</code>（6 个失败 / 10 行）</h3>
+<table>
+  <tr><th class="num">行</th><th>旧期望值</th><th>改为</th><th>依据</th></tr>
+  <tr><td class="num">294</td><td class="old"><code>'DSH Desktop Update Available'</code></td><td class="new"><code>'deepseek harness Update Available'</code></td><td><code>src/native-dialog-copy.ts:84</code></td></tr>
+  <tr><td class="num">295</td><td class="old"><code>'Version 2.1.0 is ready to download. Open DSH Desktop to continue.'</code></td><td class="new"><code>'Version 2.1.0 is ready to download. Open deepseek harness to continue.'</code></td><td><code>src/update-lifecycle.ts:359</code></td></tr>
+  <tr><td class="num">300</td><td class="old"><code>'DSH Desktop 2.1.0 Available'</code></td><td class="new"><code>'deepseek harness 2.1.0 Available'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">335</td><td class="old"><code>'Downloading DSH Desktop 2.1.0…'</code></td><td class="new"><code>'Downloading deepseek harness 2.1.0…'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">340</td><td class="old"><code>'DSH Desktop 2.1.0 Available'</code></td><td class="new"><code>'deepseek harness 2.1.0 Available'</code></td><td>同 300</td></tr>
+  <tr><td class="num">342</td><td class="old"><code>'DSH Desktop 2.1.0 Available'</code></td><td class="new"><code>'deepseek harness 2.1.0 Available'</code></td><td>同 300</td></tr>
+  <tr><td class="num">358</td><td class="old"><code>'DSH Desktop 2.1.0 Available'</code></td><td class="new"><code>'deepseek harness 2.1.0 Available'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">382</td><td class="old"><code>'DSH Desktop 2.2.0 Available'</code></td><td class="new"><code>'deepseek harness 2.2.0 Available'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">471</td><td class="old"><code>'DSH Desktop 2.1.0 Available'</code></td><td class="new"><code>'deepseek harness 2.1.0 Available'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">514</td><td class="old"><code>'DSH Desktop 2.1.0 Available'</code></td><td class="new"><code>'deepseek harness 2.1.0 Available'</code></td><td>实测 diff</td></tr>
+</table>
+
+<h3>B. <code>tests/startup-recovery-window.spec.ts</code>（3 个失败 / 3 行）</h3>
+<table>
+  <tr><th class="num">行</th><th>旧期望值</th><th>改为</th><th>依据</th></tr>
+  <tr><td class="num">452</td><td class="old"><code>'DSH Desktop 将改为使用当前系统的默认数据目录。当前数据目录不会被删除。'</code></td><td class="new"><code>'deepseek harness 将改为使用当前系统的默认数据目录。当前数据目录不会被删除。'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">501</td><td class="old"><code>'DSH Desktop 将在默认路径创建一个全新的环境并重启。当前数据目录不会被删除。'</code></td><td class="new"><code>'deepseek harness 将在默认路径创建一个全新的环境并重启。当前数据目录不会被删除。'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">540</td><td class="old"><code>'Factory reset DSH Desktop?'</code></td><td class="new"><code>'Factory reset deepseek harness?'</code></td><td>实测 diff</td></tr>
+</table>
+
+<h3>C. <code>tests/notifications.spec.ts</code>（3 个失败 / 4 行）</h3>
+<table>
+  <tr><th class="num">行</th><th>旧期望值</th><th>改为</th><th>依据</th></tr>
+  <tr><td class="num">208</td><td class="old"><code>'A background job could not finish. Open DSH Desktop for details.'</code></td><td class="new"><code>'A background job could not finish. Open deepseek harness for details.'</code></td><td><code>src/notifications.ts:39</code></td></tr>
+  <tr><td class="num">247</td><td class="old">同上</td><td class="new">同上</td><td>同上</td></tr>
+  <tr><td class="num">248</td><td class="old"><code>'A user-initiated turn could not finish. Open DSH Desktop for details.'</code></td><td class="new"><code>'A user-initiated turn could not finish. Open deepseek harness for details.'</code></td><td><code>src/notifications.ts:37</code></td></tr>
+  <tr><td class="num">327</td><td class="old">同 248</td><td class="new">同 248</td><td>同上</td></tr>
+</table>
+
+<h3>D. <code>tests/profile-selection-window.spec.ts</code>（2 个失败 / 2 行）</h3>
+<table>
+  <tr><th class="num">行</th><th>旧期望值</th><th>改为</th><th>依据</th></tr>
+  <tr><td class="num">89</td><td class="old"><code>'已设为当前 Profile。请重启 DSH Desktop 以使用该 Profile。'</code></td><td class="new"><code>'已设为当前 Profile。请重启 deepseek harness 以使用该 Profile。'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num">126</td><td class="old">同上</td><td class="new">同上</td><td>实测 diff</td></tr>
+</table>
+
+<h3>E. 终端文案（2 个失败 / 2 行）</h3>
+<table>
+  <tr><th class="num">文件:行</th><th>旧期望值</th><th>改为</th><th>依据</th></tr>
+  <tr><td class="num"><code>recovery-native-ui.spec.ts:69</code></td><td class="old"><code>'Open DSH Terminal'</code></td><td class="new"><code>'Open R9'</code></td><td>实测 diff</td></tr>
+  <tr><td class="num"><code>terminal.spec.ts:35</code></td><td class="old"><code>'Open DSH Terminal'</code></td><td class="new"><code>'Open R9'</code></td><td>实测 diff</td></tr>
+</table>
+<div class="note ok">
+  <b>已核实不用改</b>：<code>recovery-native-ui.spec.ts:92</code> 的 <code>'Restart DSH Desktop'</code> 是测试<b>自己传进去的 props</b>（输入型），后面只断言 <code>mr-auto</code> / href，<b>不是断言值</b>。
+</div>
+
+<h3>F. <code>tests/plugin.spec.ts</code>（1 个失败 / 2 行）</h3>
+<table>
+  <tr><th class="num">行</th><th>旧期望值</th><th>改为</th><th>依据</th></tr>
+  <tr><td class="num">350</td><td class="old"><code>productName: 'DSH Desktop'</code></td><td class="new"><code>productName: 'deepseekharness'</code></td><td>实测 diff + <code>src/product-identity.ts</code></td></tr>
+  <tr><td class="num">351</td><td class="old"><code>windowTitle: 'DeepSeek Harness Desktop'</code></td><td class="new"><code>windowTitle: 'deepseekharness'</code></td><td>实测 diff + <code>src/index.ts</code></td></tr>
+</table>
+
+<h2>2. 第 1 项补遗 A —— <code>dsh-plugin-desktop/scripts/</code></h2>
+<p class="small">上次审计说「约 30 处」。这次逐条核对后，<b>约 30 处必须改、约 15 处明确不改</b>。</p>
+
+<h3>✔ 必须改（会被真实文件名影响，不改就找不到文件）</h3>
+<table>
+  <tr><th>文件</th><th class="num">行</th><th>内容 → 改法</th></tr>
+  <tr><td><code>scripts/inspect-windows-installed-app.ts</code></td><td class="num">50, 76</td><td><code>'DSH Desktop.exe'</code> → <code>'deepseekharness.exe'</code></td></tr>
+  <tr><td><code>scripts/probe-windows-packaged-runtime.ts</code></td><td class="num">34, 45, 46</td><td><code>'DSH Desktop.exe'</code> / <code>executableName: 'DSH Desktop'</code> / <code>productFilename: 'DSH Desktop'</code> → 新名</td></tr>
+  <tr><td><code>scripts/build-windows-nsis-ab.ts</code></td><td class="num">308</td><td><code>`DSH-Desktop-${version}-x64-Setup.exe`</code> → <code>`deepseekharness-${version}-x64-Setup.exe`</code></td></tr>
+  <tr><td><code>scripts/run-windows-nsis-ab.ps1</code></td><td class="num">48, 57, 69, 117, 121, 404, 444, 596, 602, 1097</td><td><code>DSH Desktop.exe</code> / <code>Uninstall DSH Desktop.exe</code> / <code>'^DSH Desktop'</code> / <code>'DSH Desktop*.lnk'</code> → 新名（<b>10 处</b>）</td></tr>
+  <tr><td><code>scripts/smoke-windows-installer-upgrade.ps1</code></td><td class="num">20, 28, 32, 38, 41, 42, 44, 118, 238, 249</td><td>同上（含 <code>$env:APPDATA\DSH Desktop</code> 用户数据目录）（<b>10 处</b>）</td></tr>
+  <tr><td><code>scripts/reproduce-windows-installer-running-check.ps1</code></td><td class="num">24</td><td><code>'DSH Desktop.exe'</code> → 新名</td></tr>
+  <tr><td><code>scripts/verify-mac-smoke.ts</code></td><td class="num">55</td><td><code>productName: 'DSH Desktop'</code> → <code>'deepseekharness'</code></td></tr>
+  <tr><td><code>scripts/verify-mac-release.ts</code></td><td class="num">47</td><td>同上</td></tr>
+  <tr><td><code>scripts/verify-licenses.mjs</code></td><td class="num">143</td><td><code>'DSH Desktop distributes the following third-party packages…'</code> → 新名</td></tr>
+</table>
+<div class="note"><b>合计约 29 处</b>，与上次审计的「约 30 处」吻合。</div>
+
+<h3>✘ 明确不改（内部标识符，改了会破坏协议/契约）</h3>
+<table>
+  <tr><th>文件</th><th>内容</th><th>为什么不改</th></tr>
+  <tr><td><code>verify-profile-boot.mjs</code>(20,26,45,55,244,259)</td><td><code>x-dsh-desktop-renderer</code> / <code>dsh-desktop:</code> scheme / <code>dsh-desktop-profile-</code> 临时目录前缀</td><td>HTTP header 名与自定义协议是<b>跨进程契约</b>，源码里仍是 <code>dsh-desktop</code></td></tr>
+  <tr><td><code>verify-loader-boot.mjs</code>(18,19,28,60,214)</td><td><code>dsh-desktop-loader-smoke-*</code> / <code>x-dsh-desktop-renderer</code></td><td>同上</td></tr>
+  <tr><td><code>verify-cli-runtime.mjs</code>(101,136,164)</td><td><code>dsh-desktop-pnpm-lifecycle-smoke</code> 等</td><td>smoke 插件标识符</td></tr>
+  <tr><td><code>verify-mac-smoke.ts:57</code> / <code>verify-mac-release.ts:49</code></td><td><code>dsh-desktop-dmg-smoke-</code> 临时目录前缀</td><td>只是 mkdtemp 前缀，无契约含义（<span class="tag">可改可不改</span>）</td></tr>
+</table>
+
+<h2>3. 第 1 项补遗 B —— <code>dsh-community-market</code>（约 27 处）</h2>
+<table>
+  <tr><th>位置</th><th class="num">处数</th><th>处置</th></tr>
+  <tr><td><code>src/client/locales.ts</code>（zh 34–101 / en 173+）</td><td class="num">约 20</td><td><span class="pill p-ok">必须改</span> 界面文案：<code>DSH Desktop</code> → <code>deepseek harness</code>；<code>DSH Terminal</code> → <code>R9</code>。中英两套同步</td></tr>
+  <tr><td><code>src/data/awesome-catalog.ts:53</code></td><td class="num">1</td><td>待看实际内容（上次 grep 被截断）</td></tr>
+  <tr><td><code>package.json:5</code>（description）</td><td class="num">1</td><td><code>DeepSeek Harness Desktop</code> → 待定口径</td></tr>
+  <tr><td><code>README.md</code> / <code>README.zh.md</code> / <code>SECURITY.md</code> / <code>SECURITY.zh.md</code> / <code>docs/*.md</code></td><td class="num">约 8</td><td><span class="pill p-warn">需同步 i18n 哈希</span> 改完必须用 <code>git hash-object --path=</code> 更新同目录 <code>*.i18n.yaml</code>（坑 10）</td></tr>
+  <tr><td><code>lib/client.js</code> / <code>lib/types/client/locales.d.ts</code></td><td class="num">约 20</td><td><span class="pill p-info">不动</span> 这是 tsdown 构建产物，改完 <code>src</code> 重新 build 自动生成</td></tr>
+</table>
+
+<h2>4. 明确不做的事</h2>
+<table>
+  <tr><th>项</th><th>原因</th></tr>
+  <tr><td><b>A 类 28 个环境/平台失败</b>（符号链接 EPERM 8 个 + POSIX 语义 20 个）</td><td>与我们的改动无关。8 个靠开发者模式即可转绿；20 个是上游测试写死 POSIX，<b>建议不改测试</b>（改了就多 20 处要长期维护的 diff，将来追社区版更痛）</td></tr>
+  <tr><td>测试里上百处「输入型」旧名（模拟路径 <code>/Applications/DSH Desktop</code>、夹具 <code>productName</code> 等）</td><td>测试内部自洽、<b>不影响通过</b>，改了没有收益、只增加 diff</td></tr>
+  <tr><td><code>lib/</code> 构建产物里的旧名</td><td>重新 build 自动生成</td></tr>
+</table>
+
+<h2>5. 执行顺序与验证</h2>
+<pre># ① 先改 B 类 23 行（7 个测试文件）
+# ② 再改补遗 A（scripts 约 29 处）
+# ③ 再改补遗 B（market src/client/locales.ts 等）
+# ④ 若改了 market 的 .md 文档 → 同步 *.i18n.yaml 哈希
+# ⑤ 验证：
+cd I:\dsh-913
+yarn workspace dsh-plugin-desktop typecheck
+yarn workspace dsh-plugin-desktop test        # 预期：45 failed → 28 failed（只剩环境/平台类）
+yarn workspace dsh-community-market check     # 预期：264/264 保持全绿（改文案不应影响）
+yarn check:layout                             # ⏳ 需先拉 submodule</pre>
+
+<div class="note ok">
+  <b>预期结果</b>：<code>dsh-plugin-desktop test</code> 的失败数 <b>45 → 28</b>，且剩下 28 个全部是已定性的环境/平台问题。
+  <br>若出现<b>新的</b>失败（不在 28 个清单里），说明某处改动超出了预期，<b>立即停下报告</b>。
+</div>
+
+<h2>6. 待你拍板的三个点</h2>
+<table>
+  <tr><th class="num">#</th><th>问题</th><th>我的建议</th></tr>
+  <tr><td class="num">1</td><td><code>dsh-community-market/package.json</code> 的 description 与 README/docs 里的 <code>DSH Desktop</code> 要不要一并改成 <code>deepseek harness</code>？</td><td><b>建议改</b>（保持品牌一致），但改 md 要同步 i18n 哈希，多一道工序</td></tr>
+  <tr><td class="num">2</td><td>补遗 A 里 <code>smoke-windows-installer-upgrade.ps1:38</code> 的 <code>$env:APPDATA\DSH Desktop</code>（用户数据目录名）要不要跟着改？</td><td><b>建议改</b> —— 它跟 productName 走，不改会导致 smoke 脚本找错目录</td></tr>
+  <tr><td class="num">3</td><td>A 类那 20 个平台语义失败，是否接受为「已知上游缺陷」不修？</td><td><b>建议接受</b>（理由见上表）</td></tr>
+</table>
+
+</div>
+</body>
+</html>

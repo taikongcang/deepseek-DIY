@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSH Desktop 界面对比 · 官方版 vs 我们修改版</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 28px 24px 60px;
+    background: #ffffff;
+    color: #1a1a1a;
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 500; margin: 0 0 6px; }
+  .sub { font-size: 13px; color: #666; margin-bottom: 28px; }
+  .card { margin-bottom: 34px; }
+  .label { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .note { font-size: 12.5px; color: #666; margin-bottom: 12px; }
+  img {
+    width: 100%; display: block;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,.12);
+  }
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin-top: 8px;
+  }
+  th, td {
+    text-align: left; padding: 9px 12px;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+    vertical-align: top;
+  }
+  th { font-weight: 500; background: rgba(0,0,0,.025); }
+  .diff { color: #A32D2D; font-weight: 500; }
+  .same { color: #0F6E56; }
+  h2 { font-size: 16px; font-weight: 500; margin: 34px 0 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>DSH Desktop 界面对比：官方原版 vs 我们修改版</h1>
+  <div class="sub">上：作者随仓库提供的中文截图　·　下：你本机跑起来的实机截图</div>
+
+  <div class="card">
+    <div class="label">① 官方原版</div>
+    <div class="note">macOS 窗口风格（左上角红黄绿圆点）· 工作区示例 dsh / local / code · 品牌区 deepseek HARNESS</div>
+    <img src="official-chat-zh.png" alt="官方原版聊天界面">
+  </div>
+
+  <div class="card">
+    <div class="label">② 我们改过的版本</div>
+    <div class="note">Windows 窗口风格（右上角最小化/最大化/关闭）· 窗口标题 lisa v2.0.4 · 工作区「deepseekharness 修改打包」</div>
+    <img src="ours.png" alt="我们修改后的实机界面">
+  </div>
+
+  <h2>差异对照</h2>
+  <table>
+    <tr><th style="width:22%">对比项</th><th style="width:34%">① 官方原版</th><th style="width:44%">② 我们的版本</th></tr>
+    <tr><td>窗口按钮风格</td><td>macOS</td><td class="diff">Windows</td></tr>
+    <tr><td>窗口标题</td><td>截图未露出</td><td class="diff">lisa v2.0.4</td></tr>
+    <tr><td>品牌 logo 区</td><td>deepseek HARNESS</td><td class="same">deepseek HARNESS（未改）</td></tr>
+    <tr><td>工作区列表</td><td>dsh / local / code 等示例</td><td class="diff">deepseekharness 修改打包（含"AI 股票"等真实项目）</td></tr>
+    <tr><td>权限档位</td><td>Full access</td><td>工作区写入</td></tr>
+    <tr><td>数据目录</td><td>未显示</td><td class="diff">E:\app\deepseekharness\data（便携模式生效）</td></tr>
+    <tr><td>状态栏用量</td><td>1 轮 · 1 步 · 7.8K tok</td><td>13 轮 · 43 步 · 2.3M tok</td></tr>
+  </table>
+
+</div>
+</body>
+</html>

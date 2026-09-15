@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>本次修改清单 · deepseekharness</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 24px 80px;
+    background: #fff; color: #1a1a1a;
+    font-family: system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    line-height: 1.65;
+  }
+  .wrap { max-width: 1140px; margin: 0 auto; }
+  h1 { font-size: 21px; font-weight: 500; margin: 0 0 6px; }
+  .meta { font-size: 13px; color: #666; margin-bottom: 22px; }
+  h2 { font-size: 16px; font-weight: 500; margin: 36px 0 6px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,.1); }
+  h3 { font-size: 14px; font-weight: 500; margin: 22px 0 6px; }
+  .h2note { font-size: 12.5px; color: #777; margin: 0 0 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0 6px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(0,0,0,.08); vertical-align: top; }
+  th { font-weight: 500; background: rgba(0,0,0,.03); font-size: 12.5px; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 12px; background: rgba(0,0,0,.05); padding: 1px 5px; border-radius: 4px; }
+  pre { background: #F7F7F5; border-radius: 8px; padding: 12px 14px; font-size: 12.5px; line-height: 1.7; overflow-x: auto; }
+  .box { border-radius: 10px; padding: 14px 18px; margin: 16px 0; font-size: 13.5px; }
+  .box-good { background: #E1F5EE; }
+  .box-warn { background: #FAEEDA; }
+  .box-bad  { background: #FCEBEB; }
+  .box-info { background: #F7F7F5; }
+  .box h3 { font-size: 14px; font-weight: 500; margin: 0 0 8px; }
+  ul { margin: 6px 0 0; padding-left: 20px; font-size: 13.5px; }
+  li { margin-bottom: 4px; }
+  .new  { color: #0F6E56; font-weight: 500; }
+  .mod  { color: #185FA5; font-weight: 500; }
+  .todo { color: #A32D2D; font-weight: 500; }
+  .easy { color: #0F6E56; }
+  .hard { color: #A32D2D; }
+  .mid  { color: #B06A00; }
+  .n { display: inline-block; min-width: 22px; color: #888; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>本次修改清单</h1>
+  <div class="meta">
+    <b>本次源码（工作副本）</b>：<code>I:\dsh-913</code>（社区版 2.0.9 · 内核 0.1.5-rc.1）<br>
+    <b>旧工作副本</b>（路径含中文，已停用、留作备份）：<code>I:\deepseekharness9-13\9-13deepseekharness最新更新修改</code><br>
+    <b>更新源（已建立）</b>：<code>I:\deepseekharness更新DIY\发布</code> ｜ <b>社区版参照</b>（只读）：<code>I:\deepseekharness9-13\9-13DSH-desktop最新更新一套</code><br>
+    改动总数：<b>44 项编号</b>（1–26 升级重做 / 27–33 增量需求 / 34–37 收尾挂账 / 38–44 后续发现；其中<b>第 21–22、27 项</b>查证取消、<b>第 39 项</b>因方针变更作废）<br>
+    <b>进度（2026-09-15 16:3x 更新）</b>：<b class="easy">✅ 已执行 31 项</b>（1–20、23–26、29–33、37）｜ <b>作废 4 项</b>（21、22、27、<b>39</b>）｜ <b>关闭 1 项</b>（41）｜ <b>本轮已执行</b>：<code>AGENTS.md</code> 重写 · 44 补丁审查完 · 45 版本号 <code>3.0.0</code>+对齐记录 · 48 <code>.agents</code> 隔离 · <b>46 beta 摘除（973.6 MB）</b> · <b>50 docs 清理（删 10 文件）</b>｜ <b>待办 9 项</b>（28 / 34 / 35 / 36 / 38 / 40 / 42 / 43 / 47 根文档剩余 / 49 GitHub）<br>
+    <b>验证（实测）</b>：<code>desktop test</code> 30 failed（<b>100% 环境/平台类，非我方问题</b>）｜ <code>typecheck</code> 零类型错误 ｜ <code>market check</code> 264/264 全绿 ｜ 双语文档 51 records / 102 documents 一致<br>
+    <b>打包（2026-09-15 00:29 实测）</b>：<b class="easy">✅ 成功</b> —— <code>yarn dist:win</code> preflight 13 文件 245 测试全绿 → NSIS 构建 → 安装包 <code>deepseekharness-2.0.9-x64-Setup.exe</code>（<b>129.2 MB</b>，sha256 <code>B40B8776…</code>）→ 已拷入更新源 <code>I:\deepseekharness更新DIY\发布\</code>（sha256 校验一致）<br>
+    <b>安装（2026-09-15 实测）</b>：✅ <b class="easy">新包已装入 <code>E:\app\deepseekharness</code></b> —— 注册表 <code>deepseekharness 2.0.9</code>；exe / app.asar 与产物 <b>sha256 完全一致</b>；已运行并完成配置（<code>settings.yaml</code> 写于 00:59）→ <b>未签名包未被智能应用控制拦截</b><br>
+    <b>⛔ 方针变更（2026-09-15 下午，用户定）</b>：<b>社区版只是「参考样本」，不追随它升级</b> —— 社区发版不构成我们的升级理由；只借鉴「官方改了什么 → 社区跟着改了什么」中<b>我们需要的</b>。原「升级 v2.0.10 + 新建 <code>I:\dsh-915</code>」<b>已作废</b>（第 39 项）<br>
+    <b>下一步</b>：① 本次盘点发现的问题见 <code>.workbuddy/self-audit-2026-09-15.md</code>（含 <code>AGENTS.md</code>/<code>CLAUDE.md</code> 与产品身份冲突等 8 条）；② 待清理约 <b>5.9 GB</b>（见 <code>directory-map.md</code> 第六节）；③ 第 38 项（Profile 改名）维持"下次更新时处理"（数据可丢弃、无需迁移）；④ ✅ 打包可全程零下载（<code>I:\deepseekharness更新DIY\工具\build-win.cmd</code>）；⚠️ 用 <code>dist:win</code>，不用 <code>package:dir</code>
+  </div>
+
+  <div class="box box-info">
+    <h3>总览</h3>
+    <table style="margin:0;">
+      <tr><th style="width:8%">类别</th><th style="width:40%">做什么</th><th style="width:14%">编号</th><th style="width:16%">规模</th><th>状态</th></tr>
+      <tr><td><b>一</b></td><td>改名（任务栏 = deepseekharness / 标题栏 = lisa / 终端 = R9）</td><td>1 – 12</td><td>38 个文件</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>二</b></td><td>便携模式（打包时无条件强制数据跟随安装目录）</td><td>13</td><td>1 文件 / 2 处</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>三</b></td><td>市场源：<b>新增</b> Awesome DSH Plugins 内置源（社区版已删掉原 Marketplace 源）</td><td>14 – 20</td><td>5 改 + 2 新增</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>四</b></td><td>中文化补丁（权限档位）—— <b>官方新版已内置，取消</b></td><td>21 – 22</td><td>0 个文件</td><td class="easy">✅ 已查证无需做</td></tr>
+      <tr><td><b>五</b></td><td>升级源改本地（<code>file://</code> 直读 + 动态拼地址 + 关后台轮询）</td><td>23 – 26</td><td>4 文件（+67/−16）</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 指令面板中文化 —— <b>官方新版已内置，取消</b></td><td>27</td><td>0 个补丁</td><td class="easy">✅ 已查证无需做</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 绿泡泡</td><td>28</td><td>—</td><td class="todo">⏸ 暂缓</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 思考内容转中文（<code>personaPrefix</code>，须重述 web-app 的字段）</td><td>29</td><td>1 处配置</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 去掉设置里的「插件市场」标签页</td><td>30</td><td>3 个文件（+16/−38）</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 删除废弃代码 + 宣传图</td><td>31</td><td>_deprecated 25 文件 + 3 张零引用图</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 侧边栏底部入口改成"两列、从下往上增长"</td><td>32</td><td>1 个补丁（纯 CSS 3 处）</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>六</b></td><td>增量需求 · 会话目录改"日期+时间" + 修复中文转义</td><td>33</td><td>2 个补丁（新增，已验证）</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>待拍板</b></td><td>第 1 项遗留 · 局域网自签 CA 证书名要不要改</td><td>34</td><td>1 处</td><td class="todo">⏸ 暂缓</td></tr>
+      <tr><td><b>待拍板</b></td><td>第 1 项遗留 · 官方目录选择器补丁内两条报错文案要不要改</td><td>35</td><td>1 个补丁</td><td class="todo">⏸ 暂缓</td></tr>
+      <tr><td><b>待执行</b></td><td>第 5 项遗留 · <b>手动跑一次 Electron 探针</b>（沙箱拒绝，须你手动执行）</td><td>36</td><td>1 条命令</td><td class="todo">⏸ 待你手动</td></tr>
+      <tr><td><b>收尾</b></td><td>第 1 项补遗 · ① 不出 beta（A2 摘掉变体校验）② 测试红名单 + 补遗改写（B1）</td><td>37</td><td>13 测试文件 + 9 脚本 + market 源码/文档</td><td class="easy">✅ 已执行（2026-09-14 23:2x）</td></tr>
+      <tr><td><b>下次更新</b></td><td>Profile 名 <code>desktop</code> → 改成正式名字（用户 2026-09-15 决定：<b>本次不改，下次追社区版更新时一起做</b>）</td><td>38</td><td>源码 5 处 + 脚本 5 处 + 少量测试（待核）</td><td class="todo">⏸ 下次更新处理</td></tr>
+      <tr><td><b>⛔ 已作废</b></td><td><s>追社区 v2.0.10（内核 0.1.5-rc.2）、工作副本新建 <code>I:\dsh-915</code></s> —— <b>用户 2026-09-15 下午重新定义方针：社区版只是「参考样本」，不追随它升级</b>。改为：只看「官方改了什么 → 社区跟着改了什么」，<b>从里面挑我们需要的借鉴过来</b></td><td>39</td><td>—</td><td class="mid">⛔ 已作废</td></tr>
+      <tr><td><b>讨论中</b></td><td>把"手机连接"（Agents-Anywhere）从安装包中<b>剥离成独立可安装插件</b></td><td>40</td><td>见 <code>plugin-extraction-and-uninstall.md</code></td><td class="todo">⏸ 待拍板</td></tr>
+      <tr><td><b>已定</b></td><td>市场"已安装"列表给"所有"插件加"卸载"按钮 —— <b>用户 2026-09-15 实测确认：自己装的插件本来就有"卸载"</b>；<code>dsh-base</code>/<code>dsh-web-app</code> 是产品自有 bundle（只读是上游故意设的闸）</td><td>41</td><td>无需改动</td><td class="easy">✅ 已确定：维持现状</td></tr>
+      <tr><td><b>新发现</b></td><td>市场装完插件点<b>"立即重启"报错</b>「无法请求重启…请稍后手动重启」—— 查实为市场侧<b>一次性重启令牌</b>失效（5 分钟 TTL、仅存内存），请求根本没到桌面侧；<b>不影响安装本身</b></td><td>42</td><td>上游设计；要改需新增补丁</td><td class="todo">⏸ 待拍板（要不要硬化）</td></tr>
+      <tr><td><b>新发现</b></td><td>市场<b>卸载卡死</b>（界面永远"正在卸载…"）—— pnpm remove 进程做完了活却<b>不退出</b>，而市场侧<b>无超时</b>；且清单 <code>dsh.profile.bundles</code> 留着已删插件（<b>下次启动会起不来</b>）</td><td>43</td><td>上游设计缺陷；修 = 直接改我方源码</td><td class="todo">⏸ 待拍板（要修）</td></tr>
+      <tr><td><b>已定</b></td><td>三处补丁归属确认：21 个 = <b>必须保留 14</b>（7 官方功能命脉 + 4 第三方 + 我方 3）+ <b>ASAR 依赖 4</b>（现在必须留）+ <b>3 个暂保留</b></td><td>44</td><td>见 <code>patch-audit-2026-09-15.md</code></td><td class="easy">✅ 已审查完</td></tr>
+      <tr><td><b>已定</b></td><td><b>版本号走自有序列</b>，从 <code>3.0.0</code> 起；建 <code>UPSTREAM-ALIGNMENT.md</code> 记录每次对齐的社区版 / 官方内核</td><td>45</td><td>1 处 version + 1 新文档</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>已定</b></td><td><b>摘除 beta 包</b>（对自用无用；实测与 stable 源码同构、无独有内容）</td><td>46</td><td>6 文件 + 删目录 <b>973.6 MB / 54479 文件</b></td><td class="easy">✅ 已执行并复验（16:2x）</td></tr>
+      <tr><td><b>已定</b></td><td><b>清掉 <code>docs/</code> 里无用的 10 个文件</b>，只留 <code>architecture</code> / <code>plugin-development</code> / <code>evidence</code> 三块</td><td>50</td><td>删 10 文件</td><td class="easy">✅ 已执行并复验</td></tr>
+      <tr><td><b>进行中</b></td><td><b>根文档改写成自己的</b>：<code>AGENTS.md</code> ✅ 重写 / <code>docs/</code> ✅ 清理 / README · PRIVACY 纯自用 ⏳ / CONTRIBUTING 两份 ⏳ / <b>CODE_OF_CONDUCT 待你定</b></td><td>47</td><td>剩余 README×3(+i18n) · PRIVACY×2(+i18n) · CONTRIBUTING×2</td><td class="mid">◐ 部分完成</td></tr>
+      <tr><td><b>已定</b></td><td><code>.agents/notes</code> <b>保留供人学习</b>，但<b>禁止 AI 读取 / 引用</b>（已写入 <code>AGENTS.md</code>）</td><td>48</td><td>AGENTS.md 1 条规则</td><td class="easy">✅ 已执行</td></tr>
+      <tr><td><b>待澄清</b></td><td><b>GitHub 上传范围</b> —— 用户：除"修改完之后的完整文件和文件夹"外，其他都放 GitHub</td><td>49</td><td>—</td><td class="todo">❓ 待澄清</td></tr>
+    </table>
+  </div>
+
+  <div class="box box-bad">
+    <h3>🔴 第 43 项 · 市场"卸载"会卡死（2026-09-15 实测，属实且有后患）</h3>
+    <p style="margin:6px 0;">
+      <b>现象</b>：卸载 <code>@yolk_vat-y/dsh-project-memory</code> → 确认框永久停在「正在卸载…」，取消键被禁用，无进度、无结果、无超时。
+    </p>
+    <table style="margin:6px 0;">
+      <tr><th style="width:32%">查证项</th><th>实测结论</th></tr>
+      <tr><td><b>根因（铁证）</b></td><td class="hard">pnpm 子进程<b>至今仍在运行</b>：PID <code>37924</code>（<code>dsh-subprocess-local/lib/runner.js</code> 包装）→ PID <code>27064</code>（真正的 <code>pnpm.mjs</code>），命令行 <code>… pnpm.mjs --config.minimumReleaseAge=0 remove @yolk_vat-y/dsh-project-memory</code>，14:36:24 启动，<b>8 分钟以上未退出</b></td></tr>
+      <tr><td>而它其实干完了活</td><td>包里实体已删（<code>node_modules\@yolk_vat-y</code> 目录空的，0 条目）、<code>pnpm-lock.yaml</code> 已无该包、<code>package.json</code> 的 <code>dependencies</code> 已被清空（14:36:24 全部落盘）→ 属「<b>活干完但进程不退出</b>」或卡在收尾 prune</td></tr>
+      <tr><td><b>为什么界面永远转</b></td><td>市场 <code>runPnpm()</code> 只 <code>await handle.done</code>，<b>全链路没有任何超时</b>（实测：超时只存在于网络层 <code>restricted-http.ts</code>，pnpm 路径零超时）；子进程不退 → 请求永不返回 → <code>operationPending</code> 永远为真 → 界面永久「正在卸载…」，且 <code>pending</code> 期间取消键被禁用</td></tr>
+      <tr><td class="hard">⚠️ 后患（要紧）</td><td>因为 <code>runPnpm</code> 没返回，后续的 <code>setProfileBundle(profile, pkg, false)</code> <b>根本没执行</b> → <code>dsh.profile.bundles</code> <b>仍列着这个已被删除的包</b>。而 <code>profile.ts:561-565</code> 对解析失败的 bundle 是 <code>else throw cause</code> → <b>下次启动会因找不到该 bundle 而失败、进恢复助手</b>，必须先把清单改回来</td></tr>
+      <tr><td>残留</td><td>它带的两个扁平依赖 <code>@napi-rs</code>、<code>pdfjs-dist</code> 仍在 <code>node_modules</code>（pnpm 的收尾 prune 未完成）→ 无害孤儿，之后 <code>pnpm install</code> 会清</td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:13px;">
+      <b>修的方式</b>：这是<b>我们自己源码</b>（<code>dsh-community-market/src/install/service.ts</code> 的 <code>runPnpm</code>）→ <b>直接改</b>，不需要补丁。建议三件：
+      ① 给 pnpm 运行加<b>超时 + 到时 terminate</b>；② 让界面在 pending 时显示<b>已耗时/可取消</b>；
+      ③ 把「pnpm 已删包但 bundles 未更新」这种中间态做<b>启动自愈</b>（启动时校验 bundles 可解析，缺了就剔除并告警）。
+    </p>
+  </div>
+
+  <div class="box box-warn">
+    <h3>⏸ 第 42 项 · 市场"立即重启"按钮报错（2026-09-15 实测复现）</h3>
+    <p style="margin:6px 0;">
+      <b>现象</b>：装完 <code>@yolk_vat-y/dsh-project-memory@0.5.4</code> → 成功弹窗 → 点「立即重启」→ 红字「无法请求重启 deepseek harness，请稍后手动重启。」
+    </p>
+    <table style="margin:6px 0;">
+      <tr><th style="width:34%">查证项</th><th>实测结论</th></tr>
+      <tr><td><b>安装本身</b></td><td class="easy">✅ <b>完全成功</b>：profile <code>package.json</code> 的 <code>dependencies</code> 与 <code>dsh.profile.bundles</code> 都写入了；<code>pnpm-lock.yaml</code> 有 <code>@yolk_vat-y/dsh-project-memory@0.5.4</code>；包实体在 <code>data\profiles\desktop\node_modules\@yolk_vat-y\dsh-project-memory\</code>（含 <code>cordis.patch.yml</code>/<code>client/</code>）；扁平依赖 <code>pdfjs-dist</code>、<code>@napi-rs</code> 已装</td></tr>
+      <tr><td>指令集/网页是否健康</td><td class="easy">✅ 14:26 那次启动 <code>rendererStatus: healthy</code>、<code>health-snapshots</code> 已提交 → <b>插件没把 app 弄坏</b></td></tr>
+      <tr><td><b>报错来源</b></td><td>市场客户端 <code>restartError</code>（<code>MarketSettingsTab.tsx:878-880</code>）← <code>requestMarketRestart()</code> 被拒（POST <code>/api/community-market/desktop/request-restart</code>）</td></tr>
+      <tr><td>四个可能原因</td><td>① 405 同源校验 ② 400 请求体非法 ③ <b>令牌失效</b>（<code>consumeRestartToken</code> 抛 <code>intent-expired</code>）④ profile 变了（<code>conflict</code>）</td></tr>
+      <tr><td>逐项排除</td><td>① 排除 —— 同一秒前的"安装"是<b>同一种 mutation</b>，同源校验过了；② 排除 —— 令牌是 <code>randomBytes(32).toString('base64url')</code>（43 字符），校验只要 1–240 字符无 NUL；④ 排除 —— profile 未变。→ <b>只剩 ③</b></td></tr>
+      <tr><td><b>决定性推理</b></td><td>令牌一旦被消费，市场是<b>先回 200、再</b>调桌面重启（<code>routes.ts:1149-1156</code>）。既然界面显示了<b>错误</b>，说明<b>令牌那一步就抛了、请求根本没到桌面</b>（若到了，会走原生确认框、界面不会有红字）</td></tr>
+      <tr><td>令牌为什么会失效</td><td>① <b>5 分钟 TTL</b>（<code>install/service.ts:28</code> <code>INSTALL_INTENT_TTL_MS</code>），且<b>只存内存</b>（<code>restartIntents</code> Map，无持久化）；② 市场宿主 generation 一旦被回收，<code>dispose()</code> 会 <code>clear()</code> 掉它（<code>:741-748</code>）；③ 点过两次 —— 第一次已消费，第二次必报同一个错</td></tr>
+      <tr><td>时间线佐证</td><td>安装发生在 <b>14:02:43–14:03:55</b>（profile 文件 mtime），而 app 的启动记录里 <b>14:03 没有新 run</b>（只有 14:26 那次）→ <b>那次重启确实没有执行</b>；14:26 那次是手动重启，健康</td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:13px;">
+      <b>影响</b>：<b>对安装零影响</b>；弹窗自己也提示了兜底办法（「请稍后手动重启」）。
+      <b>我们要不要动</b>：这是上游设计（内存态一次性令牌），但 <b>改它是"直接改我方源码"</b>（<code>dsh-community-market/src/…</code> 是 workspace 源码，不是补丁对象 —— 见第 44 项说明）。可做：延长 TTL / 失败时降级为"请手动重启"提示而非红字报错。<b>等用户拍板</b>。
+    </p>
+  </div>
+
+  <div class="box box-good">
+    <h3>📌 第 44 项（口径说明，非改造项）· 什么该"打补丁"、什么该"直接改源码"</h3>
+    <p style="margin:6px 0;">
+      <b>用户 2026-09-15 提出的关键问题</b>：既然我们只是参考社区版、改成自己用的东西，为什么有的东西要打补丁而不是直接改？<br>
+      <b>答案：补丁只用在一类东西上 —— 以「预打包 tarball」形式随仓库分发的代码；我们自己写的源码一律直接改。</b>
+    </p>
+    <table style="margin:6px 0;">
+      <tr><th style="width:36%">类别</th><th>实测</th><th style="width:20%">怎么改</th></tr>
+      <tr><td><b>官方内核 265 个包</b><br><code>vendor/dsh-runtime/0.1.5-rc.1/*.tgz</code></td><td>一个 <code>.tgz</code> 本身就是「成品」——没有源码可编辑；仓库里也没有它们的源码副本（官方源码在 <code>deepseek-harness</code> submodule，我们已决定不拉）</td><td class="hard"><b>必须叠补丁</b><br>（Yarn <code>patch:</code> 协议：解包→打 diff→重打包）</td></tr>
+      <tr><td><b>第三方 npm 包 5 个</b><br><code>app-builder-lib</code> / <code>open</code> / <code>fs-ext</code> / <code>pnpm</code> / <code>@vscode/ripgrep</code>（另 <code>dshmarket</code> 在 <code>.yarn/patches/</code>）</td><td>同上 —— 都是从 registry 下载的成品包</td><td class="hard"><b>必须叠补丁</b></td></tr>
+      <tr><td><b>我们自己的 4 个包</b><br><code>dsh-plugin-desktop</code> / <code>-beta</code> / <code>dsh-community-fabric</code> / <code>dsh-community-market</code></td><td class="easy">实测：根 <code>package.json</code> 的 <code>workspaces</code> 里就是这 4 个 → <b>它们在仓库里有完整源码</b>，且<b>没有任何 patch 引用它们</b>（我方 120+ 个文件的改动全是直接改它们）</td><td class="easy"><b>直接改源码</b><br>（改完 build）</td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:13px;">
+      <b>补丁清单（实测 21 个 + <code>.yarn/patches</code> 1 个 = 22 处引用）</b>：13 个社区自带 + <b>我方 3 个</b>（<code>dsh-api-session-controller</code>/<code>dsh-session-persistence-jsonl</code>/<code>dsh-client-ui-sidebar</code>）都指向内核 tgz；再加 5 个第三方包。<br>
+      ⚠️ <b>更正我先前的说法</b>：我上一轮说"修重启按钮要新增补丁"——<b>是错的</b>（重启令牌、卸载超时都在 <code>dsh-community-market</code> 源码里，属于"直接改"）。补丁 <b>只对内核 tgz 与第三方 npm 包</b>才需要。
+    </p>
+  </div>
+
+  <div class="box box-info">
+    <h3>⛔ 第 39 项【已作废】· 社区 v2.0.10 的「官方 vs 社区」改动对照（**保留作参考情报**）</h3>
+    <p style="margin:6px 0;">
+      <b>⛔ 作废原因（用户 2026-09-15 下午）</b>：<b>社区版对我们只是「参考样本」，不是追随对象</b>；社区发版不构成我们的升级理由，它升级后的东西不一定是我们需要的。我们只走一条线 —— <b>官方内核更新了什么 → 社区版跟着动了/加了/优化了什么 → 从中挑我们需要的</b>，借过来改成自己的。<br>
+      <b>因此：不升级到 2.0.10、不新建 <code>I:\dsh-915</code>、不做"追社区版"流程。</b>要改直接在 <code>I:\dsh-913</code> 上改（我们已有自己的更新源与更新方法）。
+    </p>
+    <p style="margin:6px 0;">
+      下面这份对照<b>仍然有用</b>（它是"官方 vs 社区"改动的情报底账），下次要借鉴时直接查：
+    </p>
+    <table style="margin:6px 0;">
+      <tr><th style="width:30%">项目</th><th>实测结论（情报）</th></tr>
+      <tr><td>目标版本</td><td>社区 <b>v2.0.10</b>（tag <code>697e7d782c</code>，2026-09-14）｜官方内核 <b>0.1.5-rc.2</b>（<code>fb2c4b9e69</code>）</td></tr>
+      <tr><td>官方改了什么</td><td>仅 4 个提交、1 个实质提交（挑选式 backport PR #3928/#3902）；release notes 自述为<b>「体验优化」两条</b>：①反馈提交改弹窗确认 ②交付文件卡片排版/对话间距/代码文件图标。<b>无新功能、无新包（265→265）</b></td></tr>
+      <tr><td>社区改了什么</td><td>10 个提交：换内核 pin、重建 vendored runtime（13 个社区补丁<b>只改名不改内容</b>）、版本号→2.0.10、<b>打包改为不开 ASAR</b>（<code>asar:false</code> + fuse 期望值反转）—— <b>ASAR 这一条将来若要借鉴，须重新实机验证</b></td></tr>
+      <tr><td>我方补丁适配情报</td><td><code>dsh-api-session-controller</code> / <code>dsh-session-persistence-jsonl</code> → 目标包 0 改动；<code>dsh-client-ui-sidebar</code> → 目标 <code>lib/client.js</code> 变了（−29B）</td></tr>
+      <tr><td>已知坑</td><td><code>package:dir</code> 的 Windows 缺陷 <b>2.0.10 仍未修</b> → 继续用 <code>dist:win</code></td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:13px;">
+      完整证据见 <code>.workbuddy/version-diff-2.0.9-2.0.10.md</code>。
+    </p>
+  </div>
+
+  <div class="box box-warn">
+    <h3>⏸ 第 40/41 项 · 讨论中（2026-09-15 12:10 用户提出，待拍板）</h3>
+    <p style="margin:6px 0;">
+      ① <b>第 40 项</b>：把"手机连接"（<code>@agents-anywhere/dsh-bridge-next</code>）从安装包里剥离，改成后续自己安装的独立插件。<br>
+      ② <b>第 41 项</b>：市场"已安装"列表里，给<b>所有</b>插件都加"卸载"按钮（现状：<code>dsh-base</code> / <code>dsh-web-app</code> 无按钮）。
+    </p>
+    <p style="margin:6px 0;">
+      详细查证与备选方案见 <code>.workbuddy/plugin-extraction-and-uninstall.md</code>（含三方案取舍与风险）。
+    </p>
+  </div>
+
+  <div class="box box-warn">
+    <h3>⏸ 第 38 项 · 下次更新时处理：Profile 名 <code>desktop</code> 改名</h3>
+    <p style="margin:6px 0;">
+      <b>用户决定（2026-09-15 00:21）</b>：本次<b>不改</b>，<b>下次追社区版更新时一起改</b>。
+    </p>
+    <p style="margin:6px 0;">
+      现象：首启向导卡片显示 <code>PROFILE / desktop</code>。查证结果 —— 这<b>不是"显示文案"，而是 Profile 的标识符，同时就是目录名</b>：
+      <code>native-ui/setup-wizard/App.tsx:525</code> 直接渲染真实 profile 名；数据目录 = <code>&lt;安装目录&gt;\data\profiles\desktop\</code>；
+      它同时是 <code>dsh --profile desktop</code> 的默认值、托盘 profile 菜单、工厂重置白名单。
+    </p>
+    <table style="margin:6px 0;">
+      <tr><th style="width:26%">类别</th><th>位置</th></tr>
+      <tr><td><b>必须改 · 源码 5 处</b></td><td><code>profile.ts:81</code>（<code>DESKTOP_PROFILE_NAME</code>）/ <code>profile-manager.ts:33</code>（<code>DEFAULT_PROFILE_NAME</code>，<b>上游重复定义了两份常量</b>）/ <code>profile-checkpoint.ts:521</code>（裸字面量）/ <code>main.ts:958</code> / <code>desktop-factory-reset.ts:91</code></td></tr>
+      <tr><td>关联 · 待定</td><td><code>safe-mode.ts:27</code>（派生名 <code>desktop-safe-mode</code>）、<code>main.ts:392</code>（Electron userData 目录 <code>data\desktop</code>，<b>不是</b> profile）</td></tr>
+      <tr><td><b>必须改 · 脚本 5 处</b></td><td><code>scripts/verify-profile-boot.mjs</code>（4 处断言）、<code>scripts/verify-cli-runtime.mjs:188</code></td></tr>
+      <tr><td>不用改（同名但无关）</td><td><code>desktop-data-directory.ts</code> 的 <code>'desktop'</code>（数据来源枚举）、<code>client/desktop-settings.ts:83</code>（设置分区 id）、<code>DSH_DESKTOP_*</code> 环境变量名</td></tr>
+      <tr><td>测试</td><td>出现约 60 处，<b>多数是"输入型"夹具</b>（显式传 <code>profileName:'desktop'</code>）→ 预计多数不用改；<b>动手前必须逐个核实哪些是"断言默认值"</b></td></tr>
+    </table>
+    <p style="margin:6px 0 0;font-size:13px;">
+      <b>改时的注意</b>：① 改 = <b>换 profile 目录</b> → 现有数据变孤儿，需迁移；
+      ② 名字必须**目录安全**（纯 ASCII、非保留名如 <code>node_modules</code>）；
+      ③ 我们策略是"全量追社区版"，这里是**冲突高发点**；
+      ④ 改完必须重跑 <code>typecheck</code> + <code>test</code> 复验。<br>
+      <b>本次为何最便宜却仍不改</b>：当时是首启向导、零数据 —— 但用户决定与下次社区版更新合并处理，避免同一处改两遍。<br>
+      <b class="hard">⚠️ 2026-09-15 更正与用户决定</b>：新包已实机安装并投入使用，<code>data\profiles\desktop</code> 里已有数据（settings.yaml / .credentials.yaml / sessions / storages）—— 原"零数据"前提一度失效。<br>
+      <b class="easy">✅ 用户 2026-09-15 09:56 决定：这些是<b>测试数据、可以丢弃</b>；下次更新时<b>直接重新打包即可</b>，下次依然是全新 profile。</b>
+      → 因此<b>本项维持"下次更新时处理"不变，且无需做数据迁移</b>（改完重新打包，用全新环境验证）。
+    </p>
+  </div>
+
+  <div class="box box-warn">
+    <h3>⏸ 待拍板 · 暂缓（2026-09-14 你要求"先记下、后续讨论"）</h3>
+    <table style="margin:0;">
+      <tr><th style="width:6%">#</th><th style="width:33%">事项</th><th>背景 / 两条路</th></tr>
+      <tr>
+        <td class="n">34</td>
+        <td><code>src/lan-https-certificate.ts:22</code><br><code>CA_COMMON_NAME = 'DeepSeek Harness Desktop Local CA'</code></td>
+        <td>局域网 HTTPS 自签根证书的名字（在系统里信任证书时会看到）。<br>
+          <b>A 改</b>：与新品牌统一。代价 —— 你之前若信任过旧证书，证书名变了要重新信任。<br>
+          <b>B 不改</b>：本机根本没启用局域网访问，改了没实际收益。<br>
+          <span class="easy">我倾向 B</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="n">35</td>
+        <td><code>patches/dsh-client-ui-directory-picker-browse@0.1.5-rc.1.patch</code> 里两条 <code>DSH Desktop … unavailable</code></td>
+        <td>目录选择器的两条报错文案（界面可见，出现频率很低）。<br>
+          <b>A 改</b>：文案统一。代价 —— 动补丁文件会改变安装时的补丁校验，需要重跑 <code>yarn install</code> 才生效。<br>
+          <b>B 不改</b>：换来的只是一条低可见度报错文案。<br>
+          <span class="easy">我倾向 B</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="n">36</td>
+        <td><code>I:\deepseekharness制作\.workbuddy\probe-local-update-fetch.js</code></td>
+        <td><b>第 5 项遗留：需要你手动跑一次 Electron 探针。</b><br>
+          第 5 项依赖「Electron <code>net.fetch</code> 能读 <code>file://</code> 中文路径」这个前提。本会话早先<b>已实测通过</b>，但我想把<b>生产代码的确切参数组合</b>（<code>redirect:'error'</code> / <code>cache:'no-store'</code> / 2MB body 流）再验一遍时，<b>被 WorkBuddy 沙箱拦下、你也拒绝了</b>（拦住的是 <code>.ssh</code> 路径，与命令内容无关）。按铁律<b>未重试</b>。<br>
+          <b>手动执行</b>（先清掉 <code>ELECTRON_RUN_AS_NODE</code> 与 <code>NODE_OPTIONS</code>）：<br>
+          <code>&amp; "I:\dsh-desktop\dsh-plugin-desktop\node_modules\electron\dist\electron.exe" "I:\deepseekharness制作\.workbuddy\probe-local-update-fetch.js"</code><br>
+          结果写到 <code>%TEMP%\electron-probe\probe5-result.txt</code>。<span style="color:#777;">脚本会在 <code>I:\update-probe-测试目录</code> 建临时夹具，跑完自动清理。</span>
+        </td>
+      </tr>
+    </table>
+    <p style="margin:10px 0 0;font-size:13px;">34、35 两项<b>不影响第 1 项已完成的成果</b>，随时可单独拿出来做；36 是第 5 项的<b>加固验证</b>，不影响功能正确性（前提已由早先探针验证过）。</p>
+  </div>
+
+  <div class="box box-good">
+    <h3>✅ 37 · 第 1 项补遗：全量审计 + 修补 —— <b>已全部完成</b>（2026-09-14 23:2x）</h3>
+    <p style="margin:6px 0;">
+      补遗前先做了<b>全量审计</b>（工具 <code>.workbuddy/scripts-rename-audit.mjs</code>，排除依赖/文档/二进制，扫 947 文件）：
+      <b>命中 158 个文件、646 行旧名</b>。而且查出<b>第 1 项打破了主流水线</b>（见下表）。<br>
+      <b class="easy">2026-09-14 晚：下表所有实质项均已修补完毕并验证通过（执行结果见本框末尾）。</b>
+    </p>
+    <table style="margin:10px 0;">
+      <tr><th style="width:16%">严重度</th><th style="width:34%">问题</th><th>实锤</th></tr>
+      <tr>
+        <td class="hard"><b>阻塞</b></td>
+        <td><b><code>yarn check</code> 会失败</b></td>
+        <td><code>package.json:596</code> 的 <code>check:layout</code> 里含 <code>check:desktop-variants</code>；该脚本<b>逐文件比对 stable 与 beta 源码</b>，只允许 <code>product-identity.ts</code> 不同。第 1 项<b>只改了 stable</b> → 必然抛 "Desktop variant source drift"</td>
+      </tr>
+      <tr>
+        <td class="hard"><b>会红</b></td>
+        <td>托盘相关测试/脚本</td>
+        <td><code>src/tray-locale.ts</code> 已改为 <code>'Open R9'</code>/<code>'打开 R9'</code> → <code>tests/terminal.spec.ts:35,37</code>、<code>scripts/verify-profile-boot.mjs:265</code> 仍断言旧值；<code>tests/updates.spec.ts</code> 8 处断言托盘 <code>'DSH Desktop … Available'</code></td>
+      </tr>
+      <tr>
+        <td class="hard"><b>用户可见</b></td>
+        <td>市场界面文案仍是旧名</td>
+        <td><code>dsh-community-market/src/client/locales.ts</code> <b>26 处</b>（中英各一套：<code>'需要 DSH Desktop'</code>、<code>'打开 DSH 终端'</code>、<code>'重启 DSH Desktop'</code> …）+ <code>host/routes.ts:942</code>。<br><span class="hard">⚠️ 更正我早先的说法：我曾写"该文件无需改、第 1 项已处理"——<b>是错的</b>，第 1 项根本没碰 <code>dsh-community-market/</code>。</span></td>
+      </tr>
+      <tr>
+        <td class="mid"><b>工具失效</b></td>
+        <td><code>dsh-plugin-desktop/scripts/</code> 8 个手动工具</td>
+        <td>约 40 处（exe 名 / DisplayName 正则 / 产物名 / userData 路径）。不在常规构建链路，但<b>手动跑就会失败</b></td>
+      </tr>
+      <tr>
+        <td><b>待测</b></td>
+        <td><code>tests/</code> 其余断言</td>
+        <td>约 30 文件 / 90 行命中，其中**部分是入参或示例路径（不会红）**。<b>不猜 —— 需跑一次测试拿完整红名单</b></td>
+      </tr>
+    </table>
+    <h3 style="margin-top:14px;">当时需要你拍板的两件事（<b>已拍板并执行</b>）</h3>
+    <table style="margin:6px 0;">
+      <tr><th style="width:26%">决策</th><th>选项</th></tr>
+      <tr>
+        <td><b>① beta 包（<code>dsh-plugin-desktop-beta/</code>，约 330 处）要不要一起改名？</b><br><span style="color:#777;font-size:12px;">直接决定 <code>check:desktop-variants</code> 怎么修</span></td>
+        <td>
+          <b>A1 一起改</b> —— 约 600 行机械改动（src + tests），保持变体校验有效；代价：给一个<b>永不构建</b>的包做大改，且 beta 的 <code>windowTitle</code> 也得跟着变，与 stable 无法区分。<br>
+          <b>A2 不改 beta，把 <code>check:desktop-variants</code> 从流水线摘掉并注释说明</b> —— <span class="easy">推荐</span>：承认"只构建 stable"的现实，改动最小；代价：失去一道对本项目已无意义的安全网。<br>
+          <b>A3 把差异文件逐个加进脚本允许清单</b> —— 不推荐，校验会彻底失去意义。
+        </td>
+      </tr>
+      <tr>
+        <td><b>② 测试断言怎么修？</b></td>
+        <td>
+          <b>B1 等你跑一次 <code>yarn install &amp;&amp; yarn check</code> 拿完整红名单，再一次性修</b> —— <span class="easy">推荐</span>，我不猜。<br>
+          <b>B2 只修我已实锤会红的那几处</b> —— 快，但可能漏。
+        </td>
+      </tr>
+    </table>
+    <h3 style="margin-top:14px;">决策状态（2026-09-14 13:19 更新）</h3>
+    <table style="margin:6px 0;">
+      <tr><th style="width:22%">决策</th><th style="width:22%">状态</th><th>内容</th></tr>
+      <tr>
+        <td><b>① beta 包</b></td>
+        <td class="easy"><b>A2 ✅ 已执行</b><br><span style="font-size:11px;">2026-09-14</span></td>
+        <td>用户明确"<b>我们不出 beta 了</b>"。<br>→ <b>不改 beta 包</b>（100% 保持社区原样）；<b>已把 <code>check:desktop-variants</code> 从 <code>check:layout</code> 摘掉</b>。<br>
+        <b>实际改动</b>：<code>check:layout</code> 里删掉 <code>&amp;&amp; yarn check:desktop-variants</code> 一段；新增 <code>"// check:desktop-variants"</code> 说明键（JSON 不能写注释，用约定键名承载原因），<b>脚本定义与命令均保留</b>，需要人工比对时仍可单独执行 <code>yarn check:desktop-variants</code>。<br>
+        <b>验证</b>：JSON 合法 ✅；<code>check:layout</code> 已不含该项 ✅；定义与说明键仍在 ✅</td>
+      </tr>
+      <tr>
+        <td><b>② 测试断言</b></td>
+        <td class="easy"><b>B1 ✅ 已执行</b><br><span style="font-size:11px;">2026-09-14 23:2x</span></td>
+        <td>按约定"等全部改完再一起验证"，用户手动跑完整检查拿到红名单：<code>desktop test</code> <b>45 failed</b>。逐条定性后 = <b>28 个环境/平台类</b>（与我方改动无关）+ <b>17 个改名文案期望值</b>。<br>→ <b>17 个已全部修正</b>（7 个测试文件 23 行）；改后 <code>desktop test</code> <b>45 → 30 failed</b>，剩余 30 个 100% 为环境/平台类。<br><span style="color:#777;font-size:12px;">方案见 <code>.workbuddy/plan-b-fix.html</code>。用户拍板：补遗 A/B <b>都改</b>；环境类里那 20 个"上游 POSIX 假设"<b>接受不修</b>。</span></td>
+      </tr>
+    </table>
+    <h3 style="margin-top:14px;">第 1 项补遗 · 执行结果（<b>2026-09-14 23:2x 全部完成</b>）</h3>
+    <table style="margin:6px 0;">
+      <tr><th style="width:34%">项目</th><th style="width:16%">规模</th><th>结果</th></tr>
+      <tr><td>市场界面文案 <code>dsh-community-market/src/client/locales.ts</code> + <code>host/routes.ts</code></td><td>25 处</td><td class="easy">✅ 已改（中英各一套 → <code>deepseek harness</code> / <code>R9</code>；顺手修了 3 处中文粘连 + 3 处指产品的孤立 <code>Desktop</code>）</td></tr>
+      <tr><td><code>dsh-plugin-desktop/scripts/</code> 工具脚本</td><td>9 文件 / 29 处</td><td class="easy">✅ 已改（exe 名 / 安装包名 / DisplayName / 进程名 / <code>$env:APPDATA\deepseekharness</code>）<br><span style="color:#666">明确不改：<code>x-dsh-desktop-renderer</code>（HTTP header）、<code>dsh-desktop:</code>（URL scheme）、<code>dsh-desktop-*</code>（临时前缀）—— 均为跨进程契约</span></td></tr>
+      <tr><td>stable 测试断言</td><td>13 测试文件</td><td class="easy">✅ 已改 —— B 类 17 项 23 行 + <code>windows-nsis-ab.spec.ts</code> fixture 名同步<br><span style="color:#666">另修 <code>terminal.spec.ts:37</code> 中文行 <code>'打开 DSH 终端'</code></span></td></tr>
+      <tr><td>市场文档 + <code>package.json description</code></td><td>12 文档 44 处 + 6 i18n.yaml</td><td class="easy">✅ 已改；改 md 后<b>同步了 12 个 i18n 哈希</b>，<code>verify-bilingual-docs</code> 恢复一致</td></tr>
+      <tr><td class="hard"><code>smoke-windows-installer-upgrade.ps1:38</code> 的 <code>%APPDATA%\DSH Desktop</code></td><td>1 处</td><td class="easy">✅ 已改（用户拍板：跟 productName 走 → <code>deepseekharness</code>）</td></tr>
+    </table>
+    <p style="margin:10px 0 0;font-size:13px;">
+      <b>验证（全部实测）</b>：<code>desktop test</code> <b>45 → 30 failed</b>（1306 passed / 12 skipped）；剩余 30 个 <b>100% 是环境/平台类</b>；<code>typecheck</code> 5 个 tsconfig 全 exit=0；<code>market</code> 264/264 且全构建链通过。<br>
+      <b class="hard">⚠️ 我方方案的两处疏漏（已如实记录并在发现时当场修正）</b>：<br>
+      ① <code>windows-nsis-ab.spec.ts</code> 未列入方案 —— 它上一轮是全绿的，但改了 <code>build-windows-nsis-ab.ts</code> 的安装包名后，其 mock 仍造旧名 → <b>新增 5 个失败</b>；<br>
+      ② <code>terminal.spec.ts:37</code> 的中文版漏了 —— 首次 grep 的 pattern 只含 <code>DSH Terminal</code>、<b>不含 <code>DSH 终端</code></b>。<br>
+      <b>教训</b>：改「被测试引用的生产代码常量」时，必须同时搜测试里的<b>同值字面量</b>；grep 时<b>中英文两种写法都要覆盖</b>。
+    </p>
+  </div>
+
+  <!-- ============ 一 ============ -->
+  <h2>一、改名（12 项）<span class="easy"> ✅ 已执行（2026-09-14）</span></h2>
+  <div class="h2note">
+    最终口径（2026-09-14 用户改定，<b>覆盖原方案第 3、7 条</b>）：<code>productName</code> = <code>deepseekharness</code>、
+    <b>任务栏（窗口标题）</b> = <code>deepseekharness</code>、<b>窗口内标题栏</b> = <code>lisa</code>（<b>全软件仅此一处</b>）、
+    界面文案 = <code>deepseek harness</code>、<b>终端</b> = <code>R9</code>、appId = <code>deepseekharness.diy</code>、产物名 = <code>deepseekharness-…</code>。
+    <br><b>执行结果</b>：38 个文件、+210 / −210 行，未提交可一键回退；还有 2 项待你决定（CA 证书名、目录选择器补丁内文案）。详见 <code>plan-01-rename.html</code>。
+    <br><span class="easy">✅ <b>2026-09-14 补遗已全部完成</b>：<code>scripts/</code>（9 文件 29 处）、<code>dsh-community-market/</code>（<code>locales.ts</code> 24 处 + <code>routes.ts</code> 1 处 + 12 个文档 44 处 + 6 个 <code>i18n.yaml</code> 12 个哈希）、测试（B 类 17 项 23 行 + <code>windows-nsis-ab</code> fixture 名同步）均已补齐，全量验证通过。详见文末 <b>第 37 项</b>。</span>
+  </div>
+  <table>
+    <tr><th style="width:6%">#</th><th style="width:42%">文件</th><th>改什么</th></tr>
+    <tr><td class="n">1</td><td><code>src/product-identity.ts</code> <span class="new">★核心</span></td><td>stable 身份：<code>productName</code> → <code>deepseekharness</code>；<code>appId</code> → <code>deepseekharness.diy</code>（<b>beta 那套不动</b>，因为我们只构建 stable）</td></tr>
+    <tr><td class="n">2</td><td><code>dsh-plugin-desktop/package.json</code></td><td>build 段：<code>appId</code>、<code>productName</code>、<code>shortcutName</code>、两个 <code>artifactName</code>（安装包 / 便携包文件名）</td></tr>
+    <tr><td class="n">3</td><td><code>scripts/verify-win-installer.ts</code></td><td>预期产物名：<code>DSH-Desktop-…-Setup.exe</code> → <code>deepseekharness-…</code>；<code>DSH Desktop.exe</code> → <code>deepseekharness.exe</code></td></tr>
+    <tr><td class="n">4</td><td><code>scripts/verify-win-portable.ts</code></td><td>同上（便携包 zip 与内部 exe 名）</td></tr>
+    <tr><td class="n">5</td><td><code>src/client/DesktopFrameTitlebarView.tsx</code> <span class="mod">(原 ExtendedTitlebar)</span></td><td>标题栏上显示的字 → <code>lisa</code></td></tr>
+    <tr><td class="n">6</td><td><code>src/client/desktop-settings-locales.ts</code></td><td>设置页文案里的产品名（中英约 12 处）：标题、重启提示、市场说明、证书下载说明等</td></tr>
+    <tr><td class="n">7</td><td><code>src/desktop-terminal.ts</code></td><td>终端窗口里的文字（约 7 处，含 Win/macOS/Linux 三套脚本模板）</td></tr>
+    <tr><td class="n">8</td><td><code>src/desktop-boot-recovery.ts</code></td><td>插件加载失败的中英双语提示</td></tr>
+    <tr><td class="n">9</td><td><code>src/client/directory-picker.ts</code></td><td>目录选择器的 4 条错误信息</td></tr>
+    <tr><td class="n">10</td><td><code>src/bin.ts</code></td><td>CLI 帮助与报错文案（3 处）</td></tr>
+    <tr><td class="n">11</td><td><code>src/desktop-data-directory.ts</code></td><td>1 条错误信息</td></tr>
+    <tr><td class="n">12</td><td>3 个测试文件<br><code>tests/package.spec.ts</code>、<code>tests/verify-win-installer.spec.ts</code>、<code>tests/verify-win-portable.spec.ts</code></td><td>名字断言跟着改，否则测试会红</td></tr>
+  </table>
+  <div class="box box-info" style="font-size:13px;">
+    <b>不改的地方</b>：代码注释里的 <code>DSH Desktop</code>（如 <code>desktop-actions.ts</code>、<code>electron-runtime.ts</code>、
+    <code>desktop-installation-id.ts</code> 的文件头注释）—— 不影响运行，改了只增加 diff 噪音。
+  </div>
+
+  <!-- ============ 二 ============ -->
+  <h2>二、便携模式（1 项）<span class="easy"> ✅ 已执行（2026-09-14）</span></h2>
+  <div class="h2note">
+    最终口径（2026-09-14 二次拍板，选 <b>B 方案</b>）：<b>打包运行时无条件强制便携</b> —— 数据跟着安装目录走；
+    官方的"恢复助手切换数据目录"仍可在运行时覆盖它。
+  </div>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>为什么不是最初定的"只改兜底值"？</b>动手前实测发现本机 <code>HKCU\Environment</code> 里仍设着
+    <code>DSH_HOME = I:\deepseek-harness\.dsh</code>。<br>
+    若只改"没人指定时的兜底值"，这段代码<b>永远不会被走到</b> → 便携模式形同没做（仍会读 <code>I:\deepseek-harness\.dsh</code>）。
+    <br>→ 改为 <b>B：无条件强制</b>（= 旧版 9-13 已验收的行为；旧版注释原文：<i>a system-level DSH_HOME must not drag the desktop build onto another drive</i>）。
+  </div>
+
+  <table>
+    <tr><th style="width:6%">#</th><th style="width:26%">文件</th><th>实际改动</th></tr>
+    <tr><td class="n">13</td><td><code>src/main.ts</code><br><span class="easy">共 2 处 · +12 / −2 行</span></td>
+      <td>
+        <b>① <code>start()</code> 最开头</b>（原第 384 行之前，必须早于第 416 行读 userData）：
+        <pre style="margin:6px 0;">const portableDataDir = app.isPackaged ? join(dirname(process.execPath), 'data') : undefined
+if (portableDataDir !== undefined) {
+  process.env.DSH_HOME = portableDataDir
+  app.setPath('userData', join(portableDataDir, 'desktop'))
+}</pre>
+        <b>② 原第 690 / 691 行</b>：<code>defaultHome</code> 与 <code>fallbackSource</code> 跟随便携 ——
+        便携时 <code>defaultHome</code> = <code>安装目录\data</code>（恢复助手的"恢复默认目录"指向它），
+        <code>fallbackSource</code> 固定为 <code>'default'</code>。
+        <br><span class="easy">（<code>dirname</code> 已在该文件导入，未改 import；<code>inheritedDshHome</code> 那行<b>保持原样</b>，避免动到测试的源码断言）</span>
+      </td>
+    </tr>
+  </table>
+
+  <h3>改完的数据布局</h3>
+  <pre style="background:#F7F7F5;border-radius:8px;padding:12px 14px;font-size:12.5px;line-height:1.7;">&lt;安装目录&gt;\
+  ├─ deepseekharness.exe
+  └─ data\
+       ├─ profiles\ 、sessions\ 、settings.yaml …   ← DSH 数据主目录（DSH_HOME）
+       └─ desktop\                                   ← Electron userData（日志/状态/崩溃转储/缓存）</pre>
+
+  <h3>怎么验证（需你在本机跑）</h3>
+  <ol style="font-size:13.5px;">
+    <li>打包 → 安装到 <code>E:\app\deepseekharness</code>（或任意<b>可写</b>目录）→ 启动。</li>
+    <li>确认 <b>安装目录下出现 <code>data\</code></b>（含 <code>profiles</code> / <code>sessions</code> / <code>desktop\logs</code>）。</li>
+    <li>确认 <code>C:\Users\50667\AppData\Roaming\deepseekharness</code> <b>不再增长</b>。</li>
+    <li>确认<b>不再读取</b> <code>I:\deepseek-harness\.dsh</code>（该环境变量在桌面版里被忽略）。</li>
+    <li>恢复助手里"当前数据目录"应显示 <code>&lt;安装目录&gt;\data</code>，"恢复默认目录"也指向它。</li>
+    <li>重装一次 → 确认是全新环境。</li>
+  </ol>
+
+  <div class="box box-bad" style="font-size:13px;">
+    <b>⚠️ 一个已知风险（旧版同样存在）</b>：若把程序装到<b>不可写目录</b>（如 <code>C:\Program Files\</code>），
+    <code>&lt;安装目录&gt;\data</code> 会创建失败。本工程默认 <code>perMachine: false</code>（装到用户目录，可写），
+    但安装向导允许改路径 → <b>不要装到 Program Files</b>。
+  </div>
+
+  <!-- ============ 三 ============ -->
+  <h2>三、市场源替换（7 项）<span class="easy"> ✅ 已执行（2026-09-14）</span></h2>
+  <div class="h2note">把 <b>Awesome DSH Plugins</b> 接进插件市场：内置离线目录快照（约 2900 条），安装源钉死 GitHub commit。</div>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⚠️ 计划变了：从"替换"变成"新增"</b><br>
+    原计划是"把内置源②<code>DSH Marketplace</code>换成 Awesome"。但<b>新版社区版 2.0.9 已把 DSH Marketplace 整个删掉</b>：
+    <br>· <code>src/adapters/</code> 只剩 <code>dsh-1024store.ts</code>／<code>dshfind.ts</code>／<code>standard-http.ts</code>，<b>没有 <code>dsh-marketplace.ts</code></b>；
+    <br>· <code>BUILT_IN_PROVIDERS</code> 只剩 <b>2 个</b>（1024Store、dshfind）。
+    <br>→ 改成：<b>新增第 3 个内置源</b>，并沿用旧 key 字面值做升级兼容（见下）。
+  </div>
+
+  <table>
+    <tr><th style="width:6%">#</th><th style="width:33%">文件</th><th>实际改动</th></tr>
+    <tr><td class="n">14</td><td><code>src/adapters/awesome-list.ts</code> <span class="new">新增 5.7 KB</span></td><td>离线目录适配器：<code>fetch</code>／<code>fetchCategories</code>／<code>scanCatalog</code>，支持分类筛选、关键词搜索、排序与游标分页。自旧版<b>原样移植</b>；新增常量 <code>AWESOME_LIST_LEGACY_ADAPTER_ID</code> 供旧记录解析。</td></tr>
+    <tr><td class="n">15</td><td><code>src/data/awesome-catalog.ts</code> <span class="new">新增 2,095 KB</span></td><td>内置离线目录快照：<b>2931 条</b>（2922 条带 commit 可一键装），23 个分类。快照生成时间 <b>2026-09-02</b>（见下方可选后续）。</td></tr>
+    <tr><td class="n">16</td><td><code>src/catalog/service.ts</code></td><td><b>+26 行</b>：① 导入新适配器常量；② <code>BUILT_IN_PROVIDERS</code> <b>末尾追加</b>第 3 个源「Awesome DSH Plugins」；③ <code>adapters</code> 映射注册本适配器 ＋ <b>旧 adapterId 别名</b> <code>market.dsh-marketplace-qilewl-v1</code></td></tr>
+    <tr><td class="n">17</td><td><code>src/client/locales.ts</code></td><td class="hard">⚠️ <b>更正</b>：我原先写"无需改（第 1 项已统一为 <code>R9</code>）"——<b>是错的</b>。第 1 项只动了 <code>dsh-plugin-desktop/</code>，<b>没碰 <code>dsh-community-market/</code></b>，该文件<b>仍有 26 处旧名</b>（用户可见文案）。<b class="easy">✅ 已在第 37 项补遗中全部改完（25 处，中英各一套）</b></td></tr>
+    <tr><td class="n">18</td><td><code>src/index.ts</code></td><td><b>+1 行</b>：导出 <code>awesomeListAdapter</code></td></tr>
+    <tr><td class="n">19</td><td><code>tests/host-routes.spec.ts</code></td><td><b>+13 行</b>：① 导入常量；② <code>builtIns</code> 断言补第 3 条；③ <code>it.each</code> 增加"add-builtin 加载 Awesome 源"用例</td></tr>
+    <tr><td class="n">20</td><td><code>PRIVACY.md</code>、<code>PRIVACY.zh.md</code></td><td>内置来源清单补上 Awesome DSH Plugins（注明：浏览不联网，仅安装时访问 GitHub）</td></tr>
+  </table>
+
+  <h3>升级兼容：为什么沿用旧 key</h3>
+  <p style="font-size:13.5px;">
+  Awesome 源的 key 用的是 <code>'dsh-marketplace-qilewl'</code>（＝ 旧版 DSH Marketplace 的 key 字面值），
+  并给适配器映射加了旧 id <code>'market.dsh-marketplace-qilewl-v1'</code> 的别名。<br>
+  <b>作用</b>：把新版<b>装到旧版同一个安装目录</b>时，<code>data\desktop</code> 里旧记录仍在 →
+  它会直接显示成「Awesome DSH Plugins」并继续可用，<b>不需要重新添加</b>。（这正是旧版 DIY 注释里的原意。）
+  </p>
+
+  <h3>怎么验证（需你在本机跑）</h3>
+  <ol style="font-size:13.5px;">
+    <li>设置 →「插件市场」→「来源」：应看到 <b>3 个内置可选源</b>（DSH 1024Store／dshfind／<b>Awesome DSH Plugins</b>）。</li>
+    <li>添加并启用 Awesome 源 → 切到「发现」：应能<b>离线</b>列出条目（约 2900 条），可按 23 个分类筛选、可搜索。</li>
+    <li>断网浏览应正常；点"安装"才会访问 GitHub（拉取钉死 commit）。</li>
+    <li>升级安装场景：旧记录应自动显示为 Awesome DSH Plugins 且可用。</li>
+  </ol>
+
+  <div class="box box-info" style="font-size:13px;">
+    <b>契约安全性（已实测）</b>：新旧两版的 <b>9 个 contracts 文件 SHA256 逐字相同</b>
+    （<code>types.ts</code>／<code>validate.ts</code>／<code>query.ts</code>／<code>identity.ts</code>／<code>index.ts</code> ＋ 4 个 generated），
+    所以旧适配器可以原样编译运行；<code>CatalogAdapter</code> 的 <code>fetchCategories?</code>／<code>scanCatalog?</code> 均为可选，签名一致。
+    <br>另核：<code>adapterHttpClients</code> 缺省回退到默认客户端（本适配器不联网，无需注册）；
+    <code>providerQuery</code> 分支只对 dshfind／1024Store 生效，本适配器走 <code>scanCatalog</code> 路径 ✓
+  </div>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>可选后续（不在本项范围，等你决定）</b>：当前快照生成于 <b>2026-09-02</b>（12 天前）。
+    生成器还在：<code>I:\deepseekharness制作\.workbuddy\awesome-catalog\</code>
+    （<code>parse-catalog.mjs</code>／<code>fetch-commits.mjs</code>／<code>build-awesome-data.mjs</code>）。
+    要刷新到最新数据可单独做一步（需联网，可能需 GitHub token）。
+  </div>
+
+  <!-- ============ 四 ============ -->
+  <h2>四、中文化补丁（2 项）<span class="easy"> ✅ 已查证：无需执行</span></h2>
+  <div class="box box-good">
+    <h3>结论：官方 0.1.5-rc.1 已把我们当年补的东西内置了，第 21、22 项<b>取消</b></h3>
+    <p style="margin:6px 0 0;">
+      旧版 <code>0.1.2-alpha.1</code> 时，官方中文词典里权限档位是<b>半中半英</b>（<code>"access.confirm.title": "确认启用 Full access？"</code>、<code>"access.fullLabel": "Full access"</code>），
+      而且选择器只翻译了「完全访问」一档，另两档走 <code>displayName()</code> 出英文 —— 所以我们当年才打了补丁。
+      <b>新版官方把这些全部补齐了。</b>
+    </p>
+  </div>
+  <h3>证据（新版实测）</h3>
+  <table>
+    <tr><th style="width:34%">项目</th><th style="width:33%">旧版 0.1.2-alpha.1</th><th>新版 0.1.5-rc.1</th></tr>
+    <tr>
+      <td>中文词典 · 三档权限</td>
+      <td class="hard">只有 <code>access.fullLabel: "Full access"</code>（未译）</td>
+      <td class="easy"><code>preset.readOnly: "仅可查看"</code><br><code>preset.workspaceWrite: "工作区内修改"</code><br><code>preset.fullAccess: "完全权限"</code></td>
+    </tr>
+    <tr>
+      <td>中文词典 · 确认弹窗</td>
+      <td class="hard"><code>"确认启用 Full access？"</code>（中英混杂）</td>
+      <td class="easy"><code>"确认启用完全权限？"</code>（全中文，且用词改成「智能体」）</td>
+    </tr>
+    <tr>
+      <td>选择器翻译函数</td>
+      <td class="hard"><code>optionLabel()</code> 只处理 <code>FULL_ACCESS</code> 一档，另两档出英文</td>
+      <td class="easy"><code>permissionLabel()</code> <b>三档全走 <code>t()</code> 词典</b></td>
+    </tr>
+    <tr>
+      <td>官方自述</td>
+      <td>—</td>
+      <td>官方 README 原话：内置标签"在中文界面中是<b>「仅可查看」「工作区内修改」和「完全权限」</b>"</td>
+    </tr>
+  </table>
+  <h3>这次做的四道核实（都不是猜的）</h3>
+  <ol style="font-size:13.5px;">
+    <li><b>词典逐 key 比对</b>：新包 <code>libraries/client.js</code> 里 <code>zh</code> / <code>en</code> 两本词典各 <b>156 条，一一对应、零缺漏</b>；中英完全相同的仅 5 条（<code>Bash</code>/<code>Pwsh</code>/<code>Grep</code>/<code>Glob</code>/<code>HTTP</code>），<b>都是本就该保持英文的技术名词</b>。</li>
+    <li><b>词典挂载确认</b>：<code>ctx.locale.register(NS, { zh, en })</code> —— 中文词典确实会被使用。</li>
+    <li><b>选择器链路确认</b>：宿主包 <code>dsh-permission-presets</code> 给出的名字是机器名（<code>workspace-write</code> 等），与 <code>permissionLabel()</code> 里 <code>name === value</code> 的条件吻合 → <b>确实走中文词典</b>。</li>
+    <li><b>排查有无其它真翻译</b>：回查旧版 29 个改动，<code>notifications.ts</code> / <code>recovery-copy.ts</code> / <code>PRIVACY*</code> 等全是<b>改名或市场源</b>改动（文件本来就是中文），<b>真正的翻译补丁只有这一个</b>。</li>
+  </ol>
+  <div class="box box-warn">
+    <h3>唯一差别：用词不同（不涉及功能）</h3>
+    <table style="margin:0;">
+      <tr><th style="width:24%">档位</th><th style="width:38%">我们旧补丁的写法</th><th>官方新版写法</th></tr>
+      <tr><td>完全访问档</td><td><code>完全访问</code></td><td><code>完全权限</code></td></tr>
+      <tr><td>只读档</td><td><code>只读</code></td><td><code>仅可查看</code></td></tr>
+      <tr><td>工作区写入档</td><td><code>工作区写入</code></td><td><code>工作区内修改</code></td></tr>
+      <tr><td>弹窗里的称呼</td><td><code>agent</code>（保留英文）</td><td><code>智能体</code></td></tr>
+    </table>
+    <p style="margin:8px 0 0;">
+      官方用词更完整（把 <code>agent</code> 也译了）。<b>若你更喜欢我们旧写法，可以保留一个"只改文案"的精简补丁</b>（只动词典里 3 行，不动逻辑）；
+      否则<b>第 21、22 项整个取消</b>，少维护一个官方包补丁。
+    </p>
+  </div>
+  <div class="box box-info" style="font-size:13px;">
+    <b>关联提醒 · 第 27 项不受影响</b>：指令面板那 6 条描述（<code>compact</code> / <code>export</code> / <code>feedback</code> / <code>goal</code> / <code>permission</code> / <code>plan</code>）
+    在新版里<b>仍然是纯英文硬编码</b>（实测确认），且指令系统<b>没有多语言机制</b> —— 第 27 项照旧要做。
+  </div>
+
+  <!-- ============ 五 ============ -->
+  <h2>五、升级源改本地（4 项 + 1 处配置）<span class="easy"> ✅ 已执行</span></h2>
+  <div class="h2note">决策：<b>① 直读本地文件（<code>file://</code>，不开服务器）+ ② 动态拼地址 + ③ 关闭后台轮询 + ④ 目录 <code>发布\</code> / <code>源码\</code></b></div>
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⚠️ 本次范围（2026-09-14 你已定）</b>：<b>本次只改代码</b> —— 把地址指向
+    <code>file:///I:/deepseekharness更新DIY/发布/…</code>；
+    <b class="easy">✅ 该目录及内容已于 2026-09-14 23:4x 建立（<code>发布\version.json</code> 已就位）</b>。<br><br>
+    <b>为什么必须先改代码</b>：不改的话，更新地址仍指向<b>社区版官网</b> → 点"检查更新"会提示社区版新版本、下载的是<b>社区版原版包</b>，
+    一装就把我们的改名 / 便携模式 / 中文化 / 市场源<b>全部冲掉</b>。<br>
+    改完之后，最坏情况只是"点了更新没反应"（静默失败），<b>不会误装社区版包</b> —— 这就把坑堵住了。
+  </div>
+
+  <h3>5.1 改动前 → 改动后</h3>
+  <table>
+    <tr><th style="width:12%">环节</th><th style="width:38%">改动前（社区版官网）</th><th>改动后（本地源）</th></tr>
+    <tr>
+      <td><b>查版本</b></td>
+      <td><code>https://www.dshdesktop.cn/api/desktop/version</code><br><span style="color:#777;font-size:12px;"><code>update-checker.ts:10</code></span></td>
+      <td class="easy">由 <code>pathToFileURL(join(源目录, 'version.json'))</code> 现场生成<br><span style="color:#777;font-size:12px;">中文会变成 <code>%E6%9B%B4%E6%96%B0</code>（更新）这类标准转义</span></td>
+    </tr>
+    <tr>
+      <td><b>下载</b></td>
+      <td>两个写死地址（<code>/api/downloads/mac</code>、<code>/windows</code>）<br><span style="color:#777;font-size:12px;"><code>update-download.ts:18-21</code></span></td>
+      <td class="easy"><b>按"平台 + 版本号"动态拼</b>的 <code>desktopUpdateDownloadUrl()</code><br><span style="color:#777;font-size:12px;">Windows → <code>…/deepseekharness-2.0.10-x64-Setup.exe</code></span></td>
+    </tr>
+  </table>
+
+  <h3>5.2 实际改动（4 文件，+67 / −16 行）</h3>
+  <table>
+    <tr><th style="width:6%">#</th><th style="width:36%">文件</th><th>改了什么</th></tr>
+    <tr>
+      <td class="n">23</td><td><code>src/update-checker.ts</code></td>
+      <td>① 新增 <code>DESKTOP_UPDATE_SOURCE_DIRECTORY = 'I:\deepseekharness更新DIY\发布'</code>；② <code>DESKTOP_VERSION_ENDPOINT</code> 改为由 <code>pathToFileURL()</code> 生成；③ 新增 <code>node:path</code> / <code>node:url</code> 导入</td>
+    </tr>
+    <tr>
+      <td class="n">24</td><td><code>src/update-download.ts</code></td>
+      <td>删掉 <code>DESKTOP_DOWNLOAD_URLS</code>，换成两个导出函数：<code>desktopUpdateArtifactName()</code>（拼文件名）+ <code>desktopUpdateDownloadUrl()</code>（拼 URL）；调用点同步改</td>
+    </tr>
+    <tr>
+      <td class="n">25</td><td><code>tests/update-download.spec.ts</code></td>
+      <td>import 改掉；<code>:99</code>、<code>:112</code> 两处断言改为 <code>desktopUpdateDownloadUrl('darwin','2.1.0')</code> / <code>('win32','2.2.0')</code></td>
+    </tr>
+    <tr>
+      <td class="n">26</td><td><code>cordis.patch.yml</code></td>
+      <td>给 <code>desktop-updates</code> 加 <code>config: { enabled: false }</code>，关掉后台自动轮询</td>
+    </tr>
+  </table>
+  <div class="box box-good" style="font-size:13px;">
+    ✅ <b>核对过、确认不受影响的测试</b>：<code>update-checker.spec.ts</code> 全文未引用端点常量；
+    <code>package.spec.ts:344</code> 的断言只匹配 <code>web-runtime</code> 段，新增的 config 不影响；
+    <code>electron-runtime.spec.ts:2344</code> 里的社区域名只是传给<b>已 mock 的</b> <code>net.fetch</code> 的参数，与端点无关。
+  </div>
+
+  <h3>5.3 实机验证结论（我跑过探针，不是推测）</h3>
+  <table>
+    <tr><th style="width:52%">实测项</th><th>结果</th></tr>
+    <tr><td><code>net.fetch('file:///…/version.json')</code></td><td class="easy"><b>status=200，内容正常读出</b> ✅</td></tr>
+    <tr><td><code>file://</code> <b>中文路径</b>（直接写中文 / <code>%</code> 编码两种）</td><td class="easy"><b>status=200</b> ✅</td></tr>
+    <tr><td>文件不存在时</td><td class="hard">抛 <code>ERR_FILE_NOT_FOUND</code> → 被代码吞掉 → <b>界面无任何提示</b></td></tr>
+    <tr><td><code>net.request</code>（另一个 API）</td><td>不支持 <code>file://</code>；但我们用的是 <code>net.fetch</code>，<b>不受影响</b></td></tr>
+  </table>
+  <p style="font-size:13.5px;">
+    结论：<b>取数接口本来就支持本地文件</b>。"开服务器"是给公网用户的设计，本地自用不需要。
+  </p>
+
+  <h3>5.4 动态拼地址的命名规则 <span class="easy">✅ 已对齐（原为风险点）</span></h3>
+  <table>
+    <tr><th style="width:24%">项目</th><th>内容</th></tr>
+    <tr><td><b>函数拼出</b></td><td><code>file:///I:/deepseekharness更新DIY/发布/deepseekharness-&lt;版本&gt;-x64-Setup.exe</code></td></tr>
+    <tr><td><b>命名依据</b></td><td>与打包配置 <code>nsis.artifactName</code> 对齐 —— 现值 <code>deepseekharness-${version}-${arch}-Setup.${ext}</code>（第一类改名已把它从 <code>DSH-Desktop-…</code> 改过来），<code>${arch}</code> 本工程固定 <code>x64</code> → 与函数的 <code>-x64-Setup.exe</code> 完全一致</td></tr>
+    <tr><td class="easy"><b>结论</b></td><td><b>打包产物可直接拷进 <code>发布\</code>，不用改名</b> —— 这是本次特意选的"免改名"形态</td></tr>
+    <tr><td class="mid"><b>另注</b></td><td>macOS 分支写的是 <code>…-mac.dmg</code>，仅用于保持平台契约完整 —— <b>本工程 mac 目标是 <code>dir</code>，不产出 dmg</b>；将来真要发 mac 需同步调整。beta 分支用的是 <code>deepseekharness-Beta-…</code>（与 <code>desktopUpdateFilename()</code> 既有约定一致）；本次只构建 stable</td></tr>
+  </table>
+
+  <h3>5.5 目录结构与版本信息文件</h3>
+  <pre>I:\deepseekharness更新DIY\
+  ├─ 发布\                                     ← 更新源：软件从这里取版本信息和安装包
+  │    ├─ version.json                         ← 内容：{ "version": "2.0.10" }
+  │    └─ deepseekharness-2.0.10-x64-Setup.exe ← 安装包（文件名带版本号，由函数自动拼）
+  └─ 源码\                                     ← 以后的修改工作副本放这</pre>
+  <table>
+    <tr><th style="width:30%">version.json 规则</th><th>说明</th></tr>
+    <tr><td>格式</td><td>一行即可：<code>{ "version": "2.0.10" }</code>；可带 <code>"channel": "stable"</code>（不带也行）</td></tr>
+    <tr><td class="hard">⚠️ 不能是预发布版</td><td>写成 <code>2.0.10-beta.1</code> 会被直接拒收（stable 只认纯版本号）</td></tr>
+    <tr><td>大小上限</td><td>4 KB</td></tr>
+    <tr><td>谁比大小</td><td>软件自己比；文件里只写"最新是多少"，<b>不需要判断要不要更新</b></td></tr>
+  </table>
+
+  <h3>5.6 四条必须知道的限制</h3>
+  <table>
+    <tr><th style="width:6%">#</th><th>事项</th></tr>
+    <tr><td class="n">1</td><td>文件必须在位。文件缺失时它抛异常、被吞掉 → 界面没反应（反过来也是排查线索：点按钮没反应 = 路径或文件不对）</td></tr>
+    <tr><td class="n">2</td><td>后台自动轮询<b>本次关闭</b>（第 26 项）。原时机是"启动后 60 秒 + 每 6 小时"，关掉后<b>手动点按钮照样能用</b></td></tr>
+    <tr><td class="n">3</td><td>更新检查<b>只在打包版生效</b>，开发模式不启用</td></tr>
+    <tr><td class="n">4</td><td>下载完<b>仍需手动双击安装</b>，不是全自动覆盖</td></tr>
+  </table>
+
+  <!-- ============ 六 ============ -->
+  <h2>六、增量需求（7 项）</h2>
+  <div class="h2note">其中第 31 / 32 / 33 项来自更早的 <code>requirements.html</code>（原 B1 / B2 / C1），本次合并进来，已在新版工作副本上逐项重新核实。</div>
+
+  <h3>6.1 第 27 项 · 指令面板中文化 <span class="easy">✅ 已查证：官方新版已内置，<b>不需要做</b></span></h3>
+  <div class="box box-good" style="font-size:13.5px;">
+    <b>结论：官方 <code>0.1.5-rc.1</code> 已经把 6 条指令描述的中文翻译做好了 —— 一个补丁都不用打。</b><br>
+    <span style="font-size:12.5px;">（与第 4 项同一类情况：旧版缺、新版官方补上了。我的截图结论来自<strong>旧版</strong>，已过时。）</span>
+  </div>
+
+  <h3>证据链（全部实测，非推断）</h3>
+  <table>
+    <tr><th style="width:22%">环节</th><th>实测结果</th></tr>
+    <tr>
+      <td><b>① 全量指令清单</b></td>
+      <td>写脚本<b>正经解析 tar、只扫 <code>package/lib/**/*.js</code></b>（排除 README 假阳性），扫全部 265 个包 → <b>整个系统只有 7 条指令</b>，与你的截图完全吻合（无遗漏）：<code>compact / export / feedback / goal / model / permission / plan</code>。</td>
+    </tr>
+    <tr>
+      <td class="hard"><b>⚠️ 中途抓到自己一个错</b></td>
+      <td>第一版脚本把 gunzip 后的 <b>README 示例代码</b>也扫了进去，误报出 <code>dsh-commands</code> 里有一条 "Enter plan mode"。<b>实际它只存在于 <code>README.md:37</code> 的示例里，不是真注册。</b>改用正经 tar 解析（只扫 <code>lib/</code>）后消失 —— 7 条指令各自<b>只在一个文件</b>里注册。</td>
+    </tr>
+    <tr>
+      <td><b>② 新版客户端词典</b></td>
+      <td><code>dsh-client-ui-commands/lib/client.js:166-171</code> <b>已有全套中文</b>：<code>description.compact</code>=压缩以上对话内容、<code>description.export</code>=将当前会话内容导出为 ZIP、<code>description.feedback</code>=发送关于当前会话的反馈、<code>description.goal</code>=设置或查看长期任务目标、<code>description.permission</code>=切换权限预设（沙箱模式与审批策略）、<code>description.plan</code>=进入或退出计划模式。</td>
+    </tr>
+    <tr>
+      <td><b>③ 生效机制</b></td>
+      <td><code>:484-492</code> 有名字→词条的映射表（6 条）；<code>:657-660</code> <code>hostDescription()</code> 逻辑：<br>
+        <code>&nbsp;&nbsp;const key = HOST_DESCRIPTION_KEYS.get(command.name);<br>
+        &nbsp;&nbsp;return key !== void 0 &amp;&amp; command.description === en[key] ? this.t(key) : command.description;</code><br>
+        → <b>宿主给的描述"逐字等于"英文词典值，就翻成当前语言；否则原样透传</b>（这个"否则"是给 scoped / 第三方指令留的）。</td>
+    </tr>
+    <tr>
+      <td><b>④ 逐字比对</b></td>
+      <td>我把 6 个宿主包里的描述与客户端 <code>en</code> 词典<b>逐字比了一遍，6 条全部完全一致</b> → 条件成立 → <b>会翻译</b>。宿主侧位置：<code>dsh-command-compact/lib/index.js:92</code>、<code>dsh-session-log-export/lib/index.js:476</code>、<code>dsh-command-feedback/lib/index.js:164</code>、<code>dsh-command-goal/lib/index.js:174</code>、<code>dsh-permission-presets/lib/index.js:157</code>、<code>dsh-plan-mode/lib/index.js:180</code>。</td>
+    </tr>
+    <tr>
+      <td><b>⑤ 语言确实生效</b></td>
+      <td><code>:1088</code> <code>NS = "command"</code>；<code>:1103</code> <code>ctx.locale.register(NS, { zh, en })</code>；<code>:517</code> <code>this.t = locale.bind("command")</code> —— 三者一致，闭环。</td>
+    </tr>
+    <tr>
+      <td><b>⑥ 旧版确实没有</b></td>
+      <td>旧版 <code>dsh-client-ui-commands@0.1.2-alpha.1</code> 的 <code>lib/client.js</code> 里<b>既无 <code>description.*</code> 词条、也无 <code>hostDescription</code></b> → <b>完全解释了你截图里那 6 条英文</b>。</td>
+    </tr>
+    <tr>
+      <td><b>⑦ <code>/model</code> 为什么本来就是中文</b></td>
+      <td>它不走上面这套，而是<b>自带的客户端词典</b>：<code>dsh-client-ui-model-selection/lib/client.js:796</code> <code>"command.description": "选择本会话使用的模型"</code> → 新版仍是中文 ✓</td>
+    </tr>
+  </table>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⚠️ 一个要记住的脆弱点</b>：这套翻译靠<b>"逐字相等"</b>匹配（<code>command.description === en[key]</code>）。
+    <b>将来官方若改了宿主包里的英文措辞、却没同步改客户端词典</b>，翻译会<b>静默失效、退回英文</b>（不报错、不提示）。
+    以后升级内核后，若发现某条指令又变英文了，先来这里比一下这两个字符串即可定位。
+  </div>
+
+  <div class="box box-info" style="font-size:13px;">
+    <b>所以第 27 项从"6 个补丁"变成"0 个补丁"</b> —— 这也是本次升级白捡的一项。
+    原计划的 6 个补丁<b>全部取消</b>（<code>dsh-command-compact</code>、<code>dsh-session-log-export</code>、<code>dsh-command-feedback</code>、<code>dsh-command-goal</code>、<code>dsh-permission-presets</code>、<code>dsh-plan-mode</code>）。
+  </div>
+
+  <h3>6.2 第 29 项 · 模型思考内容转中文 <span class="easy">✅ 已执行（2026-09-14）</span></h3>
+  <p style="font-size:13.5px;">
+    目标：让模型<b>思考（reasoning）时也用中文书写</b>。做法不是改界面，而是<b>给模型注入一段中文指令</b>。
+  </p>
+
+  <div class="box box-bad" style="font-size:13.5px;">
+    <b>⚠️ 执行前查证发现：原方案有个前提是错的，而且有个会静默丢数据的坑</b>
+    <table style="margin:10px 0 0;">
+      <tr><th style="width:24%">原方案的判断</th><th>实际情况（实测）</th></tr>
+      <tr>
+        <td class="hard">"<code>dsh-base</code> 里 <code>personaPrefix: ''</code> → <b>官方留空等我们填</b>"</td>
+        <td class="hard"><b>错的。</b><code>dsh-base</code> 确实留空，但 <b><code>dsh-web-app</code> 又把它填上了</b>：<br>
+          <code>dsh-web-app/package/cordis.patch.yml:16-20</code> →<br>
+          <code>&nbsp;&nbsp;personaPrefix: "You are a coding agent powered by the {{model}} model."</code><br>
+          <code>&nbsp;&nbsp;personaSuffix: "Your working directory is {{cwd}}."</code><br>
+          而 desktop profile <b>包含 <code>dsh-web-app</code></b>（<code>PROFILE_TEMPLATES.web.bundles = [dsh-base, dsh-web-app]</code>）→ <b>所以这两段本来就在生效</b>。</td>
+      </tr>
+      <tr>
+        <td class="hard">"给 <code>system-prompt</code> 加一段 <code>config</code>"</td>
+        <td class="hard"><b>有个坑</b>：官方 README 原文 ——「<b>用户 patch 会替换匹配到的整个配置</b>——按 id 定位的 patch <b>不做深度合并</b>，因此 profile 覆盖必须<b>重述需要保留的组合包字段</b>」。<br>
+          → 如果只写 <code>personaPrefix</code>，会<b>静默把 <code>personaSuffix</code> 重置为空</b>（模型不再被告知工作目录）。</td>
+      </tr>
+      <tr>
+        <td>叠加顺序未确认</td>
+        <td>实测确认：<code>dsh-plugin-desktop/src/desktop-plugins.ts:42-47</code> 的 bundle 列表 = <code>web 模板（base, web-app）</code> + <code>desktop-app</code> + <code>DESKTOP_PACKAGE_NAMES</code> + <code>dsh-community-market</code><br>
+          → 顺序 <b>base → web-app → desktop → market</b> → <b>我方补丁在 web-app 之后，会覆盖它</b> → 因此<b>必须重述</b>。</td>
+      </tr>
+      <tr>
+        <td>顺便确认「部署级人设改哪」</td>
+        <td>查了专门的 <code>dsh-persona</code> 包：官方 README 明说它是<b>按 agent preset 遮蔽用</b>的，且「<b>要改变部署级人设，应在 <code>system-prompt</code> 行自身的配置中修改</b>」→ <b>原方案选的落点是对的</b>。</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>实际改动（1 个文件，纯配置，不碰官方包）</h3>
+  <table>
+    <tr><th style="width:30%">项目</th><th>内容</th></tr>
+    <tr><td><b>文件</b></td><td><code>dsh-plugin-desktop/cordis.patch.yml</code>（末尾追加一段 + 7 行说明注释）</td></tr>
+    <tr><td><b>写法</b></td><td>
+      <pre style="margin:0;">- id: system-prompt
+  config:
+    personaPrefix: >-
+      You are a coding agent powered by the {{model}} model.
+
+      始终使用简体中文进行思考（reasoning）与回答，包括中间分析步骤、工具调用前后的说明。专有名词、代码、命令、文件路径保持原文。
+    personaSuffix: Your working directory is {{cwd}}.</pre>
+    </td></tr>
+    <tr><td><b>为什么保留官方那句</b></td><td>因为补丁是<b>整体替换</b>，不重述就等于把这句 agent 人设删掉。<b>采用"保留 + 追加"而非"替换"</b>，不丢任何原有信息。</td></tr>
+    <tr><td><b>措辞</b></td><td>用你 2026-09-14 定稿的那版，逐字一致</td></tr>
+  </table>
+
+  <h3>验证（实测）</h3>
+  <table>
+    <tr><th style="width:34%">验证项</th><th>结果</th></tr>
+    <tr><td><b>YAML 能否解析</b></td><td class="easy">用真实解析器（<code>yaml</code> 包）解析整个文件 → <b>错误数 0</b> ✅</td></tr>
+    <tr><td>顶层结构</td><td class="easy">3 行：<code>insert(7 条)</code> / <code>web-runtime</code> / <code>system-prompt</code> ✅</td></tr>
+    <tr><td><b>折叠标量实际取值</b></td><td class="easy"><code>personaPrefix</code> = <code>"You are a coding agent powered by the {{model}} model.\n始终使用简体中文…保持原文。"</code><br>→ <code>{{model}}</code> <b>原样保留</b>、两段之间<b>恰好一个换行</b> ✅</td></tr>
+    <tr><td><code>personaSuffix</code></td><td class="easy">与 <code>dsh-web-app</code> 里的值<b>逐字一致</b>（<code>"Your working directory is {{cwd}}."</code>）✅</td></tr>
+    <tr><td>是否会波及别的行</td><td class="easy">全量扫描确认：整个 vendor 里只有 <code>dsh-base</code> / <code>dsh-web-app</code>（及别的 app 包）动过 <code>system-prompt</code>；我方 profile 用到的包里<b>只有这两个</b>，且都在我们之前 → <b>无第三方覆盖</b> ✅</td></tr>
+    <tr><td>未受影响的字段</td><td class="easy"><code>includeHarnessIdentity</code> / <code>includeRuntimeContext</code> / <code>toolOrder</code> 两层都没设过 → 替换后仍取 schema 默认值，<b>行为不变</b> ✅</td></tr>
+  </table>
+
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⚠️ 两个必须记住的点</b><br>
+    <b>① 性质</b>：这是<b>提示词层面的引导</b>，能强烈影响但<b>不能 100% 保证</b>模型每句都用中文（模型行为，非代码开关）。<br>
+    <b>② 维护脆弱点</b>：本行"重述"了官方的两段字符串（<code>You are a coding agent powered by the {{model}} model.</code> 和 <code>Your working directory is {{cwd}}.</code>）。
+    <b>将来官方改了这两句，我们这份拷贝会盖住他们的改动</b>（不报错、静默生效）。升级内核后建议来比一下这两行。
+    <br><span style="color:#777;">备选方案（更干净但要多写代码）：改用 <code>dsh-system-prompt</code> 公开的 <code>section()</code> API，由我方插件注册一个<b>新名字</b>的提示词段落（不覆盖官方任何东西）。本次按原计划走配置层，未采用。</span>
+  </div>
+
+  <h3>6.3 第 28 项 · 思考过程"绿泡泡" <span class="todo">⏸ 暂缓</span></h3>
+  <p style="font-size:13.5px;">
+    等你想好形态再说。已查清现状备查：思考行由官方 <code>ReasoningRow</code> 渲染，
+    <b>"点击展开 / 再点收起"本来就有</b>；缺的是 ① 把多段思考<b>合并成一个</b> ② <b>气泡外观</b>。要做需走补丁。
+  </p>
+
+  <h3>6.4 第 30 项 · 去掉"设置→插件"里的「插件市场」标签页 <span class="easy">✅ 已执行</span></h3>
+  <div class="h2note">
+    理由：外面侧边栏已经有一个完整的市场入口，设置里这个是重复的。
+    三处插槽是<b>分三次独立注册</b>，删掉设置 tab 那一处，另两处（侧边栏入口 + 浮层）不受影响。
+  </div>
+  <table>
+    <tr><th style="width:24%">项目</th><th>结果</th></tr>
+    <tr>
+      <td><b>30a</b> <code>src/client/index.ts</code></td>
+      <td>删掉 <code>settings.plugins.tab</code> 注册块（8 行）+ 第 13 行 <code>import { MarketSettingsTab }</code>；原处留一段注释，说明"只保留侧边栏单一入口"及"文件为何保留"</td>
+    </tr>
+    <tr>
+      <td><b>30b</b> <code>tests/client-index.spec.ts</code></td>
+      <td>测试标题去掉 "settings tab"；injections 名单去掉该项；<code>toHaveLength(3)</code> → <code>2</code>；registrations 数组删第一条；解构改为 <code>[launcher, overlay]</code>；删掉对 <code>settings</code> 的两条断言</td>
+    </tr>
+    <tr>
+      <td><b>30c</b> <code>tests/browser-plugin.spec.ts</code></td>
+      <td>删 <code>MarketSettingsTab</code> import；两个测试的 <code>declare</code> 名单改为两项、删掉全部 settings 断言；两个测试标题里的 <i>three entries</i> → <i>both</i></td>
+    </tr>
+    <tr>
+      <td><b>规模</b></td>
+      <td>3 个文件、<b>+16 / −38 行</b>（diff：<code>item30-diff.txt</code>）</td>
+    </tr>
+  </table>
+  <div class="box box-good" style="font-size:13px;">
+    <b>明确不动的：</b><br>
+    ① <code>src/client/MarketSettingsTab.tsx</code> —— 市场界面 <code>MarketSurface</code> 定义在此文件，侧边栏浮层 <code>MarketOverlay</code> 靠它渲染（实测 <code>MarketOverlay.tsx:8</code> 仍在 import），<b>删文件会把外面的市场一起废掉</b>；只删注册、不删文件。<br>
+    ② <code>tests/market-settings-tab.spec.tsx</code> —— 测的是组件本身渲染，组件保留了，测试不动。
+  </div>
+  <div class="box box-info" style="font-size:13px;">
+    <b>唯一存活的 <code>settings.plugins.tab</code> 引用</b>：<code>MarketSettingsTab.tsx:157</code> 的 <code>PropsRuntime&lt;'settings.plugins.tab'&gt;</code> —— 它是<b>从官方插槽声明派生类型</b>，不要求存在注册者，安全保留。<br>
+    <b>文档无需同步</b>：<code>README.md/.zh.md</code>、<code>docs/market-shell.md</code> 均未描述这三个插槽。<br>
+    <b>改完效果</b>：设置 →「插件」只剩两个标签页（<b>插件配置 / 插件列表</b>）；侧边栏左下角「插件市场」入口照旧，点开还是那个完整的全屏浮层。<br>
+    <b>⏳ 待验证</b>：<code>yarn check</code>（本机无 <code>node_modules</code>，未能实跑）。
+  </div>
+
+  <h3>6.5 第 31 项 · 删除作者废弃代码 + 宣传图 <span class="easy">✅ 已执行（2026-09-14，按 A 方案）</span></h3>
+  <div class="h2note">原 <code>requirements.html</code> 的 B1 项。<b>完成内容</b>：删 <code>_deprecated/</code>（25 文件）+ 3 张零引用宣传图；<b>被 README 引用的 5 张保留</b>。另更正了清单原先一处判断错误（见第 2 段）。</div>
+
+  <p style="font-size:13.5px;font-weight:500;margin:16px 0 4px;">（1）<code>_deprecated/</code> —— ✅ <b>已删除</b>（2026-09-14）</p>
+  <table>
+    <tr><th style="width:22%">项目</th><th>结果</th></tr>
+    <tr><td><b>删除数量</b></td><td><b>25 个文件</b>（旧 runtime <code>0.1.1-rc.2</code> 补丁 13 + <code>0.1.2-alpha.1-review</code> 补丁 5 + 旧源码 1 + 旧测试 6）</td></tr>
+    <tr><td><b>删前核实</b></td><td>全仓库搜 <code>_deprecated</code> → <b>零引用</b> ✅；25 个文件路径已逐个记录进 <code>item31-delete.txt</code></td></tr>
+    <tr><td><b>删除方式</b></td><td>走回收站（<code>RecycleOption.SendToRecycleBin</code>）</td></tr>
+    <tr><td><b>结果</b></td><td><code>git status</code> 显示 <b>25 个 <code>D</code></b>，目录已不存在 ✅<br><span style="color:#666;">（命令抛了一个"无法找到指定文件"异常，但那是删掉内容后对目录本身二次操作报的，实际删除成功）</span></td></tr>
+    <tr><td class="easy"><b>可恢复</b></td><td>这 25 个文件是 <b>git tracked</b> → 随时 <code>git checkout -- _deprecated</code> 完整恢复</td></tr>
+  </table>
+
+  <p style="font-size:13.5px;font-weight:500;margin:16px 0 4px;">（2）<code>assets/</code> 宣传图 —— ✅ <b>已按 A 方案完成</b>（3 张已删 / 5 张保留）</p>
+  <div class="box box-bad" style="font-size:13px;">
+    <b>⚠️ 清单原先的判断是错的（已更正）</b><br>
+    清单写的是"推广类 8 张可删、截图类 7 张要留（README 在用）"。<b>实测发现：推广类里也有 5 张被 README 引用</b> —— 删了同样会破图。<br>
+    README 实际引用的图（中英两版都有）：
+    <code>sponsors/wuying-cloud-computer-logo.png</code>（:54）、<code>sponsors/astraflow-logo.png</code>（:55）、<code>sponsors/88api-logo.png</code>（:56）、<code>community-wechat-group.png</code>（:187）、<code>community-qq-group.jpg</code>（:188）
+  </div>
+  <table>
+    <tr><th style="width:36%">图</th><th style="width:16%">被 README 引用？</th><th>处置</th></tr>
+    <tr><td><code>community-wechat-official-account.png</code></td><td class="easy">否</td><td class="easy"><b>✅ 已删</b>（零引用）</td></tr>
+    <tr><td><code>community-wecom-assistant.png</code></td><td class="easy">否</td><td class="easy"><b>✅ 已删</b>（零引用）</td></tr>
+    <tr><td><code>community-wecom-survey.png</code></td><td class="easy">否</td><td class="easy"><b>✅ 已删</b>（零引用）</td></tr>
+    <tr><td><code>community-qq-group.jpg</code></td><td class="hard">是（:188）</td><td>📌 保留（A 方案）</td></tr>
+    <tr><td><code>community-wechat-group.png</code></td><td class="hard">是（:187）</td><td>📌 保留（A 方案）</td></tr>
+    <tr><td><code>sponsors/88api-logo.png</code></td><td class="hard">是（:56）</td><td>📌 保留（A 方案）</td></tr>
+    <tr><td><code>sponsors/astraflow-logo.png</code></td><td class="hard">是（:55）</td><td>📌 保留（A 方案）</td></tr>
+    <tr><td><code>sponsors/wuying-cloud-computer-logo.png</code></td><td class="hard">是（:54）</td><td>📌 保留（A 方案）</td></tr>
+  </table>
+  <div class="box box-good" style="font-size:13px;">
+    <b>你选了 A</b>：只删零引用的 3 张，<b>不动 README</b>。<br>
+    <b>执行</b>：3 张逐个走回收站 → <code>git status</code> 显示 3 个 <code>D</code>，<code>assets/</code> 由 15 张剩 <b>12 张</b> ✅（删前已再次确认零引用）<br>
+    <b>可恢复</b>：这 3 张同为 git tracked → <code>git checkout -- assets</code> 恢复<br>
+    <b>未做（留作后续）</b>：B 方案（清理 README 里的社区推广段落：QQ 群 / 企微二维码表、赞助商表、Discord、联系邮箱、友情链接）—— 属改社区文档，范围更大，需要时单独议。
+  </div>
+
+  <h3>6.6 第 32 项 · 侧边栏底部入口改成"两列、从下往上增长" <span class="easy">✅ 已执行</span></h3>
+  <div class="h2note">
+    原 <code>requirements.html</code> 的 B2 项。<b>不是</b>改成卡片样式，而是<b>保持每一项现在的样子不变</b>，只把排列方式改成"两列、从下往上长"。<br>
+    <b>实际做法比原计划更简单</b>：原写"结构 + CSS 一起改"，实施时发现<b>只改 3 处 CSS 就够</b>，不需要动 JS 结构。
+  </div>
+  <table>
+    <tr><th style="width:20%">项目</th><th>内容</th></tr>
+    <tr>
+      <td><b>要什么</b></td>
+      <td>
+        ① 现有的「插件市场」「设置」从<b>上下排列</b>改成<b>左右并排</b>（一行两个）<br>
+        ② 底部区域做成<b>两列网格、从下往上增长</b> —— 以后新增入口时每行两个<b>自动往上叠，不用再改布局</b><br>
+        ③ <b>每一项的样子保持不变</b>（仍是"小图标 + 文字"，不做成卡片），功能也不变
+      </td>
+    </tr>
+    <tr>
+      <td><b>目标形态</b></td>
+      <td>
+        <pre style="margin:0;">[新增] [新增]      ← 以后加的，往上叠
+[插件市场] [设置]   ← 现在这一行（最底下）</pre>
+      </td>
+    </tr>
+    <tr>
+      <td><b>布局归属</b></td>
+      <td class="hard"><b>DeepSeek 官方</b> —— 决定"上下排列"的是官方包 <code>dsh-client-ui-sidebar</code> 的 CSS，所以要<b>打补丁</b></td>
+    </tr>
+    <tr>
+      <td><b>两个入口的归属</b></td>
+      <td>「设置」= 官方 <code>dsh-client-ui-settings</code>（注册 <code>sidebar.settings</code>）<br>
+        「插件市场」= 社区 <code>dsh-community-market</code>（注册 <code>sidebar.footer.action</code>）</td>
+    </tr>
+    <tr>
+      <td><b>怎么改 ①（CSS）</b></td>
+      <td>
+        容器：<code>flex-direction: column</code> → <code>row</code>，并加 <code>flex-wrap: wrap-reverse</code>
+        —— <b>反向换行 = 新行出现在上方</b>，这就是"往上长"的实现方式<br>
+        两个入口块：<code>width: 100%</code> → 各占一半
+      </td>
+    </tr>
+    <tr>
+      <td><b>原以为要改结构</b></td>
+      <td><span class="easy">✅ 实测后<b>不需要</b></span>：两个块的宽度从 <code>100%</code> 改成 <code>50%</code>、容器方向改成 <code>row</code>，两个块就自然并排了 —— <b>JS 结构一行没动</b>（<code>footArea</code> / <code>footerActions</code> / <code>settingsArea</code> 及两个插槽渲染全部原样保留）</td>
+    </tr>
+    <tr>
+      <td><b>改哪个包</b></td>
+      <td><code>dsh-client-ui-sidebar</code>（官方）→ 走 <code>patches/</code> 补丁<br>
+        <b>补丁</b>：<code>patches/dsh-client-ui-sidebar@0.1.5-rc.1.patch</code><span class="new">新增</span></td>
+    </tr>
+    <tr>
+      <td class="hard"><b>⚠️ 关键前置发现</b></td>
+      <td>CSS 是<b>内联在 <code>lib/client.js</code> 里的一个字符串</b>，而且类名已被 CSS Module <b>哈希</b>成 <code>x-Wl6W_footArea</code> 这种形式 —— 所以"改 CSS"= 改这个字符串，<b>选择器必须用哈希名</b></td>
+    </tr>
+    <tr>
+      <td><b>收窄态（56px）</b></td>
+      <td class="easy"><b>✅ 已定并实现</b>：收窄时保持上下排列。实现方式 = 加一条<b>优先级更高的覆盖规则</b><br>
+        <span style="color:#666;">官方原本就有 <code>.collapsed .footArea{align-items:center}</code> 与 <code>.collapsed .settingsArea{width:auto}</code>（2 个类的选择器，优先级高于展开态的 1 个类）→ 收窄态自动赢</span></td>
+    </tr>
+    <tr>
+      <td class="hard"><b>代价</b></td>
+      <td>官方升级后此补丁可能失效，需要重写</td>
+    </tr>
+  </table>
+
+  <div class="box box-good" style="font-size:13px;">
+    <b>三处改动（全在 <code>lib/client.js</code> 的 CSS 字符串里）</b>
+    <table style="margin:8px 0 0;">
+      <tr><th style="width:36%">规则</th><th>改前 → 改后</th></tr>
+      <tr><td><code>.x-Wl6W_footArea</code></td><td><code>flex-direction:column</code> → <code>flex-direction:row; flex-wrap:wrap-reverse</code><br><span style="color:#666;">（反向换行 = 新行出现在上方，即"往上长"）</span></td></tr>
+      <tr><td><code>.x-Wl6W_settingsArea, .x-Wl6W_footerActions</code></td><td><code>width:100%</code> → <code>width:50%</code></td></tr>
+      <tr><td><code>.x-Wl6W_collapsed .x-Wl6W_footArea</code></td><td>补上 <code>flex-direction:column; flex-wrap:nowrap</code>（收窄态覆盖回上下排）</td></tr>
+    </table>
+  </div>
+  <div class="box box-good" style="font-size:13px;">
+    <b>验证（4 道）</b><br>
+    ① <b>补丁可用性</b>：干净原始副本 <code>git apply --check</code> → <b>exit=0</b>；真实 apply 成功（1 文件 +1/−1）<br>
+    ② <b>语法</b>：<code>node --check</code> 按 ESM（<code>.mjs</code>）与 CJS（<code>.cjs</code>）<b>两种模式都 exit=0</b> ✅<br>
+    ③ <b>CSS 规则断言</b>（脚本 <code>verify-item32.mjs</code>）：3 处改动全部落地 ✅、旧规则全部消失 ✅、收窄态覆盖规则仍在 ✅、JS 结构未动 ✅<br>
+    ④ <code>package.json</code> 合法 JSON ✅；<code>patches/</code> 现 <b>21 个补丁</b>
+  </div>
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⚠️ 必须如实说明的三点</b><br>
+    ① <b>UI 效果无法在本机验证</b> —— 需 <code>yarn install</code> + 打包后实机看（无 <code>node_modules</code>）。<b>我只能保证 CSS 规则写得对，不能保证视觉呈现一定符合预期。</b><br>
+    ② <b>"以后新增入口自动往上长"有前提</b>：<br>
+    &nbsp;&nbsp;· 新增<b>新的槽块</b>（新 wrapper）→ <code>wrap-reverse</code> 会自动让它出现在<b>上一行</b> ✅<br>
+    &nbsp;&nbsp;· 在<b>现有槽内部</b>再加 entry → 它们会在该块内横向排（<code>footerActions{display:flex}</code> 不换行），<b>不会自动形成新行</b> ⚠️<br>
+    &nbsp;&nbsp;要做"任意数量 entry 都自动两列网格"，需额外的 <code>&gt; * &gt; *</code> 深度选择器（依赖 DOM 层级），更脆弱且本机无法肉眼验证 → <b>建议实机看过效果后再定要不要升级</b>。<br>
+    ③ <b>发现一个相关测试</b>：<code>dsh-plugin-desktop/tests/client-sidebar-footer-layout.spec.ts</code> —— 它是<b>纯 DOM 结构契约</b>（自己造 markup、不读 CSS），<b>不受本次改动影响</b> ✓。但它透露官方契约里 <code>sidebar.footer.action</code> <b>可以放多个 entry</b>（示例 market/plugins/updates），说明"一槽多项"是官方预期场景。
+  </div>
+  <div class="box box-info" style="font-size:13px;">
+    <b>依据（新版 0.1.5-rc.1 实测的官方 CSS 原文）</b>：
+    <pre style="margin:8px 0 0;">.x-Wl6W_footArea { flex-direction: column; flex: none; display: flex; }   /* ← 上下排列的根因 */
+.x-Wl6W_settingsArea, .x-Wl6W_footerActions { flex: none; width: 100%; min-width: 0; }
+.x-Wl6W_footerActions { display: flex; }
+.x-Wl6W_collapsed .x-Wl6W_footArea { align-items: center; }               /* ← 收窄态原有规则 */
+.x-Wl6W_collapsed .x-Wl6W_settingsArea, .... { justify-content:center; width:auto; display:flex; }</pre>
+    结构（同包 <code>lib/client.js:292-301</code>）：<code>footArea</code> 下挂 <code>footerActions</code>（渲染「插件市场」插槽）+ <code>settingsArea</code>（渲染「设置」插槽）。
+  </div>
+
+  <h3>6.7 第 33 项 · 会话目录命名改成"日期+时间" + 修复中文转义 <span class="easy">✅ 已执行</span></h3>
+  <div class="h2note">原 <code>requirements.html</code> 的 C1 项。目标：把<b>两层</b>目录名都变得一眼看懂。<b>两个补丁已写好，并通过实测验证。</b></div>
+
+  <p style="font-size:13.5px;font-weight:500;margin:18px 0 4px;">（1）下层 —— 会话文件夹名</p>
+  <table>
+    <tr><th style="width:22%">项目</th><th>结果</th></tr>
+    <tr><td><b>补丁 ①</b>（新增）</td><td><code>patches/dsh-api-session-controller@0.1.5-rc.1.patch</code> —— 覆盖 <code>lib/index.js</code> 与 <code>lib/types/commands.js</code> 共 <b>4 处</b> <code>`session-${randomUUID()}`</code>（新建 2 处 + fork 2 处）</td></tr>
+    <tr><td><b>新格式</b></td><td><code>session-&lt;YYYY-MM-DD&gt;-&lt;HHMMSS&gt;-&lt;8位十六进制&gt;</code><br>例：<code>session-2026-09-14-141020-47fb66ff</code>（<b>34 字符</b>）</td></tr>
+    <tr><td><b>实现</b></td><td>新增 <code>diyTimestampedSessionId()</code>：本地时间 + <code>randomUUID()</code> 去横杠取前 8 位</td></tr>
+  </table>
+
+  <p style="font-size:13.5px;font-weight:500;margin:18px 0 4px;">（2）上层 —— 项目分组目录名（中文转义修复 + 兼容兜底）</p>
+  <table>
+    <tr><th style="width:22%">项目</th><th>结果</th></tr>
+    <tr><td><b>补丁 ②</b>（新增）</td><td><code>patches/dsh-session-persistence-jsonl@0.1.5-rc.1.patch</code> —— 改 <code>lib/index.js</code>：新增 <code>isReadableProjectKeyChar()</code>、放宽 <code>projectKey()</code>、新增 <code>legacyProjectKey()</code>、<code>projectDir()</code> 加兜底</td></tr>
+    <tr><td><b>放行规则</b></td><td>只转义 ① <code>~</code>（转义引导符）② 控制字符 ③ Windows 文件名非法字符 <code>&lt; &gt; : " / \ | ? *</code>；<b>其余（含中文）原样保留</b></td></tr>
+    <tr><td class="easy"><b>兼容兜底</b></td><td><code>projectDir()</code>：先算新名 → 不存在则算旧名 → 旧名存在就沿用旧目录。<b>老会话照旧可见</b>，新项目用中文名</td></tr>
+    <tr><td><b>声明</b></td><td>根 <code>package.json</code> 的 <code>resolutions</code>：<b>4 行</b>（两包 × 精确版 + <code>^</code> 版），由 <code>file:…tgz</code> 改为 <code>patch:…tgz#./patches/…</code></td></tr>
+  </table>
+
+  <div class="box box-good" style="font-size:13px;">
+    <b>验证（全部实测，非推断）</b><br>
+    ① <b>补丁可用性</b>：对干净的原始 tgz 副本 <code>git apply --check</code> → <b>两包均 exit=0</b>；真实 <code>git apply</code> 也成功（ctrl: 2 文件 +26/−4；persist: 1 文件 +43/−3）<br>
+    ② <b>语法检查</b>：三个改后的 js 复制为 <code>.mjs</code> 后 <code>node --check</code> → <b>全部 exit=0</b><br>
+    ③ <b>行为实测</b>（从补丁后的真实文件里抽函数跑，不是重新实现）：<br>
+    &nbsp;&nbsp;· <code>I:\deepseekharness\AI股票</code> → 新名 <code>--I-deepseekharness-AI股票--</code> ✅；旧名 <code>--I-deepseekharness-AI~80A1~7968--</code>（供兜底）<br>
+    &nbsp;&nbsp;· <b>纯 ASCII 路径新旧算法完全一致</b>（回归安全）✅<br>
+    &nbsp;&nbsp;· Windows 非法字符 <code>a&lt;b&gt;c:d"e|f?g*h</code> <b>仍全部转义</b> ✅；<code>~</code> 仍转义 ✅；空路径仍抛错 ✅<br>
+    &nbsp;&nbsp;· 会话 id 两份实现样本均匹配格式；<b>2000 次连续生成零重复</b> ✅<br>
+    ④ <code>package.json</code> 合法 JSON ✅（<code>node</code> 读取通过）<br>
+    ⑤ 全包搜 <code>${randomUUID()}</code> → <b>零残留</b> ✅
+  </div>
+  <div class="box box-warn" style="font-size:13px;">
+    <b>⚠️ 如实说明两点</b><br>
+    ① <b>我的验证脚本写错过一个预期值</b>：把 id 长度写成 38，实际是 <b>34</b>（<code>session-</code> 8 + 日期 10 + <code>-</code> 1 + 时间 6 + <code>-</code> 1 + 随机 8）。<b>是脚本写错、不是代码问题。</b><br>
+    ② <b>未验证</b>：<code>yarn install</code> + <code>yarn check</code> 本机跑不了（工作副本无 <code>node_modules</code>）→ 并入第 37 项 B1。
+  </div>
+  <div class="box box-info" style="font-size:13px;">
+    <b>为何两个文件都改</b>：<code>lib/types/commands.js</code> <b>不在</b>包的 <code>exports</code> 映射里，属运行时不可达的伴生文件；但为避免"某些路径走新名、某些走旧名"的不一致，<b>两处一起改</b>（代价很小）。<br>
+    <b>附带发现</b>：<code>lib/client.js</code> 里的 <code>randomUUID()</code> 是<b>请求 id</b>（requestId），与会话命名无关，<b>未动</b>。
+  </div>
+
+  <!-- ============ 七 ============ -->
+  <h2>七、不改的 / 已查清的</h2>
+  <ul>
+    <li><code>yarn.lock</code> —— 装依赖时自动重生成</li>
+    <li><code>vendor/</code> 里的 265 个官方包 —— 已就位，不动</li>
+  </ul>
+
+  <h3>7.1 已查清、决定不改的（原 <code>requirements.html</code> 的 A2 / D1）</h3>
+  <table>
+    <tr><th style="width:26%">项目</th><th>结论</th></tr>
+    <tr>
+      <td><b>局域网访问为什么置灰</b><br><span style="font-size:12px;color:#666;">（原 A2）</span></td>
+      <td>已查清：① 官方网页服务<b>永远只监听 <code>127.0.0.1</code></b>，任何情况下都不对外；② 局域网访问是桌面版<b>另外开一层加密服务</b>架在局域网地址上；③ 而"允许普通浏览器访问"这个前提<b>只有兼容模式满足</b> —— 高级模式下这个开关从设计上就不该可用。<br><b>决定：不改</b>。（运行表现仍待实机确认）</td>
+    </tr>
+    <tr>
+      <td><b>窗口标题与产品名不一致</b><br><span style="font-size:12px;color:#666;">（原 D1）</span></td>
+      <td>2026-09-13 你已定：<b>名字暂按现状</b> —— 窗口标题 <code>lisa</code>、系统标识 <code>deepseekharness</code>、界面文案 <code>deepseek harness</code> 混用，本次<b>不统一</b>。<br><b>隐含决定：不改</b>（第 5 项改名时按现状照搬即可）。</td>
+    </tr>
+  </table>
+
+  <h3>7.2 执行约定（2026-09-14 已定）</h3>
+  <table>
+    <tr><th style="width:26%">约定</th><th>说明</th></tr>
+    <tr>
+      <td><b>不备份会话数据</b></td>
+      <td>旧会话在 <code>I:\deepseek-harness\.dsh</code>。新版首次加载它们会触发官方格式升级器（v0→v1→v2→v3），<b>过程中可能改写或新建文件</b>。
+        你已定：<b>不备份</b> —— 把这次作为「<b>真正第一次修改我们自己的东西</b>」。<br>
+        <span style="color:#666;">（风险已如实告知：万一升级出错，旧会话可能读不出来；但那是你 9-13 就说过"可以不保存"的数据。）</span></td>
+    </tr>
+    <tr>
+      <td><b>打包产物输出</b></td>
+      <td>electron-builder 实际输出到 <code>I:\dsh-913\dsh-plugin-desktop\dist\</code>（安装包 = <code>deepseekharness-2.0.9-x64-Setup.exe</code>）；如需归集可再拷到纯 ASCII 目录（如 <code>I:\dsh-913-out</code>，待建）</td>
+    </tr>
+    <tr>
+      <td><b>更新源目录</b></td>
+      <td><code>I:\deepseekharness更新DIY</code> <b class="easy">✅ 已建立（2026-09-14 23:4x）</b> —— 含 <code>发布\</code>（<code>version.json</code> + 安装包）与 <code>源码\</code>；代码里的地址指向它，以堵住"误装社区版原版"的坑</td>
+    </tr>
+  </table>
+
+  <!-- ============ 八 ============ -->
+  <h2>八、执行顺序（进度 · 2026-09-14 23:3x 更新）</h2>
+  <pre>[进度] 第 1 步  在新副本装依赖                                          ✅ 已完成（yarn install）
+[进度] 第 2 步  改名（一，1-12）                                       ✅ 已执行（38 文件）
+[进度] 第 3 步  便携模式（二，13）                                     ✅ 已执行
+[进度] 第 4 步  市场源替换（三，14-20）                                 ✅ 已执行（5 改 + 2 新增）
+[进度] 第 5 步  中文化补丁（四，21-22）                                 ⛔ 取消（官方新版已内置）
+[进度] 第 6 步  升级源（五，23-26）                                     ✅ 已执行（4 文件 +67/−16）
+[进度] 第 7 步  增量需求（六）——29 思考转中文 / 30 去市场 tab           ✅ 已执行（27 已取消、28 暂缓）
+                     / 32 侧边栏两列 / 33 会话命名 2 个补丁
+[进度] 第 8 步  清理（六，31）                                          ✅ 已执行（25 文件 + 3 张零引用图）
+[进度] 第 9 步  收尾（第 37 项）——A2 摘掉变体校验                       ✅ 已执行
+                     补遗：scripts 29 处 + 市场 25 处 + 文档 44 处      ✅ 已执行
+                           + 测试 13 文件 23 行 + 6 个 i18n.yaml
+[进度] 第 10 步 验证：完整红名单 → 定性 → 修 B 类 → 复验                ✅ 已执行
+                     结果：desktop test 45→30 failed（余下 100% 环境类）  typecheck 零错误 / market 264 全绿
+[进度] 第 11 步 构建 + 打包 + 实机验证                                   ✅ 全部完成（2026-09-15）
+                     免安装版冒烟通过（00:15）→ dist:win 全绿（00:29）→ 安装包 129.2MB 已入更新源
+                     ✅ 安装测试也已完成：已装到 E:\app\deepseekharness（注册表 2.0.9，exe/asar 与产物 sha256 一致）
+                        并已运行 + 配置（settings.yaml 写于 00:59）→ 未签名包安装未被 SAC 拦截
+                     ⚠️ package:dir 是上游 Windows 缺陷，已改走 dist:win
+[进度] 第 12 步 更新源（B 方案：本地源）                                ✅ 目录已建立（I:\deepseekharness更新DIY）
+[进度] 第 13 步 Profile 名 desktop 改名（第 38 项）                      ⏸ 下次更新时一起做（2026-09-15 决议；数据可丢弃、无需迁移）
+[进度] 第 14 步 盘点改动 + 校正定位                                     ✅ 已完成（2026-09-15 下午，见 .workbuddy/self-audit-2026-09-15.md）
+                     ⛔ 方针变更：社区版=参考样本，不追随升级 → 第 39 项（追 2.0.10 + 新建 dsh-915）作废</pre>
+
+  <div class="box box-good">
+    <h3>✅ 清单执行状态（2026-09-15 下午 最新）</h3>
+    <b>已执行 31 项</b>：1–20（改名 12 / 便携 1 / 市场源 7）、23–26（升级源 4）、29–33（增量需求 5）、37（收尾补遗）<br>
+    <b>作废 4 项</b>：21、22（中文化补丁）、27（指令中文化）—— 官方 0.1.5-rc.1 已内置；<b>39</b> —— <b>方针变更作废</b>（社区版=参考样本，不追随升级）<br>
+    <b>关闭 1 项</b>：41（实测确认自装插件本来就有"卸载"，无需改动）<br>
+    <b>待办 8 项</b>：28 绿泡泡（暂缓）｜ 34 CA 证书名（待拍板）｜ 35 目录选择器补丁文案（待拍板）｜ 36 Electron 探针（待手动）｜ 38 Profile 名 desktop 改名（下次更新处理，数据可丢弃）｜ 40 手机连接剥离（待拍板）｜ 42 立即重启报错（待拍板）｜ 43 卸载卡死（待拍板，建议修）<br>
+    <b>补丁</b>：<code>patches/</code> 共 <b>21 个</b>（18 社区自带 + 我方新增 3 个：session-controller / session-persistence-jsonl / client-ui-sidebar）
+    <p style="margin:8px 0 0;">
+      <b>代码全部未提交</b>（<code>git status</code>：127 条）→ <code>git checkout -- .</code> 可一键全撤，新增补丁与 <code>src/adapters/awesome-list.ts</code> 等 untracked 文件需单独删。<br>
+      <b>⛔ 方针变更（2026-09-15 下午，用户定）</b>：<b>社区版只是「参考样本」，不追随它升级</b>；只借鉴「官方改了什么 → 社区跟着改了什么」中我们需要的。原「升级 v2.0.10 + 新建 <code>I:\dsh-915</code>」<b>作废</b>。<br>
+      <b>本次盘点（2026-09-15 下午）</b>：全量核对改动后发现 8 条问题，最要紧的是 <code>AGENTS.md</code>（AI 自动加载的仓库规则）写着 "DSH Desktop repository rules" 且称上游 "unmodified"，与事实矛盾。详见 <code>.workbuddy/self-audit-2026-09-15.md</code>。<br>
+      <b>主链路上线闭环</b>：✅ 打包（00:29）→ ✅ 安装（<code>E:\app\deepseekharness</code>，2.0.9，sha256 一致）→ ✅ 运行与配置完成，未签名包未被 SAC 拦截。
+    </p>
+  </div>
+
+</div>
+</body>
+</html>
