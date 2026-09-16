@@ -457,10 +457,16 @@
   </div>
 
   <div class="box box-info" style="font-size:13px;">
-    <b>⭐ 产品定位（用户 2026-09-15 19:49 强调）</b><br>
-    「<b>你要记住，我们是在修改自己的东西了，和 DSH 没有太大关系了！！！！</b>」<br>
-    → 我们做的是<b>我们自己的产品</b>（appId <code>deepseekharness.diy</code>）；DSH 只是<b>上游内核来源</b>，社区 <code>dsh-desktop</code> 只是<b>一次性的参考样本</b>。<br>
-    → 推论：<b>不把"跟 DSH/社区保持一致"当作约束前提</b>；<code>vendor/</code> 里的第三方包（如 AA）<b>不一定要用，也可以大改成我们自己的东西</b> —— 它们是<b>素材，不是标准</b>。
+    <b>⭐⭐ 产品定位 —— 从自制 3.0.0 起，一切皆自制（最高优先级铁律）</b><br>
+    <b>用户 2026-09-16 原话</b>：「<b>从我们自制 3.0.0 开始，不论 DSH-desktop，还是其他插件，都是修改为我们自己，自研自制，其他任何东西是作为参考和学习使用，代码要经过我们自己修改，选取其中可用的删除不需要的，形成自己的。</b>」<br>
+    <b>用户 2026-09-15 19:49 原话</b>：「<b>你要记住，我们是在修改自己的东西了，和 DSH 没有太大关系了！！！！</b>」<br>
+    <hr style="border:none;border-top:1px solid #cfe0f5;margin:8px 0;">
+    <b>硬性推论（四条）</b><br>
+    ① <b>一切皆素材</b> —— DSH 官方 / 社区版 <code>dsh-desktop</code> / <b>任何第三方包</b>（<code>vendor/</code> 里 265 个官方 tgz、5 个第三方 npm 包、AA、cost-meter…）<b>一律只是参考与学习对象</b>，<b>不是标准，也不是必须保留的依赖</b>。<br>
+    ② <b>成品必须是我们改出来的</b> —— 选取其中可用的、删除不需要的，<b>形成自己的东西</b>。不是"照着上游抄一份"，也不是"跟上游保持一致"。<br>
+    ③ <b>严禁</b>以"与上游 / 社区保持一致"为前提去否决任何改动。<br>
+    ④ <b>叠补丁只是权宜手段</b>（没有源码的成品 tarball 只能打补丁）；<b>只要打算长期维护，就该取源码改成我们自己的</b>。我们写的包（<code>dsh-plugin-desktop</code> / <code>dsh-community-fabric</code> / <code>dsh-community-market</code>）<b>永远直接改源码</b>。<br>
+    <b>产品标识</b>：appId <code>deepseekharness.diy</code>，版本号走<b>自有序列</b>（3.0.0 起）。
   </div>
 
 </div>
