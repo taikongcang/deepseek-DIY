@@ -45,11 +45,11 @@
 
   <h1>修改与自制清单 · 第 2 阶段</h1>
   <div class="meta">
-    <b>起算时间</b>：2026-09-15 17:30（用户定："从现在的开始"）｜<b>最后整理</b>：2026-09-15 20:45<br>
+    <b>起算时间</b>：2026-09-15 17:30（用户定："从现在的开始"）｜<b>最后整理</b>：<b>2026-09-20 20:5x</b><br>
     <b>本清单 = 唯一权威</b>。第 1 阶段清单 <code>redolist.html</code>（1–51 项）已<b>归档为历史</b>，只读、不再演进。<br>
     <b>工作副本</b>：<code>I:\dsh-913</code> ｜ <b>现行安装</b>：<code>E:\app\deepseekharness</code> ｜ <b>更新源</b>：<code>I:\deepseekharness更新DIY\</code> ｜ <b>GitHub</b>：<code>taikongcang/deepseek-DIY</code>（分支 <code>main</code>，已同步）<br>
     <b>打包策略（用户定）</b>：改动<b>不逐个打包</b>，攒到"修改和自制"告一段落，<b>最后一次性打包</b>。<br>
-    <b>⭐ 现在的位置</b>：<b>受理/记录阶段已结束</b>（§己 9 条清理完毕）→ <b>进入"要开工了"阶段</b>，见下方 <b>🔨 开工清单</b>。<br>
+    <b>⭐ 现在的位置</b>：记录/清理阶段<b>已全部结束</b> → <b>只有 1 件在办（N33 用量管理）</b>；另有 4 件待开工、4 件等你拍板、4 件最后再考虑。见下方 <b>📋 当前待办总表</b>。<br>
     <b>状态图例</b>：<span class="easy">✅ 已完成</span> ｜ <span class="mod">🔧 已改源码·未打包</span> ｜ <span class="mid">📝 已定·待实施</span> ｜ <span class="todo">⏸ 待定</span> ｜ <span class="mid">⛔ 不做 / 已取消</span>
   </div>
 
@@ -64,6 +64,98 @@
       <tr><td><b>戊</b></td><td>收尾：① 一次性实施 ② 最后一次性打包 + 安装验证</td><td>N90</td><td class="todo">⏸ 等前面全定完</td></tr>
       <tr><td><b>己</b></td><td><b>全量盘点 9 条 —— 全部结案</b>（N50–N55/N58 ✅ 已完成 · N56 ✅ 用户手动清空 · N57 ⛔ 永久不管）</td><td>N50 – N58</td><td class="easy">✅ 已清完</td></tr>
     </table>
+  </div>
+
+  <!-- ============ 当前待办总表 ============ -->
+  <div class="box box-bad">
+    <h3>📋 当前待办总表（2026-09-20 整理 · 一屏看全）</h3>
+    <div class="h2note" style="margin-bottom:10px;">
+      <b>一句话现状</b>：记录/清理阶段<b>已全部结束</b>。现在 <b>只有 1 件在办</b>（N33），<b>4 件待开工</b>（有方案、随时可动），<b>4 件等你拍板</b>，<b>4 件最后再考虑</b>。
+    </div>
+    <table style="margin:0;">
+      <tr><th style="width:16%">状态</th><th style="width:9%">编号</th><th style="width:41%">事项</th><th>卡在哪</th></tr>
+
+      <tr style="background:#FCEBEB;">
+        <td rowspan="1"><b class="hard">🔴 在办</b><br>（1 件）</td>
+        <td><b>N33</b></td>
+        <td><b>用量管理 · 重新制作</b><br>基准 = 上游 <code>dsh-cost-meter</code> <b>1.7.28</b>（源码已归档）</td>
+        <td><b>卡在你两个决定</b>：<br><b>② 保留哪些 / 删除哪些</b>（共 9 组 50 项，逐项圈）<br><b>③ 客户端 256 KiB 上限怎么办</b>（产物已 261898 / 上限 262144，只剩 246 字节）<br>功能全景与两张渲染模拟图都已给你</td>
+      </tr>
+
+      <tr style="background:#FAEEDA;">
+        <td><b class="mid">🔨 待开工</b><br>（4 件）</td>
+        <td><b>N9</b></td>
+        <td>重启按钮改调<b>我们自己的入口</b> <code>POST /api/desktop/restart</code>，删掉上游一次性令牌</td>
+        <td class="easy">✅ 无前置，随时可开</td>
+      </tr>
+      <tr style="background:#FAEEDA;">
+        <td></td>
+        <td><b>N8<br>+ N10</b></td>
+        <td><b>AA「手机连接」真剥离 + 独立插件化</b> ／ <b>启动自愈</b>（分级+宽容+可见）<br>⚠️ 两项都动 <code>profile.ts</code> → 必须同批做</td>
+        <td>⚠️ <b>等你定 N8-a / N8-b / N8-c</b>（见下表）；<br>N8 的前置验证你已定"<b>放到最后做</b>"，不算卡点</td>
+      </tr>
+      <tr style="background:#FAEEDA;">
+        <td></td>
+        <td><b>N7</b></td>
+        <td>Profile 名 <code>desktop</code> 改名（现数据是测试数据、可丢弃）</td>
+        <td class="easy">✅ 无前置</td>
+      </tr>
+      <tr style="background:#FAEEDA;">
+        <td></td>
+        <td><b>N6</b></td>
+        <td>Electron 探针复验（加固）</td>
+        <td>⚠️ <b>须你手动跑</b>（沙箱会拦）</td>
+      </tr>
+
+      <tr style="background:#E6F1FB;">
+        <td><b class="mid">⏸ 等你拍板</b><br>（4 件）</td>
+        <td><b>N8-a</b></td>
+        <td>剥离后<b>怎么把「手机连接」装回来</b></td>
+        <td>a-1 终端装+界面卸（零开发）／ a-2 我另做"从本地文件安装"入口（要开发）／ a-3 以后再说</td>
+      </tr>
+      <tr style="background:#E6F1FB;">
+        <td></td>
+        <td><b>N8-b</b></td>
+        <td>AA 那个安装包（<b>522 KB</b>）<b>以后放哪</b></td>
+        <td>b-1 <code>I:\dsh-plugins\</code> ／ b-2 更新源 <code>发布\</code> 里 ／ b-3 你指定</td>
+      </tr>
+      <tr style="background:#E6F1FB;">
+        <td></td>
+        <td><b>N8-c</b></td>
+        <td>要不要把这个小文件<b>也传到 GitHub</b></td>
+        <td>c-1 传（换机器能直接取）／ c-2 不传（只留本机）</td>
+      </tr>
+      <tr style="background:#E6F1FB;">
+        <td></td>
+        <td><b>N3</b></td>
+        <td><b>绿泡泡</b>（思考过程气泡）</td>
+        <td>⏸ <b>暂缓</b> —— 你 2026-09-16 定「暂时不做了，等我考虑好了再说」；<b>不阻塞任何事</b></td>
+      </tr>
+
+      <tr>
+        <td><b>📝 最后再考虑</b><br>（4 件·不阻塞）</td>
+        <td><b>N30</b><br><b>N31</b><br><b>N32</b><br>—</td>
+        <td><b>N30 右侧栏进化</b>（能直接查看/编辑文件·代码·文档）<br><b>N31 接入记忆服务</b>（配置类·零代码）<br><b>N32 记忆管理界面</b>（依赖 N31）<br><b>N8 前置验证</b>（装/起/卸 7 步，你已定"放到最后"）</td>
+        <td>你 2026-09-16 定「<b>只做记录、暂不讨论、最后再考虑</b>」</td>
+      </tr>
+
+      <tr>
+        <td><b class="easy">✅ 已关闭</b><br>（不用管）</td>
+        <td><b>N1 N2<br>N4 N5<br>N11<br>N50–N58</b></td>
+        <td><b>N1</b> 卸载卡死（治标超时+对账 · 治本 pnpm 升 11.27.0）· <b>N2</b> 你机器上那份脏清单已修好<br><b>N4</b> CA 证书名 / <b>N5</b> 目录选择器文案 —— 你定<b>不改</b>· <b>N11</b> 界面显示耗时 —— <b>已取消</b><br><b>§己 N50–N58</b> 全量盘点 9 条 —— <b>全部结案</b>（N57 永久不管）</td>
+        <td>—</td>
+      </tr>
+
+      <tr style="background:#EAF3DE;">
+        <td><b>⏳ 收尾</b><br>（1 件）</td>
+        <td><b>N90</b></td>
+        <td><b>① 一次性实施</b>上面全部已定项　<b>② 最后一次性打包 + 安装验证</b></td>
+        <td>等上面全定完才动；打包入口 <code>I:\deepseekharness更新DIY\工具\build-win.cmd</code></td>
+      </tr>
+    </table>
+    <div style="font-size:12.5px;margin-top:10px;color:#7a1f1f;">
+      <b>⚡ 最省事的推法</b>：<b>先把 N33 的 ②③ 定了</b>（这是唯一"在办"的，定完就能动手）→ 再顺手把 <b>N8-a/b/c</b> 三句话定了 → 那 N8/N10 也能进同一批 → 最后一起打包。
+    </div>
   </div>
 
   <!-- ============ 开工清单 ============ -->
@@ -84,8 +176,9 @@
       <tr><td>—</td><td><b>N90</b></td><td><b>① 一次性实施以上全部 ② 最后一次性打包 + 安装验证</b></td><td>入口：<code>I:\deepseekharness更新DIY\工具\build-win.cmd</code></td><td class="mid">—</td><td>等 1–5 与丁组全定完</td></tr>
     </table>
     <div style="font-size:12.5px;margin-top:10px;color:#7a1f1f;">
-      <b>当前只剩两件要你拍板</b>：<b>① N8 的 3 项小决策</b>（N8-a/b/c，见下）　<b>② N8 的前置验证</b>（怎么"装回来"—— 做法已查清，见下方「N8 前置验证」）。<br>
-      ✅ <b>卡点比上一版少了</b>：绿泡泡(N3) 已移出（暂缓，不阻塞）；其余项<b>没有任何前置条件</b>，随时可开工。
+      <b>本批的卡点（2026-09-20 更新）</b>：<b>只剩 N8 的 3 项小决策</b>（N8-a/b/c，见下）。<br>
+      ✅ <b>N8 的前置验证（怎么"装回来"）已被你定为「放到最后做」</b> —— <b>不再算卡点</b>，做法与 7 步步骤保留在下（到时照着做即可）。<br>
+      ✅ <b>绿泡泡(N3) 已移出</b>（暂缓，不阻塞）；<b>N9 / N7 / N6 没有任何前置条件</b>，随时可开工。
     </div>
 
     <h3 style="margin-top:22px;">📌 N8 的 3 项决策到底是什么（自解释版 · 2026-09-16 00:11 补）</h3>
