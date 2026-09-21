@@ -102,7 +102,7 @@
 6. 沙箱 shim 会留空壳 node_modules 挡 dsh heal
 7. 走 `ELECTRON_BUILDER_BINARIES_MIRROR` 镜像过证书墙
 8. Defender 拦 NSIS → 加排除项再打包
-9. SAC 拦未签名 exe（与 Defender 无关；本机 = 强制模式）
+9. **SAC（智能应用控制）拦未签名 exe** —— 与 Defender 是两套独立机制、**Defender 排除项对它无效**，弹窗也**没有"仍要运行"**。<br>⭐ **2026-09-21 本机实测复发（清单 N12）**：app 双击弹「智能应用控制已阻止可能不安全的应用」。**exe 自 2026/9/15 未变、`NotSigned` ⇒ 软件没坏、我们也没改它**；**首次拦截 = 09-21 20:57:51**（CodeIntegrity 日志 Id 3033/3077），此前 19 天从未拦过（日志自 9/02 起 693 条）。当前 `VerifiedAndReputablePolicyState = 1（强制）`。**本机无组策略/MDM 强制。**<br>**官方规则**：① **SAC 没有白名单 / 不能放行单个 exe**；② 只有两条路 = **关掉 SAC** 或 **用受信任 CA 的证书签名**（自签名无效）；③ 关闭后**通常无法再开回来**（官方又说近期更新可重开 —— **未验证**）。<br>🔴 **严禁改注册表 `VerifiedAndReputablePolicyState`**（有人这么干 → SAC 反手拦掉几乎所有程序，补救只有重置系统）。<br>**产品级含义**：**我们自打包永远 unsigned ⇒ 任何开 SAC 的机器都必被拦**，是发布路径上的已知阻断点。详解见 `tech-notes.md` §五 坑 #9。
 10. 改双语文档必须同步 i18n 哈希（`git hash-object --path=`）
 11. `cordis.patch.yml` 按 id 的 patch 是整体替换，必须重述所有字段
 12. 打包前 Electron 二进制必须已装（v43.3.0）

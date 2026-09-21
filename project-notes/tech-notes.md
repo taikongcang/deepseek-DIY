@@ -279,7 +279,29 @@ PID=19764  （同上，去掉 runner.js 与 "--" 前缀）
 6. 沙箱 shim 会留**空壳 node_modules 目录**挡 dsh heal → `rmdir` 删空壳。
 7. electron-builder 证书墙（unable to verify first certificate）→ 设 `ELECTRON_BUILDER_BINARIES_MIRROR` 走镜像。
 8. **Windows Defender** 拦 NSIS 卸载器生成（`⨯ spawn UNKNOWN` + 弹窗"阻挡"）→ 给项目目录（至少 dist）加 Defender 排除项再打包。
-9. **SAC 智能应用控制**拦未签名 exe：与 Defender 是两套独立机制、Defender 排除项对它无效；弹窗无"仍要运行"。我们自打包必 unsigned（打包脚本主动删签名密钥 + `signExecutable=false`）。SAC 三态 0关/1强制/2评估，不可逆；本机实测 = 强制模式。→ 只能关 SAC 或买代码签名证书。
+9. **SAC 智能应用控制**拦未签名 exe：与 Defender 是两套独立机制、Defender 排除项对它无效；弹窗无"仍要运行"。我们自打包必 unsigned（打包脚本主动删签名密钥 + `signExecutable=false`）。SAC 三态 0关/1强制/2评估。→ 只能关 SAC 或买代码签名证书。
+   - ⭐ **2026-09-21 实测复发 + 完整诊断（本机）**：
+     - **现象**：双击 `E:\app\deepseekharness\deepseekharness.exe` → 弹「智能应用控制已阻止可能不安全的应用」（无法验证发布者）。
+     - **当前状态**：注册表 `HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy\VerifiedAndReputablePolicyState` = **1（强制）**；另有 `SAC_PreviousState = 0`、`SAC_EnforcementReason = 3`、`VerifiedAndReputableIgnoreAutoOptOut = 1`（**后三个值的官方含义我查不到，不解读**）。
+     - **exe 本身**：`Get-AuthenticodeSignature` = **NotSigned**；`LastWriteTime` = **2026/9/15 0:28:10**（**从 9/15 至今没变过**）→ **不是我们改了文件**。
+     - **拦截时间线（CodeIntegrity 日志，事件 ID 3033 / 3077 / 3118）**：**首次拦截 = 2026-09-21 20:57:51**（`explorer.exe` 加载它）→ 20:57:52 / 20:58:08 / 20:59:00 / 20:59:12-13 / 21:00:40 反复拦。**此前 19 天（日志自 9/02 起 693 条）从未拦过它。**
+     - **同窗口的伴生事件**：20:47:43 Defender 平台更新后重启（平台版 `4.18.26080.4`）→ 20:48–20:50 BITS 启停 → 20:58:18 下载/20:58:23 装好 Defender 病毒库 `KB2267602`（1.459.311.0 → 1.459.318.0）→ 20:58:23 Defender `CoreService\WdConfigHash` 变了 → **20:58:35 三项开关 1→0**（`HybridModeEnabled` / `SmartLockerMode` / `VerifiedAndReputableTrustModeEnabled`）→ 20:58:53 **代码完整性策略刷新并激活**（`{0283ac0f-…} VerifiedAndReputableDesktop` + `{1678656c-…} VerifiedAndReputableDesktopFlightSupplemental`）→ **20:58:54 同三项 0→1**。
+     - **拦截用的策略 ID = `{0283ac0f-fff1-49ae-ada1-8a933130cad6}` = `VerifiedAndReputableDesktop`，就是 SAC 自己的策略。**
+     - **本机没有组策略/MDM 在强制 SAC**：`HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\SmartAppControl`、`HKLM\SOFTWARE\Policies\Microsoft\Windows\SmartAppControl`、`HKLM\...\CurrentVersion\Policies\SmartAppControl` **全部不存在**。诊断数据 `AllowTelemetry = 3`（满足 SAC 前提）。
+     - ⚠️ **"为什么 19 天不拦、今天开始拦"—— 我没有权威依据，不编。** 与证据一致的最可能解释（**属推断，非实证**）：SAC 原本处于**关闭/非强制**态（`SAC_PreviousState = 0` 支持这一点），今天 Defender 平台更新触发信任模式重评估后转为**强制**；官方 FAQ 也写明「**近期的 Windows 更新允许启用/重新启用智能应用控制，且不需全新安装**」。**精确机制未能证实。**
+   - **官方规则（2026-09-21 查 microsoft.com 支持文档 + FAQ，原文要点）**：
+     - 「**目前沒有辦法繞過單一應用程式的智慧應用程式控制保護**」→ **SAC 没有白名单/排除项，不能只放行某一个 exe**。
+     - 只有两条路：**关闭 SAC**，或**让开发者用「有效签名」签名**（`有效簽章` = 受信任根计划里的 CA 签发；自签名不算）。
+     - **关闭 SAC 后通常无法再开回来**（需重置/重装）；但官方同时写明**近期更新已允许重新启用、无需全新安装** —— **这条我没在本机验证过，标为「待验证」**。
+     - SAC 靠"**预测模型信任 且/或 有有效签名**"放行；被判"无法可靠预测"的未签名程序会被拦。
+     - SAC 三种模式：评估（不拦，仅学习）/ 开（拦）/ 关；**一旦离开评估态，除非重装/重置否则回不去**。
+   - 🔴 **严禁手动改注册表 `VerifiedAndReputablePolicyState` 来"关掉"它**：Microsoft Learn 问答里有用户这么干（改成 0 后重启），结果 **SAC 反而开始拦几乎所有程序（PowerShell、regedit、Chrome、VS Code 全被拦）**，官方给的补救是「重置此电脑（保留文件）」。**这条路不能走。**
+   - **可行的处理路径（按代价排序，待用户拍板）**：
+     - **A 关闭 SAC**：设置 → 隐私和安全性 → Windows 安全中心 → 应用和浏览器控制 → 智能应用控制设置 → 关闭。**代价：通常不可逆**（官方说有新更新可重开，未验证）。**本机无策略强制，UI 开关应当可用。**
+     - **B 买受信任 CA 的代码签名证书，给 exe 签名**：保留 SAC 的安全收益；代价 = 花钱 + 打包流程要加签名步骤（我们现在的打包脚本是**主动删密钥、`signExecutable=false`**，要改）。
+     - **C 换 Windows 企业版/教育版**：SAC 在这些版本不可用 —— 动作太大，不现实。
+     - **D 提交微软审核**：弹窗那句"Microsoft 将审核该应用"—— 不可控、无时间表，不作为方案。
+   - ⚠️ **产品级含义（重要）**：**我们自打包的 exe 永远 unsigned ⇒ 在任何开启 SAC 的机器上都会被拦。** 这不是本机偶发问题，而是**发布路径上的已知阻断点**，追"官方内核 / 社区"时也要留意上游是怎么处理的。
 10. **改双语文档必须同步 i18n 哈希**：改 `X.md` / `X.zh.md` 就要更新同目录 `X.i18n.yaml` 里记录的 40 位 git blob 哈希（用 `git hash-object --path=`，没有自动重算命令）；全仓库有 51 个 `*.i18n.yaml`。
 11. 改 `cordis.patch.yml` 里**按 id 定位的 patch 是整体替换、不做深度合并** → 必须重述该条目所有字段，否则静默丢字段。
 12. **打包前置**：Electron 二进制必须已装（`dsh-plugin-desktop\node_modules\electron`，v43.3.0，215MB）—— Windows 上每次 vitest 都跑 `prepare-test-electron.mjs`，缺它连 `yarn test` 都起不来；electron-builder 的 NSIS 工具链已缓存于 `%LOCALAPPDATA%\electron-builder\Cache`。
