@@ -65,7 +65,7 @@
   - **官方 `dsh plugin --profile <名> <args>` 支持本地 tarball**（源码注释原文点名 "git/path/**tarball**/alias spec … reconciles by its **true package name**"），**装完自动对账 `dsh.profile.bundles`** ⇒ **N8"装回来"卡口基本解除。**
   - ⚠️ **`DSH_HOME` 是"无条件"覆盖的**（`main.ts:387-391`，注释 `Deliberately unconditional`）→ **不能用外部环境变量跑测试**，要用 app 自己的 **Profile 切换 UI**。
 
-**卸载卡死根因级修复（N1，2026-09-15 落地）**：根因 = `pnpm remove` 卸载**带 `@napi-rs` 原生依赖**的包时，**干完活但不退出**；**是 pnpm 11.8.0 自身问题**（换真 node.exe 同样复现 ⇒ 与"Electron 冒充 node"无关，**不必塞真 node.exe**）。上游 **11.27.0 修掉**。已落地：pnpm → **`11.27.0`** + 重写 `patches/pnpm@11.27.0.patch`；测试 266 全过；闭环实测 0.6s 干净退出。**pnpm 12 不升**。**「超时 + 对账」兜底保留。**
+**卸载卡死根因级修复（N1，2026-09-15 落地）**：根因 = `pnpm remove` 卸载**带 `@napi-rs` 原生依赖**的包时**干完活但不退出**；**是 pnpm 11.8.0 自身问题**（换真 node.exe 同样复现 ⇒ 与"Electron 冒充 node"无关，**不必塞真 node.exe**）。上游 **11.27.0 修掉**。已落地：pnpm → **`11.27.0`** + 重写 `patches/pnpm@11.27.0.patch`。**pnpm 12 不升**。**「超时 + 对账」兜底保留。**
 
 ## 三、更新方针（2026-09-15 用户重新定义）
 
@@ -83,10 +83,9 @@
 - **beta 通道已整体摘除**；`upstream.json` 的 `activeChannel` = `stable`。
 - **版本号 = 自有序列**，从 `3.0.0` 起，**必须大于上一个已发出的号**。唯一版本源 = `dsh-plugin-desktop/package.json`。每次对齐 → 仓库根 `UPSTREAM-ALIGNMENT.md` **新增一行**。
 - **代码托管**：公开仓 `taikongcang/deepseek-DIY`。**双 remote**：`origin` = 社区（对比用，**永不推**）、`diy` = 我们的（**只推这里**）。
-  - ⭐ **分支约定**：本地**当前工作分支 = `main`**（跟踪 `diy/main`，已同步）→ **`git push` 直接可用**（实测 `--dry-run` = up-to-date）。远端 `diy` 只有 **一个分支 `main`**。本地另有 `master`（带社区 **13261** 提交，跟踪 `origin/master`，**只作社区对比**）。
-  - ⚠️ **`push.default=simple` 要求本地与远端分支**同名**，否则 `git push` 直接 `fatal`（exit 128）→ "设好跟踪"**不等于**"能直接 push"（这就是 `diy-main` 改名 `main` 的原因）。
-  - ⚠️ **`git fetch` / `git update-ref` 建不出 `refs/remotes/diy/main`**（报成功却不落盘）→ **正解：直接写松散引用文件**，内容 = 40 位 sha + 换行，跨调用持久。
-  - ✅ **防误推已装**：`git config remote.origin.pushurl "BLOCKED://origin-is-the-community-repo-never-push-to-it"` → 在 `master` 上误执行 `git push` **立刻 fatal 被拦**（实测 exit 128）。`remote.origin.url`（fetch 用）保留不动。
+  - ⭐ **分支约定**：本地工作分支 = **`main`**（跟踪 `diy/main`，已同步）→ **`git push` 直接可用**。远端 `diy` 只有 `main`；本地另有 `master`（社区 13261 提交，跟踪 `origin`，**只作对比**）。
+  - ⚠️ **两个 git 坑**：① **`push.default=simple` 要求本地与远端分支同名**，否则 `git push` **fatal(128)** ⇒ "设好跟踪"**不等于**"能直接 push"；② **`git fetch`/`update-ref` 建不出 `refs/remotes/diy/main`**（报成功却不落盘）→ **正解：直接写松散引用文件**（40 位 sha + 换行）才持久。
+  - ✅ **防误推已装**：`git config remote.origin.pushurl "BLOCKED://origin-is-the-community-repo-never-push-to-it"` → 在 `master` 上误推**立刻 fatal 被拦**（实测 128）；`remote.origin.url` 保留不动。
 - 文档在 `project-notes/`（**源头是 `.workbuddy`**）→ **改完清单 / 记忆后要拷过去 + 提交推送**，否则 GitHub 落后。
 - ✅ `bilingual-docs.mjs` 只认**已被 git 跟踪的 `*.i18n.yaml`** → `project-notes/` 无 i18n 文件，往里面加 `.md`/`.html` **不需要补 i18n 哈希**。
 - **`AGENTS.md` 已重写**为我们的真实约束（ASCII 路径 / 不拉 submodule / 只发 stable / `dist:win` 不用 `package:dir` / `DSH_AA_SOURCE_REF=pinned` / 补丁边界 / 版本号规则），并**禁止 AI 读 `.agents/`**（社区设计笔记，保留供人参考）。
@@ -102,7 +101,9 @@
 6. 沙箱 shim 会留空壳 node_modules 挡 dsh heal
 7. 走 `ELECTRON_BUILDER_BINARIES_MIRROR` 镜像过证书墙
 8. Defender 拦 NSIS → 加排除项再打包
-9. **SAC（智能应用控制）拦未签名 exe** —— 与 Defender 是两套独立机制、**Defender 排除项对它无效**，弹窗也**没有"仍要运行"**。<br>⭐ **2026-09-21 本机实测复发（清单 N12）**：app 双击弹「智能应用控制已阻止可能不安全的应用」。**exe 自 2026/9/15 未变、`NotSigned` ⇒ 软件没坏、我们也没改它**；**首次拦截 = 09-21 20:57:51**（CodeIntegrity 日志 Id 3033/3077），此前 19 天从未拦过（日志自 9/02 起 693 条）。当前 `VerifiedAndReputablePolicyState = 1（强制）`。**本机无组策略/MDM 强制。**<br>**官方规则**：① **SAC 没有白名单 / 不能放行单个 exe**；② 只有两条路 = **关掉 SAC** 或 **用受信任 CA 的证书签名**（自签名无效）；③ 关闭后**通常无法再开回来**（官方又说近期更新可重开 —— **未验证**）。<br>🔴 **严禁改注册表 `VerifiedAndReputablePolicyState`**（有人这么干 → SAC 反手拦掉几乎所有程序，补救只有重置系统）。<br>**产品级含义**：**我们自打包永远 unsigned ⇒ 任何开 SAC 的机器都必被拦**，是发布路径上的已知阻断点。详解见 `tech-notes.md` §五 坑 #9。
+9. **SAC 智能应用控制**拦未签名 exe（**与 Defender 无关，排除项无效**，弹窗无"仍要运行"）。**2026-09-21 复发（N12）**：app 双击被拦；exe 自 9/15 未变、`NotSigned` ⇒ **不是我们改坏的**；SAC 现 = **强制(1)**，本机**无**组策略/MDM。官方：**无白名单/不能放行单个 exe**，只有 **关 SAC** 或 **受信任 CA 证书签名**（自签名无效）。🔴 **严禁改注册表**。
+   - ⭐ **2026-09-22 对照实验（修正）**：**"未签名"≠"必被拦"** —— SAC 仍强制下 **PyInstaller 产的 3 个包全正常跑、零拦截**（换 3 个位置也全过）⇒ 体积/位置已排除；**机制未证实，不编**。🔴 但 **PyInstaller 只能打 Python ⇒ 打不了 Electron 的 deepseekharness ⇒ 解决不了 N12**。
+   - 详解 `tech-notes.md` §五 #9 ／ 实验 `pyinstaller-sac-probe.md`。
 10. 改双语文档必须同步 i18n 哈希（`git hash-object --path=`）
 11. `cordis.patch.yml` 按 id 的 patch 是整体替换，必须重述所有字段
 12. 打包前 Electron 二进制必须已装（v43.3.0）
@@ -156,7 +157,7 @@
 | **N30** | **右侧栏进化**（做到像 WorkBuddy 那样直接查看/编辑文件·代码·文档） | 右侧栏现**只读**（`sidebar-files` 浏览 + `sidebar-documentpreview` 预览）；落点待选型：改官方包叠补丁 **vs** 自制客户端插件 |
 | **N31** | **接入记忆服务** | 官方**不内建记忆**，走 MCP 外挂第三方（Memorix / MCP Reference Memory / Engram 三选一）；**纯配置零代码** —— 把示例 `insert` patch 合并进 `$DSH_HOME/profiles/<名>/cordis.patch.yml` 或 `$DSH_HOME/cordis.patch.yml` |
 | **N32** | **记忆管理界面** | **官方没有**（全 UI 包搜「记忆」零命中 / 无 UI 包处理 `mcp` / `dsh-mcp-client` 无 `dsh.client` / 设置仅 5 页）；记忆只以工具 `mcp__…` 形式存在。**依赖 N31** |
-| **N33** | **用量管理（🔴 重新制作中 · 基准 = 上游 1.7.28）** | 用户 2026-09-16 21:2x：「**不管之前是怎么做的，我们重新制作这个用量的插件，删除一部分不需要的，保留一些需要的，然后制作成插件，添加到我们的 deepseekharness 里面去**」；21:41：「**使用最新的 1.7.28，我们重新修改**」⇒ **① 源码基准 = 1.7.28（已定）**；② 保留/删除哪些、③ 256 KiB 上限怎么办 —— **待用户圈**。<br>底子 = 第三方 `dsh-cost-meter`（MIT，`Han-1413141/dsh-cost-meter`）。**源码已归档**：`I:\deepseek-harness\插件\复制代码\cost-meter-1.7.28\`（GitHub tag 归档，含 `src/`，**不含 `.git`**）。⚠️ npm 包**不含 `src/`**，改界面必须用 GitHub 归档。<br>**功能全景已落档 `N33-usage-plugin-feature-inventory.md`（1.7.28 基准，9 组 50 项：A8·B4·C7·D8·E7·F4·G1·H4·I7）**。<br>**四条关键事实**：① 🔴 **客户端产物 261898 / 上限 262144 → 只剩 246 字节**（`build.mjs` 与 `test/verify.mjs` 两处都卡）⇒ **想加 UI 必须先减** ② 源码是 `src/client/` **4 个有序片段**（客户端是单一 `__ModuleLoader__` 闭包，**不能拆真 ES 模块**）③ `charset:'utf8'` **上游已内建**；`keepNames` 改 false ④ **`peakStyle` 已回到 `compact\|classic`**，`pendulum` 命中 0 ⇒ **我们 08-31 的 ring/摆锤改动全部作废，要重新移植**。<br>规模：`lib/` 25 个文件（原 12）· `test/` 32 个测试 · 依赖只剩 `zod` 4.5.1（另两个降 peerDependencies）。<br>⚠️ 1.7.x 前段翻过车（v1.7.0 导致 dsh 无法启动 / v1.7.8·v1.7.9 TDZ 崩溃）⇒ 改完**必须跑它 32 个测试回归**。<br>**现状：app 里没有它**。参考：DSH **自带** token/上下文用量显示，与本插件**互补**（内置管 token 与上下文，它管"钱"和历史） |
+| **N33** | **用量管理（🔴 重新制作中 · 基准 = 上游 `dsh-cost-meter` 1.7.28）** | 用户 2026-09-16 定：「**不管之前是怎么做的，重新制作这个用量插件，删一部分留一部分，做成插件装进 deepseekharness**」⇒ **① 基准 1.7.28（已定）**；**② 保留/删除哪些（9 组 50 项）、③ 256 KiB 上限怎么办 —— 待用户圈**。<br>源码已归档 `I:\deepseek-harness\插件\复制代码\cost-meter-1.7.28\`（⚠️ **npm 包不含 `src/`**，改界面必须用 GitHub 归档）；功能全景 = `N33-usage-plugin-feature-inventory.md`（**9 组 50 项**：A8·B4·C7·D8·E7·F4·G1·H4·I7）。<br>四条关键：① 🔴 **客户端产物 261898 / 上限 262144 → 只剩 246 字节**（`build.mjs` 与 `test/verify.mjs` 两处都卡）⇒ **想加 UI 必须先减** ② 源码是 `src/client/` **4 个有序片段**（单一 `__ModuleLoader__` 闭包，**不能拆真 ES 模块**）③ `charset:'utf8'` **上游已内建** ④ **`peakStyle` 已回到 `compact\|classic`**，`pendulum` 命中 0 ⇒ **我们 08-31 的 ring/摆锤改动作废，要重移植**。<br>⚠️ 改完**必须跑它 32 个测试回归**（1.7.x 前段翻过车：v1.7.0 导致 dsh 起不来 / v1.7.8·9 TDZ 崩溃） |
 
 **§己 全量盘点（N50–N58）已全部结案（2026-09-15）**：7 条由 AI 完成（git 提交/推送、删 `.github`、同步 `project-notes`、删旧补丁、归档 9 个探测文件）；**N56 回收站用户手动清空**；**N57 = ⛔ 永久不需要管，永不再问**。**已结案，不再跟踪。**
 **复核纠正（记录曾与实测不符，已修正）**：孤儿 tgz `vendor/agents-anywhere/…tgz` **实测仍在**（是 N8 素材，保留正确）；`cleanup-plan` 批 7 的 14 个 `_q*.txt` **实测已清完**；`redolist.html` 写"44 项编号"实际 **51**（归档只读，不改）。

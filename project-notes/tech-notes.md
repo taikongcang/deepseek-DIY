@@ -302,6 +302,12 @@ PID=19764  （同上，去掉 runner.js 与 "--" 前缀）
      - **C 换 Windows 企业版/教育版**：SAC 在这些版本不可用 —— 动作太大，不现实。
      - **D 提交微软审核**：弹窗那句"Microsoft 将审核该应用"—— 不可控、无时间表，不作为方案。
    - ⚠️ **产品级含义（重要）**：**我们自打包的 exe 永远 unsigned ⇒ 在任何开启 SAC 的机器上都会被拦。** 这不是本机偶发问题，而是**发布路径上的已知阻断点**，追"官方内核 / 社区"时也要留意上游是怎么处理的。
+   - ⭐ **2026-09-22 对照实验：不是所有未签名 exe 都会被拦 —— PyInstaller 产物实测能跑**（详见 **`.workbuddy/pyinstaller-sac-probe.md`**）：
+     - 在本机 **SAC 仍为强制模式** 的前提下，用 PyInstaller 6.22.3 打了 3 个包（7 MB 窗口版 / **207 MB 窗口版**（体积已对齐我们被拦那个的 215 MB）/ 7 MB 控制台版），**全部正常运行、CodeIntegrity 日志零拦截**；换 3 个位置（含**放进 `E:\app\deepseekharness\` 紧挨着被拦的 exe**）**也全部通过**。
+     - ⇒ **PyInstaller 产物同样是 `NotSigned`**（它不做签名，连自带引导壳 `runw.exe` 也未签名），**但没被拦** ⇒ **"未签名"不等于"必被拦"**；**体积、位置都排除了**。
+     - ⚠️ **机制我不清楚，不编**：为什么 Electron exe 被拦而 PyInstaller 产物不被拦，**查不到权威解释**（可猜方向：云信誉模型对文件结构的判定不同 —— **未证实**）。
+     - 🔴 **最关键**：**PyInstaller 只能打包 Python 程序**（把 Python 解释器 + .py + 依赖塞进自解压 exe），**我们的 deepseekharness 是 Electron/Node 应用 ⇒ 用不了这个方法**。它**解决不了 N12**，但对用户另一个 Python 项目（QMT 自动交易）**是可用的打包方案**。
+     - 附：`pip install pyinstaller` 走 **PyPI 默认源和清华源都失败**，**阿里云镜像 `https://mirrors.aliyun.com/pypi/simple/` 成功**。
 10. **改双语文档必须同步 i18n 哈希**：改 `X.md` / `X.zh.md` 就要更新同目录 `X.i18n.yaml` 里记录的 40 位 git blob 哈希（用 `git hash-object --path=`，没有自动重算命令）；全仓库有 51 个 `*.i18n.yaml`。
 11. 改 `cordis.patch.yml` 里**按 id 定位的 patch 是整体替换、不做深度合并** → 必须重述该条目所有字段，否则静默丢字段。
 12. **打包前置**：Electron 二进制必须已装（`dsh-plugin-desktop\node_modules\electron`，v43.3.0，215MB）—— Windows 上每次 vitest 都跑 `prepare-test-electron.mjs`，缺它连 `yarn test` 都起不来；electron-builder 的 NSIS 工具链已缓存于 `%LOCALAPPDATA%\electron-builder\Cache`。
