@@ -21,7 +21,7 @@
 
 | 名称 | 是什么 |
 |---|---|
-| `deepseek-ai/deepseek-harness` | **DeepSeek 官方**（内核；⚠️ **官方没有桌面版**，Electron 桌面化是社区自创） |
+| `deepseek-ai/deepseek-harness` | **DeepSeek 官方**（内核；⚠️ **2026-09-26 更正：官方其实有桌面版** —— `apps/desktop/`，Electron，最早提交 08-28 `feat: electron 打包`；但主 README **只宣传 Web**） |
 | `anywhere-labs/dsh-desktop` | **社区版**（非官方桌面外壳） |
 | `taikongcang/deepseek-DIY` | **我们的版本**（公开仓） |
 

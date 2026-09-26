@@ -18,10 +18,34 @@
 - 官方「Run from npm」：`npx @deepseek-ai/dsh web`（默认 `http://127.0.0.1:3080`）。
 - 文档站：`https://deepseek-harness.github.io/deepseek-harness/`；仓库内有 `docs/development.md`、`docs/architecture.md`、`AGENTS.md`。
 
-### ⚠️ 官方**根本没有桌面版**：无 Electron、无"打包成 exe"的任何说明
-- 官方只提供两种形态：**npm 包**（`npx @deepseek-ai/dsh web`）与**从源码跑**。
-- **Electron 桌面化（dsh-desktop）完全是社区自创**，官方文档里不存在这条路径。
-- 因此官方也**不涉及** `ELECTRON_RUN_AS_NODE` —— 它用的是**真 node.exe**。
+### 🔴 【2026-09-26 重大更正】官方**有**桌面版 —— 原结论"官方根本没有桌面版"**是错的**
+
+**原记录（2026-09-15）**：「⚠️ 官方**根本没有桌面版**：无 Electron、无"打包成 exe"的任何说明 … Electron 桌面化（dsh-desktop）完全是社区自创」。
+**错在哪**：当时的检查面只有 `docs/`、README 与 npm 包 —— **没有翻仓库的 `apps/` 目录**。所以"文档里没写"被错当成"官方没有"。**教训：结论要写清"我查了哪些面"，不能把"我没找到"升格成"不存在"。**
+
+**实测事实（2026-09-26 查官方仓库）**：
+- 官方仓库有 **`apps/desktop/`**（+ `apps/desktop-host/`），**就是 Electron 桌面版**，代码量很大（`desktop in:path` 搜索命中 **603** 条）。
+- **最早提交 = `19444907`，2026-08-28 `feat: electron 打包`** —— 比我们选基座（社区 2.0.x）还早。之后每天在改：`fix: windows build`(08-28) → `feat: optimize ipc perf`(08-31) → `feat: mac code sign & notarize`(08-31) → … → 最新 **2026-09-24**。
+- **形态与能力**（读 `apps/desktop/README.zh.md`）：Electron 壳 + electron-builder；**Windows NSIS 安装器 / macOS DMG**；托盘常驻；单实例锁；`dsh-app://` 协议；独立端口 **19387**（Web 是 3080）；独占 `$DSH_HOME/profiles/desktop`；**自动更新**（`download.deepseek.com`、`nightly.yml`）；强更策略。
+- **Windows 用 EV 证书签名**：`DSH_DESKTOP_WINDOWS_CER_FILE`（公开 EV 叶证书）+ SafeNet Token + SignTool + DigiCert RFC3161 时间戳；macOS 走 Developer ID + 公证。
+- **版本号规则**：**Desktop 版本 = dsh 基础版本完全相同**（如 `0.1.6-alpha.1`；test 版追加 `.YYYYMMDD.index`）。
+- **内置运行时**：自带 **Python（numpy/pandas/python-docx/pptx/openpyxl/Pillow/lxml/XlsxWriter）+ Node + pnpm**，并通过 `load_workspace_dependencies` 工具离线装到 `$DSH_HOME/dsh-runtimes/dsh-primary-runtime`。
+- ⚠️ **但官方主 README 对用户只宣传 Web**（`npx @deepseek-ai/dsh web`），**不提桌面版**；桌面版只在 `apps/desktop/README.zh.md` 与开发章节（`make help` 列 Web 与 Desktop）出现。桌面版 README 自己写着「账号登录尚未接入」→ 看来仍是**内部/受控发布**状态。
+
+### ⭐⭐ 官方文档层面直接印证了我们的 N12（SAC）结论
+`apps/desktop/README.zh.md` 原文：
+> 「开发、仅准备和未签名构建不使用硬件令牌，**可能被 Windows 代码完整性策略阻止**；**任何构建模式都不会关闭该策略**。冒烟检查通过不代表兼容所有企业策略。」
+
+⇒ **连官方都承认：未签名的 Windows 构建会被 Windows 代码完整性策略（SAC/WDAC）挡；官方的解法就是买 EV 证书签名。** 这与我们 N12 的结论**完全一致**，而且官方还提供 **`DSH_DESKTOP_UNSIGNED=1`** 未签名构建模式（产物命名为 `deepseek-harness-<版本>-win-x64-unsigned.exe`，以免被误当发布产物）。
+
+### 官方内核版本进展（2026-09-26 实测 npm dist-tags）
+| 标签 | 版本 | 发布时间 |
+|---|---|---|
+| **`latest`** | **`0.1.5-rc.3`** | 2026-09-22 |
+| `next` | `0.1.7-rc.2` | 2026-09-24 |
+| `alpha` | `0.1.7-alpha.2` | 2026-09-22 |
+
+**我们基座 = `0.1.5-rc.1`（2026-09-10）** ⇒ 稳定线已到 **rc.3**（落后 2 个 rc 补丁）；预览线已到 **0.1.7-rc.2**。
 
 ### 官方插件机制（第三方插件 README + 官方博客实测）
 - **插件 = npm 包**，靠 `package.json` 的 **`dsh` 字段**声明：
