@@ -32,6 +32,37 @@
 - **内置运行时**：自带 **Python（numpy/pandas/python-docx/pptx/openpyxl/Pillow/lxml/XlsxWriter）+ Node + pnpm**，并通过 `load_workspace_dependencies` 工具离线装到 `$DSH_HOME/dsh-runtimes/dsh-primary-runtime`。
 - ⚠️ **但官方主 README 对用户只宣传 Web**（`npx @deepseek-ai/dsh web`），**不提桌面版**；桌面版只在 `apps/desktop/README.zh.md` 与开发章节（`make help` 列 Web 与 Desktop）出现。桌面版 README 自己写着「账号登录尚未接入」→ 看来仍是**内部/受控发布**状态。
 
+### 🔴 【2026-09-27】官方桌面版 vs 我们 —— 「是一回事吗？能不能直接用官方的？」
+
+**Q1：官方内核更新 与 官方桌面版，是一回事吗？** → **一套代码、两个发布物、同一个版本号**。
+- README 原文（「发布身份」决策）：「Electron 与 `@deepseek-ai/dsh` **始终使用同一精确版本**。**即使桌面壳代码不变，升级 dsh 也必须发布新 Desktop 版本。**」
+- ⇒ **桌面版没有独立版本号**（`test` 环境才追加 `.YYYYMMDD.index`）；与实测吻合：GitHub 8 个 release **全是 `dsh-v...` 内核 tag，零 desktop tag**。
+- **但产物分离**：安装包**不进 GitHub release**，走 `download.deepseek.com`（生产）/ `download-test.deepseek.com`（测试），固定 Nightly 通道。
+
+**Q2：那我们只用官方桌面版就行了吗？** → **不行。四条硬理由**：
+| # | 理由 | 依据 |
+|---|---|---|
+| 1 | **还没开放** | 已知限制原文：「**账号登录尚未接入；登录按钮禁用**」。测试包走 `feishu-test` 鉴权、正式包才 `anonymous` ⇒ 仍是内部/受控发布 |
+| 2 | **拿不到正式包** | 生产发布 = EV 签名 + 公证 + 上传腾讯 COS + CDN 回读验收，全在官方内部；GitHub 无桌面产物 |
+| 3 | **不含我们的东西** | 官方用**共享 Web 插件管理器**（`packages/boot/plugin-manager`），**没有第三方插件市场**；也没有中文界面 / `lisa`·`R9` / `deepseekharness.diy` / 便携模式 / 我们的更新源 |
+| 4 | ⭐ **自动更新会覆盖自制** | 启动后异步查固定 Nightly，点了就下载+重启安装 ⇒ **装官方版 = 我们的改动被盖掉**，与「一切皆自制」直接冲突 |
+
+**架构差异（换基座 ≠ 打补丁）**：
+| | 官方桌面版 | 我们（社区版改的） |
+|---|---|---|
+| 形态 | **薄壳**：Electron 只加载打包的 Web 资源，Host 是私有 `apps/desktop-host` | Electron **即宿主**，Cordis 根跑在 main 进程内 |
+| profile | **独占 `$DSH_HOME/profiles/desktop`，CLI 不能启动或修改** | 我们自己的 profile 体系 |
+| 运行时 | **自带 Python**（numpy/pandas/python-docx/pptx/openpyxl/Pillow/lxml/XlsxWriter）**+ Node + pnpm**；默认注册 `office-docx`/`office-pptx`/`office-xlsx` 技能 | 无内置 Python 运行时 |
+| 包来源 | `app.asar/dsh` 带完整生产依赖树，**profile 只装外部插件**；启动**从不运行 pnpm** | profile 里装包 |
+| 恢复 | **原生恢复对话框**：退出 / 重启 / **禁用第三方插件** / **备份 profile patch 并重启** | 即我们的 N10 |
+| 签名 | Win **EV 证书**（SafeNet Token + SignTool + DigiCert 时间戳）/ mac Developer ID + 公证 | 无签名 ⇒ 被 SAC 拦（N12） |
+
+**值得学的三处**：①「**薄壳**」架构决策（2026-09-10 文档，共享 Web 行为 + Desktop 适配分离）② **运行时解析 + 启动从不跑 pnpm**（消除用户机上的核心包安装过程，顺带规避 pnpm 卡死类问题）③ **原生恢复的四选项**（连「备份 `cordis.patch.yml`」都想到了）。
+
+**顺带印证**：**N7**（官方也占用 `profiles/desktop` 这个名字 → 改名必要性上升）；**N12**（官方原文「未签名构建**可能被 Windows 代码完整性策略阻止；任何构建模式都不会关闭该策略**」= 官方承认，解法就是 EV 签名）。
+
+**结论**：官方桌面版**不能当产品用**，但**是最值得研究的参照**（比社区版 `dsh-desktop` 更权威）—— 若将来重做桌面壳，它比社区版更适合当基座。
+
 ### ⭐⭐ 官方文档层面直接印证了我们的 N12（SAC）结论
 `apps/desktop/README.zh.md` 原文：
 > 「开发、仅准备和未签名构建不使用硬件令牌，**可能被 Windows 代码完整性策略阻止**；**任何构建模式都不会关闭该策略**。冒烟检查通过不代表兼容所有企业策略。」
