@@ -21,7 +21,7 @@
 
 | 名称 | 是什么 |
 |---|---|
-| `deepseek-ai/deepseek-harness` | **DeepSeek 官方**（内核；⚠️ **2026-09-26 更正：官方其实有桌面版** —— `apps/desktop/`（薄壳 Electron）+ `apps/desktop-host`，最早提交 08-28 `feat: electron 打包`；与内核**同版本号、两个发布物**，安装包只在 `download.deepseek.com`。**不能拿它当产品**：账号登录未接入、无第三方插件市场、**自带自动更新会覆盖自制** ⇒ **只作参照**。详见 `tech-notes.md` §〇） |
+| `deepseek-ai/deepseek-harness` | **DeepSeek 官方**（内核；⚠️ **2026-09-26 更正：官方其实有桌面版** —— `apps/desktop/`（薄壳 Electron）+ `apps/desktop-host`，最早提交 08-28 `feat: electron 打包`；与内核**同版本号、两个发布物**。⚠️ **2026-09-27 再更正：预览版已可下载**（实测 `download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.1.7-rc.2-win-x64.exe` = 200 / 288 MB；仅 nightly 通道、`latest.yml` 404 ⇒ 未正式发布）。**但装它 = 用官方软件**：无插件商店（可装 GitHub 插件）、自动更新会覆盖自制、无我方定制 ⇒ **不作产品，只作对照参照**。详见 `tech-notes.md` §〇） |
 | `anywhere-labs/dsh-desktop` | **社区版**（非官方桌面外壳） |
 | `taikongcang/deepseek-DIY` | **我们的版本**（公开仓） |
 
