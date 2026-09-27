@@ -65,6 +65,32 @@
 
 **结论**：官方桌面版**不能当产品用**，但**是最值得研究的参照**（比社区版 `dsh-desktop` 更权威）—— 若将来重做桌面壳，它比社区版更适合当基座。
 
+### ⭐【2026-09-27】官方源码已克隆 + 「官方源码 vs 我们」结构对照
+
+**源码位置**：`I:\deepseek-harness官方\官方源码`（`git clone --depth 1`，20 秒；**181 MB**、13,850 文件；HEAD `477b4f4` = 2026-09-24 = **0.1.7-rc.2 发布点**，与本机所下安装包同源）。**许可 = MIT**（可自由修改分发）。
+
+| 维度 | **官方源码**（0.1.7-rc.2） | **我们**（`I:\dsh-913`，3.0.0） |
+|---|---|---|
+| 包管理器 | **pnpm@11.7.0** | **yarn@4.18.0** |
+| 代码组织 | monorepo：`apps/`（cli·desktop·desktop-host·web）＋ `packages/`（**54 组**）＋ `native/ python/ vendor/ scripts/ benchmarks/ website/` | **3 个自有包**（desktop·fabric·market）＋ `patches/`（**21**）＋ `vendor/`（**266 tgz**） |
+| 桌面壳代码量 | `apps/desktop/src` = **61 文件 / 7,090 行** | `dsh-plugin-desktop/src` = **173 文件 / 33,412 行** |
+| 后台 Host | ⭐ **独立进程** `apps/desktop-host`（6 文件 / 342 行） | **未拆分**（Cordis 根跑在 Electron main 进程内） |
+| **内核包从哪来** | ⭐ **本仓源码**（`packages/*`，54 组） | ⭐ **`vendor/` 里 266 个官方 tgz**（外部依赖） |
+| **改内核的方式** | ⭐ **直接改源码** | ⭐ **打补丁**（21 个 `patches/*.patch`） |
+| 版本号 | `0.1.7-rc.2`（规则写死「与内核同号」） | `3.0.0`（我们自己的序列） |
+| 插件市场 | **无市场**（只有 `packages/boot/plugin-manager` 管理器 + `packages/client/ui-plugin-manager`） | ✅ **`dsh-community-market`（40 文件 / 10,468 行）—— 我们自己写的** |
+| 运行时 | 自带 **Python + Node + pnpm** + Office 技能 | 无 |
+| 签名 / 更新 | **EV 证书 + 自动更新**（`download.deepseek.com`） | 无签名（被 SAC 拦，N12）/ 自己的更新源 |
+
+**⭐ 最本质的一条分界**（一眼可判）：
+- 官方 `apps/desktop/package.json` 的 `dependencies` **只有 5 个**：`electron-updater` · `semver` · `ws` · `@deepseek-ai/dsh-api-gateway`（`workspace:*`）· `@deepseek-ai/cordis`（`workspace:~`）—— **因为内核就是同一仓库的源码，靠 workspace 引用**
+- 我们 `dsh-plugin-desktop` 的 `dependencies` 是**一长串 `@deepseek-ai/dsh-*@0.1.5-rc.1` 精确版本**（来自 `vendor/` 的 tgz）
+
+**⇒ 这就是「能直接改」与「只能打补丁」的根本分界**：官方改内核 = 改源码；我们改内核 = 打补丁（21 个）。**若要彻底落实 §〇「一切皆自制」，以官方源码为底座是唯一能做到「改内核不改补丁」的路径。**
+
+**我们额外有的（官方没有）**：第三方插件市场（10,468 行）· 21 个补丁（中文化 / 目录选择器 / pnpm→11.27.0 / 侧栏双列等）· `lisa`·`R9`·`deepseekharness.diy` 命名 · 便携模式 · 自有更新源。
+**官方额外有的（我们没有）**：54 组内核源码 · 独立 Host 进程 · 自带 Python+Node+pnpm 运行时与 Office 技能 · EV 签名与自动更新 · 0.1.6/0.1.7 新功能（插件管理页、原生恢复对话框、侧边栏终端/Office/浏览器/diff 审阅）。
+
 ### ⭐⭐ 官方文档层面直接印证了我们的 N12（SAC）结论
 `apps/desktop/README.zh.md` 原文：
 > 「开发、仅准备和未签名构建不使用硬件令牌，**可能被 Windows 代码完整性策略阻止**；**任何构建模式都不会关闭该策略**。冒烟检查通过不代表兼容所有企业策略。」
