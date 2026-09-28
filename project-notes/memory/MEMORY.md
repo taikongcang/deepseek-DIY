@@ -21,7 +21,7 @@
 
 | 名称 | 是什么 |
 |---|---|
-| `deepseek-ai/deepseek-harness` | **DeepSeek 官方**（内核；⚠️ **2026-09-26 更正：官方其实有桌面版** —— `apps/desktop/`（薄壳 Electron）+ `apps/desktop-host`，最早提交 08-28 `feat: electron 打包`；与内核**同版本号、两个发布物**。⚠️ **2026-09-27 再更正：预览版已可下载**（实测 `download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.1.7-rc.2-win-x64.exe` = 200 / 288 MB；仅 nightly 通道、`latest.yml` 404 ⇒ 未正式发布）。**但装它 = 用官方软件**：无插件商店（可装 GitHub 插件）、自动更新会覆盖自制、无我方定制 ⇒ **不作产品，只作对照参照**。详见 `tech-notes.md` §〇） |
+| `deepseek-ai/deepseek-harness` | **DeepSeek 官方**（内核；⚠️ **2026-09-26 更正：官方其实有桌面版** —— `apps/desktop/`（薄壳 Electron）+ `apps/desktop-host`，最早提交 08-28 `feat: electron 打包`；与内核**同版本号、两个发布物**。⚠️ **2026-09-27 再更正：预览版已可下载**（实测 `download.deepseek.com/dsh-desk/bin/win-x64/deepseek-harness-0.1.7-rc.2-win-x64.exe` = 200 / 288 MB；仅 nightly 通道、`latest.yml` 404 ⇒ 未正式发布）。**但装它 = 用官方软件**：无插件商店（可装 GitHub 插件）、自动更新会覆盖自制、无我方定制 ⇒ **不作产品，只作对照参照**。详见 `tech-notes.md` §〇）<br>**✅ 官方源码 2026-09-27 已克隆**：`I:\deepseek-harness官方\官方源码`（MIT；181 MB；HEAD `477b4f4` = 0.1.7-rc.2 发布点）。**以它为底座可行**（2026-09-28 判定）：改自有源码=照搬；改内核从**打补丁升级为直改源码** ⇒ **补丁 21 → ~5**（剩下的是 pnpm/fs-ext/open/vscode-ripgrep/app-builder-lib 这些**第三方**包）；**但构建链必须换**（yarn → **pnpm@11.7.0** + 自研 `package-target.ts`），且 Windows 打包需 **Python + Visual C++ Build Tools + Windows SDK**（**未实测**）。⚠️ 构建前必须**移出中文路径**（坑 #1）。 |
 | `anywhere-labs/dsh-desktop` | **社区版**（非官方桌面外壳） |
 | `taikongcang/deepseek-DIY` | **我们的版本**（公开仓） |
 
